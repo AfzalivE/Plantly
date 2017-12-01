@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import com.spacebitlabs.plantly.MainViewModel
 import com.spacebitlabs.plantly.R
 import com.spacebitlabs.plantly.addplant.AddPlantActivity
-import kotlinx.android.synthetic.main.activity_addplant.*
 import kotlinx.android.synthetic.main.fragment_plants.*
 
 /**
@@ -31,7 +30,7 @@ class PlantsFragment: Fragment() {
             plants.text = item?.name
         })
 
-        addplant.setOnClickListener {
+        add_plant.setOnClickListener {
             AddPlantActivity.show(activity)
         }
     }

@@ -1,14 +1,17 @@
 package com.spacebitlabs.plantly.addplant
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.spacebitlabs.plantly.R
+import com.spacebitlabs.plantly.models.Plant
 import kotlinx.android.synthetic.main.activity_addplant.*
 
 /**
- * Created by afzal on 2017-12-01.
+ * Allows user to lookup and add a plant
  */
 class AddPlantActivity: AppCompatActivity() {
 
@@ -16,9 +19,16 @@ class AddPlantActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_addplant)
 
+        val model = ViewModelProviders.of(this).get(AddPlantViewModel::class.java)
+        model.getPlantSuggestions().observe(this, Observer { suggestions ->
+            // TODO show suggestions in a dropdown list
+        })
+
         save.setOnClickListener {
             // TODO Validate input
-
+            // construct a plant from input
+            val plant = Plant("Sansa")
+            model.addPlant(plant)
         }
     }
 
