@@ -8,10 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import com.spacebitlabs.plantly.MainViewModel
 import com.spacebitlabs.plantly.R
+import com.spacebitlabs.plantly.models.Plant
 import kotlinx.android.synthetic.main.fragment_calendar.*
 
 /**
- * Created by afzal on 2017-11-29.
+ * Shows a calendar of past and upcoming watering dates.
+ *
+ * Green for a completed job
+ * Red for a missed job
+ * Yellow for make-up job
+ * Blue for an upcoming job
  */
 class CalendarFragment: Fragment() {
 
@@ -23,7 +29,7 @@ class CalendarFragment: Fragment() {
         val model = ViewModelProviders.of(activity).get(MainViewModel::class.java)
 
         add.setOnClickListener {
-            model.setPlants("test")
+            model.setPlants(Plant("test"))
         }
     }
 

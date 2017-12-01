@@ -9,10 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import com.spacebitlabs.plantly.MainViewModel
 import com.spacebitlabs.plantly.R
+import com.spacebitlabs.plantly.addplant.AddPlantActivity
+import kotlinx.android.synthetic.main.activity_addplant.*
 import kotlinx.android.synthetic.main.fragment_plants.*
 
 /**
- * Created by afzal on 2017-11-29.
+ * Shows the list of plants a user has.
+ *
+ * User can click the add FAB and add more plants.
  */
 class PlantsFragment: Fragment() {
 
@@ -24,8 +28,12 @@ class PlantsFragment: Fragment() {
 
         val model = ViewModelProviders.of(activity).get(MainViewModel::class.java)
         model.getPlants().observe(this, Observer { item ->
-            plants.text = item
+            plants.text = item?.name
         })
+
+        addplant.setOnClickListener {
+            AddPlantActivity.show(activity)
+        }
     }
 
     companion object {
