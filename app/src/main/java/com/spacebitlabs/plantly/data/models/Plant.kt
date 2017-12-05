@@ -1,4 +1,4 @@
-package com.spacebitlabs.plantly.models
+package com.spacebitlabs.plantly.data.models
 
 /**
  * Data class to hold plant info

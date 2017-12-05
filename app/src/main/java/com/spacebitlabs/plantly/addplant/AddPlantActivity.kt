@@ -7,7 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.spacebitlabs.plantly.R
-import com.spacebitlabs.plantly.models.Plant
+import com.spacebitlabs.plantly.data.models.Plant
 import kotlinx.android.synthetic.main.activity_addplant.*
 
 /**
@@ -20,8 +20,9 @@ class AddPlantActivity: AppCompatActivity() {
         setContentView(R.layout.activity_addplant)
 
         val model = ViewModelProviders.of(this).get(AddPlantViewModel::class.java)
-        model.getPlantSuggestions().observe(this, Observer { suggestions ->
+        model.addPlantViewState.observe(this, Observer { state ->
             // TODO show suggestions in a dropdown list
+            render(state)
         })
 
         save.setOnClickListener {
@@ -30,6 +31,10 @@ class AddPlantActivity: AppCompatActivity() {
             val plant = Plant("Sansa")
             model.addPlant(plant)
         }
+    }
+
+    private fun render(state: AddPlantViewState?) {
+
     }
 
     companion object {

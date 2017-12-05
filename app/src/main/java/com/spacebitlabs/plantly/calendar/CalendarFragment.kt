@@ -8,8 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.spacebitlabs.plantly.MainViewModel
 import com.spacebitlabs.plantly.R
-import com.spacebitlabs.plantly.models.Plant
-import kotlinx.android.synthetic.main.fragment_calendar.*
 
 /**
  * Shows a calendar of past and upcoming watering dates.
@@ -27,10 +25,6 @@ class CalendarFragment: Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val model = ViewModelProviders.of(activity).get(MainViewModel::class.java)
-
-        add.setOnClickListener {
-            model.setPlants(Plant("test"))
-        }
     }
 
     companion object {
