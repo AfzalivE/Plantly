@@ -20,6 +20,8 @@ import kotlinx.android.synthetic.main.fragment_plants.*
  */
 class PlantsFragment : Fragment() {
 
+    val plantAdapter = PlantsAdapter()
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater?.inflate(R.layout.fragment_plants, container, false)
 
@@ -32,6 +34,7 @@ class PlantsFragment : Fragment() {
         })
 
         plant_list.layoutManager = LinearLayoutManager(context)
+        plant_list.adapter = plantAdapter
 
         add_plant.setOnClickListener {
             AddPlantActivity.show(activity)
