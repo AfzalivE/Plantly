@@ -20,16 +20,18 @@ import kotlinx.android.synthetic.main.fragment_plants.*
  */
 class PlantsFragment : Fragment() {
 
-    val plantAdapter = PlantsAdapter()
+    private val plantAdapter = PlantsAdapter()
+    private var model: MainViewModel? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater?.inflate(R.layout.fragment_plants, container, false)
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        renderEmpty()
 
-        val model = ViewModelProviders.of(activity).get(MainViewModel::class.java)
-        model.plantListState.observe(this, Observer { state ->
+        model = ViewModelProviders.of(activity).get(MainViewModel::class.java)
+        model?.plantListState?.observe(this, Observer { state ->
             render(state)
         })
 
@@ -41,28 +43,47 @@ class PlantsFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        model?.loadUserPlants()
+    }
+
     private fun render(state: PlantListViewState?) {
         when (state) {
-            is PlantListViewState.Loading -> renderLoading(state)
-            is PlantListViewState.Empty -> renderEmpty(state)
+            is PlantListViewState.Loading -> renderLoading()
+            is PlantListViewState.Empty -> renderEmpty()
+            is PlantListViewState.Error -> renderError()
             is PlantListViewState.PlantsFound -> renderPlantList(state)
         }
     }
 
-    private fun renderPlantList(state: PlantListViewState.PlantsFound) {
-
-    }
-
-    private fun renderEmpty(state: PlantListViewState.Empty) {
-        progress.visibility = View.GONE
-        plant_list.visibility = View.GONE
-        empty.visibility = View.VISIBLE
-    }
-
-    private fun renderLoading(state: PlantListViewState.Loading) {
+    private fun renderLoading() {
         progress.visibility = View.VISIBLE
         plant_list.visibility = View.GONE
         empty.visibility = View.GONE
+        error.visibility = View.GONE
+    }
+
+    private fun renderEmpty() {
+        progress.visibility = View.GONE
+        plant_list.visibility = View.GONE
+        empty.visibility = View.VISIBLE
+        error.visibility = View.GONE
+    }
+
+    private fun renderError() {
+        progress.visibility = View.GONE
+        plant_list.visibility = View.GONE
+        empty.visibility = View.GONE
+        error.visibility = View.VISIBLE
+    }
+
+    private fun renderPlantList(state: PlantListViewState.PlantsFound) {
+        progress.visibility = View.GONE
+        plant_list.visibility = View.VISIBLE
+        empty.visibility = View.GONE
+        error.visibility = View.GONE
+        plantAdapter.setPlantList(state.plants)
     }
 
     companion object {

@@ -27,6 +27,14 @@
         android:text="@string/empty_plant_list"
         android:textSize="18sp" />
 
+    <TextView
+        android:id="@+id/error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/error_plant_list"
+        android:textSize="18sp" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_plant"
         android:layout_width="wrap_content"

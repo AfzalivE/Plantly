@@ -28,12 +28,35 @@ class AddPlantActivity: AppCompatActivity() {
         save.setOnClickListener {
             // TODO Validate input
             // construct a plant from input
-            val plant = Plant("Sansa")
-            model.addPlant(plant)
+            val plant = Plant(4, "Sansa2")
+            model.savePlant(plant)
         }
     }
 
     private fun render(state: AddPlantViewState?) {
+        when (state) {
+            is AddPlantViewState.Loading -> renderLoadingSuggestions()
+            is AddPlantViewState.Empty -> renderNoSuggestionsFound()
+            is AddPlantViewState.SuggestionsFound -> renderSuggestions(state)
+            is AddPlantViewState.PlantSelected -> renderPlantSelected(state)
+        }
+    }
+
+    private fun renderNoSuggestionsFound() {
+
+    }
+
+    private fun renderLoadingSuggestions() {
+
+    }
+
+    private fun renderPlantSelected(state: AddPlantViewState.PlantSelected) {
+        // show plant data
+        add_plant_text.setText(state.plant.name)
+    }
+
+
+    private fun renderSuggestions(state: AddPlantViewState.SuggestionsFound) {
 
     }
 

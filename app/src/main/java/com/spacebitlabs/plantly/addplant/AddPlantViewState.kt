@@ -7,8 +7,8 @@ import com.spacebitlabs.plantly.data.models.Plant
  */
 sealed class AddPlantViewState {
 
-    class Loading: AddPlantViewState()
-    class Empty: AddPlantViewState()
-    class SuggestionsFound(val plantList: List<Plant>): AddPlantViewState()
-    class PlantSelected: AddPlantViewState()
+    class Loading : AddPlantViewState()
+    class Empty : AddPlantViewState()
+    class SuggestionsFound(val plantList: List<Plant>) : AddPlantViewState()
+    class PlantSelected(val plant: Plant) : AddPlantViewState()
 }

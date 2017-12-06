@@ -12,4 +12,6 @@ sealed class PlantListViewState {
     class Empty : PlantListViewState()
 
     class Loading : PlantListViewState()
+
+    class Error: PlantListViewState()
 }
