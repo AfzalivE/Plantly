@@ -3,8 +3,9 @@ package com.spacebitlabs.plantly.plants
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.transition.TransitionManager
 import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,7 +36,7 @@ class PlantsFragment : Fragment() {
             render(state)
         })
 
-        plant_list.layoutManager = LinearLayoutManager(context)
+        plant_list.layoutManager = GridLayoutManager(context, 2)
         plant_list.adapter = plantAdapter
 
         add_plant.setOnClickListener {
@@ -58,6 +59,7 @@ class PlantsFragment : Fragment() {
     }
 
     private fun renderLoading() {
+        TransitionManager.beginDelayedTransition(container)
         progress.visibility = View.VISIBLE
         plant_list.visibility = View.GONE
         empty.visibility = View.GONE
@@ -65,6 +67,7 @@ class PlantsFragment : Fragment() {
     }
 
     private fun renderEmpty() {
+        TransitionManager.beginDelayedTransition(container)
         progress.visibility = View.GONE
         plant_list.visibility = View.GONE
         empty.visibility = View.VISIBLE
@@ -72,6 +75,7 @@ class PlantsFragment : Fragment() {
     }
 
     private fun renderError() {
+        TransitionManager.beginDelayedTransition(container)
         progress.visibility = View.GONE
         plant_list.visibility = View.GONE
         empty.visibility = View.GONE
@@ -79,6 +83,7 @@ class PlantsFragment : Fragment() {
     }
 
     private fun renderPlantList(state: PlantListViewState.PlantsFound) {
+        TransitionManager.beginDelayedTransition(container)
         progress.visibility = View.GONE
         plant_list.visibility = View.VISIBLE
         empty.visibility = View.GONE

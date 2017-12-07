@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,8 +10,14 @@
         android:id="@+id/plant_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        tools:listitem="@layout/plants_list_item" />
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="4dp"
+        android:visibility="visible"
+        tools:layoutManager="android.support.v7.widget.GridLayoutManager"
+        tools:listitem="@layout/plants_list_item"
+        tools:spanCount="2" />
 
     <ProgressBar
         android:id="@+id/progress"
@@ -25,7 +32,8 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="@string/empty_plant_list"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/error"
@@ -33,7 +41,8 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="@string/error_plant_list"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:visibility="gone" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_plant"
