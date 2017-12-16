@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="256dp"
+    android:layout_height="200dp"
     android:layout_gravity="center"
     android:paddingBottom="4dp"
     android:paddingLeft="4dp"
@@ -14,27 +14,36 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
+        android:clipChildren="true"
+        app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="2dp"
-        app:cardElevation="4dp">
+        app:cardElevation="2dp"
+        app:cardUseCompatPadding="true">
 
-        <ImageView
-            android:id="@+id/image"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/sample_plant" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:background="@color/scrim"
-            android:maxLines="2"
-            android:padding="8dp"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            tools:text="Sansevieria Trifasciata" />
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="144dp"
+                android:scaleType="centerCrop"
+                app:riv_corner_radius_top_left="2dp"
+                app:riv_corner_radius_top_right="2dp"
+                tools:src="@drawable/sample_plant" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_margin="8dp"
+                android:gravity="center_vertical"
+                android:textColor="#616161"
+                android:textSize="18sp"
+                tools:text="Sansa" />
+
+        </LinearLayout>
 
     </android.support.v7.widget.CardView>
 </FrameLayout>
