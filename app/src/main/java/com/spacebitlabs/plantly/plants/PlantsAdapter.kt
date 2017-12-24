@@ -37,6 +37,7 @@ class PlantsAdapter : RecyclerView.Adapter<PlantHolder>() {
     class PlantHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(plant: Plant) = with(itemView) {
             name.text = plant.name
+            image.setImageResource(R.drawable.sample_plant)
         }
     }
 }
