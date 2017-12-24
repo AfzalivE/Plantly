@@ -12,6 +12,9 @@ class UserPlantsStore {
         plants.add(Plant(0,"Sansa"))
         plants.add(Plant(1,"Drogo"))
         plants.add(Plant(2,"Cro"))
+        plants.add(Plant(3,"Krypton"))
+        plants.add(Plant(4,"Xenon"))
+        plants.add(Plant(5,"Argon"))
     }
 
     fun savePlant(plant: Plant) {
