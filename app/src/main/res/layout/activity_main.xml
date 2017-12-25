@@ -6,46 +6,153 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context="com.spacebitlabs.plantly.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/expandedActionBarSize"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
         android:gravity="center_vertical"
-        android:padding="16dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Good Morning"
-            android:theme="@style/TextAppearance.AppCompat.Title.Inverse" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="You have 6 plants to water today"
-            android:theme="@style/TextAppearance.AppCompat.Subhead.Inverse" />
-
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/main.collapsing"
+            android:id="@+id/main_collapsing"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="16dp"
-            android:background="@color/c_blue_crayola"
+            android:layout_gravity="top"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
+            android:paddingTop="16dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Good Morning"
+                    android:theme="@style/TextAppearance.AppCompat.Title.Inverse" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="You have 6 plants to water today"
+                    android:theme="@style/TextAppearance.AppCompat.Subhead.Inverse" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_marginEnd="8dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/sample_plant" />
+
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_margin="8dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/sample_plant" />
+
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_margin="8dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/sample_plant" />
+
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_margin="8dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/sample_plant" />
+
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_marginEnd="8dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/sample_plant" />
+
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_margin="8dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/sample_plant" />
+
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_margin="8dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/sample_plant" />
+
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_margin="8dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/sample_plant" />
+
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Argon" />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_scrollFlags="scroll|enterAlways|snap"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
 
-    <FrameLayout
-        android:id="@+id/content_frame"
+    <!--<FrameLayout-->
+    <!--android:id="@+id/content_frame"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+    <!--tools:context=".PlantsFragment" />-->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/plant_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="?attr/actionBarSize"
+        android:padding="4dp"
+        android:visibility="visible"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".PlantsFragment" />
+        tools:layoutManager="android.support.v7.widget.GridLayoutManager"
+        tools:listitem="@layout/plants_list_item"
+        tools:spanCount="2" />
 
 </android.support.design.widget.CoordinatorLayout>
