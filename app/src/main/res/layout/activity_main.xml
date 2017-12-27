@@ -12,14 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        android:minHeight="?attr/actionBarSize"
         android:gravity="center_vertical"
+        android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/main_collapsing"
             android:layout_width="match_parent"
-            android:layout_height="196dp"
+            android:layout_height="@dimen/expandedActionBarSize"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -45,10 +45,10 @@
         android:id="@+id/plant_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="?attr/actionBarSize"
-        android:paddingTop="4dp"
-        android:paddingStart="4dp"
+        android:clipToPadding="false"
         android:paddingEnd="4dp"
+        android:paddingStart="4dp"
+        android:paddingTop="4dp"
         android:visibility="visible"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:layoutManager="android.support.v7.widget.GridLayoutManager"
@@ -57,35 +57,39 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/expandedActionBarSize"
         android:layout_marginBottom="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:orientation="vertical"
         app:layout_behavior="com.spacebitlabs.plantly.plants.ToolbarBehavior">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:text="Good Morning"
             android:theme="@style/TextAppearance.AppCompat.Title.Inverse" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:text="You have 6 plants to water today"
             android:theme="@style/TextAppearance.AppCompat.Subhead.Inverse" />
 
         <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/today_list"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingStart="16dp">
 
                 <include layout="@layout/today_list_item" />
 

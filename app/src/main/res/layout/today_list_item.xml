@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="64dp"
     android:layout_height="match_parent"
     android:gravity="center"
     android:layout_marginEnd="16dp"
@@ -9,6 +9,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="64dp"
+        android:transformPivotX="32dp"
+        android:transformPivotY="32dp"
         android:layout_height="64dp"
         android:scaleType="centerCrop"
         android:src="@drawable/sample_plant" />

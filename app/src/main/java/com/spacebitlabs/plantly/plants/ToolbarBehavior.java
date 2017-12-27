@@ -5,6 +5,8 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 
 import timber.log.Timber;
@@ -19,6 +21,7 @@ public class ToolbarBehavior extends CoordinatorLayout.Behavior<LinearLayout> {
     private int startHeight;
     private float maxScrollValue;
     private int initialWidth;
+    private int initialHeight;
     private float initialY;
     private float initialX;
 
@@ -35,29 +38,25 @@ public class ToolbarBehavior extends CoordinatorLayout.Behavior<LinearLayout> {
     public boolean onDependentViewChanged(CoordinatorLayout parent, LinearLayout child, View dependency) {
         maybeInitProperties(child, dependency);
 
-        float scrollValuePercentage = 1 -(maxScrollValue + dependency.getY()) / maxScrollValue;
+        float scrollValuePercentage = 1 - (maxScrollValue + dependency.getY()) / maxScrollValue;
         Timber.d("maxScrollValue: " + scrollValuePercentage);
 
         child.setY(initialY + startYPosition + dependency.getY());
-//        child.setX(initialX);
 
-//        CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) child.getLayoutParams();
+        ViewGroup todayListView = (ViewGroup) getScrollView(child);
+        int childCount = todayListView.getChildCount();
 
-//        int childCount = child.getChildCount();
-//
-//        for (int i = 0; i < childCount; i++) {
-//            View lchild = child.getChildAt(i);
-//            LinearLayout.LayoutParams lp1 = (LinearLayout.LayoutParams) lchild.getLayoutParams();
-//            lp1.width = initialWidth - (int) (scrollValuePercentage * initialWidth);
-//            lp1.height = initialWidth - (int) (scrollValuePercentage * initialWidth);
-//
-//            lchild.setLayoutParams(lp1);
-//        }
+        for (int i = 0; i < childCount; i++) {
+            ViewGroup todayListViewItem = (ViewGroup) todayListView.getChildAt(i);
+            View circleImageView = todayListViewItem.getChildAt(0);
+            LinearLayout.LayoutParams lp1 = (LinearLayout.LayoutParams) circleImageView.getLayoutParams();
+            lp1.width = (int) (initialWidth * (1 - scrollValuePercentage));
+            lp1.height = (int) (initialHeight * (1 - scrollValuePercentage));
+
+            circleImageView.setLayoutParams(lp1);
+        }
 
         child.setAlpha(1 - scrollValuePercentage);
-
-//        child.setLayoutParams(lp);
-
 
         return true;
     }
@@ -76,13 +75,30 @@ public class ToolbarBehavior extends CoordinatorLayout.Behavior<LinearLayout> {
         }
 
         if (initialWidth == 0) {
-            initialWidth = child.getChildAt(0).getWidth();
+            initialWidth = getTodayScrollViewChild(child).getWidth();
         }
+
+        if (initialHeight == 0) {
+            initialHeight = getTodayScrollViewChild(child).getHeight();
+        }
+
         if (initialY == 0) {
             initialY = child.getY();
         }
         if (initialX == 0) {
             initialX = child.getX();
         }
+    }
+
+    private View getScrollView(LinearLayout child) {
+        return (((ViewGroup) child.getChildAt(2)).getChildAt(0));
+    }
+
+    private View getTodayScrollViewChild(LinearLayout child) {
+        return ((LinearLayout) ((LinearLayout) ((HorizontalScrollView)
+          child.getChildAt(2)) // HorizontalScrollView
+                               .getChildAt(0)) // LinearLayout
+                                               .getChildAt(0)) // LinearLayout
+                                                               .getChildAt(0); // CircleImageView;
     }
 }
