@@ -43,6 +43,7 @@ dependencies {
     // UI libs
     implementation "com.makeramen:roundedimageview:2.3.0"
     implementation "com.cesarferreira.colorize:colorize:0.2.2"
+    implementation "de.hdodenhof:circleimageview:2.2.0"
 
     // debug libs
     implementation "com.jakewharton:timber:4.5.1"
