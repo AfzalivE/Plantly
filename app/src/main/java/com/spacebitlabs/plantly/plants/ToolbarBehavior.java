@@ -62,15 +62,15 @@ public class ToolbarBehavior extends CoordinatorLayout.Behavior<LinearLayout> {
     }
 
     private void maybeInitProperties(LinearLayout child, View dependency) {
-        if (startYPosition == 0)
+        if (startYPosition == 0) {
             startYPosition = (int) (dependency.getY());
+        }
 
-        if (startHeight == 0)
+        if (startHeight == 0) {
             startHeight = child.getHeight();
+        }
 
         if (maxScrollValue == 0) {
-//            Toolbar toolbar = (Toolbar) ((ViewGroup) ((ViewGroup) dependency).getChildAt(0)).getChildAt(0);
-            Timber.d("Toolbar height");
             maxScrollValue = dependency.getHeight() - dependency.getMinimumHeight();
         }
 
