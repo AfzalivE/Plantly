@@ -35,7 +35,6 @@
         android:layout_gravity="center"
         android:visibility="gone" />
 
-
     <TextView
         android:id="@+id/empty"
         android:layout_width="match_parent"

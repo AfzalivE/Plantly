@@ -12,7 +12,8 @@ import android.widget.LinearLayout;
 import timber.log.Timber;
 
 /**
- * Created by afzal on 2017-12-25.
+ * Toolbar Behavior to resize CircleImageViews
+ * while scrolling
  */
 
 @Keep // might be needed for minification
