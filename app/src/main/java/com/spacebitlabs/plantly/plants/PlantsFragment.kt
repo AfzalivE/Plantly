@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.transition.TransitionManager
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,10 +23,11 @@ import kotlinx.android.synthetic.main.fragment_plants.*
 class PlantsFragment : Fragment() {
 
     private val plantAdapter = PlantsAdapter()
+    private val todayAdapter = TodayAdapter()
     private var model: MainViewModel? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater?.inflate(R.layout.fragment_plants, container, false)
+        inflater?.inflate(R.layout.fragment_plants, container, false)
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,6 +41,9 @@ class PlantsFragment : Fragment() {
         plant_list.layoutManager = GridLayoutManager(context, 2)
         plant_list.adapter = plantAdapter
 
+        today_list.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        today_list.adapter = todayAdapter
+
         add_plant.setOnClickListener {
             AddPlantActivity.show(activity)
         }
@@ -51,9 +56,9 @@ class PlantsFragment : Fragment() {
 
     private fun render(state: PlantListViewState?) {
         when (state) {
-            is PlantListViewState.Loading -> renderLoading()
-            is PlantListViewState.Empty -> renderEmpty()
-            is PlantListViewState.Error -> renderError()
+            is PlantListViewState.Loading     -> renderLoading()
+            is PlantListViewState.Empty       -> renderEmpty()
+            is PlantListViewState.Error       -> renderError()
             is PlantListViewState.PlantsFound -> renderPlantList(state)
         }
     }
@@ -89,6 +94,7 @@ class PlantsFragment : Fragment() {
         empty.visibility = View.GONE
         error.visibility = View.GONE
         plantAdapter.setPlantList(state.plants)
+        todayAdapter.setPlantList(state.plants)
     }
 
     companion object {
@@ -100,3 +106,4 @@ class PlantsFragment : Fragment() {
         }
     }
 }
+

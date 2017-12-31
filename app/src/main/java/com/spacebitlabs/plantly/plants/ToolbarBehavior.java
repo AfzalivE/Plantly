@@ -7,7 +7,6 @@ import android.support.design.widget.CoordinatorLayout;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 
 import timber.log.Timber;
@@ -35,6 +34,9 @@ public class ToolbarBehavior extends CoordinatorLayout.Behavior<LinearLayout> {
 
     @Override
     public boolean onDependentViewChanged(CoordinatorLayout parent, LinearLayout child, View dependency) {
+        if (((ViewGroup) child.getChildAt(2)).getChildAt(0) == null) {
+            return false;
+        }
         maybeInitProperties(child, dependency);
 
         float scrollValuePercentage = 1 - (maxScrollValue + dependency.getY()) / maxScrollValue;
@@ -82,14 +84,13 @@ public class ToolbarBehavior extends CoordinatorLayout.Behavior<LinearLayout> {
     }
 
     private View getScrollView(LinearLayout child) {
-        return (((ViewGroup) child.getChildAt(2)).getChildAt(0));
+        return child.getChildAt(2);
     }
 
     private View getTodayItemImage(LinearLayout child) {
-        return ((LinearLayout) ((LinearLayout) ((HorizontalScrollView)
-          child.getChildAt(2)) // HorizontalScrollView
+        return ((ViewGroup) ((ViewGroup)
+          child.getChildAt(2)) // RecyclerView
                                .getChildAt(0)) // LinearLayout
-                                               .getChildAt(0)) // LinearLayout
-                                                               .getChildAt(0); // CircleImageView;
+                                               .getChildAt(0); // CircleImageView;
     }
 }
