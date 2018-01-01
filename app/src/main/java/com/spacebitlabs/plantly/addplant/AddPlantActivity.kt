@@ -25,6 +25,8 @@ class AddPlantActivity: AppCompatActivity() {
             render(state)
         })
 
+        renderEmpty()
+
         save.setOnClickListener {
             // TODO Validate input
             // construct a plant from input
@@ -36,14 +38,14 @@ class AddPlantActivity: AppCompatActivity() {
     private fun render(state: AddPlantViewState?) {
         when (state) {
             is AddPlantViewState.Loading -> renderLoadingSuggestions()
-            is AddPlantViewState.Empty -> renderNoSuggestionsFound()
+            is AddPlantViewState.Empty -> renderEmpty()
             is AddPlantViewState.SuggestionsFound -> renderSuggestions(state)
             is AddPlantViewState.PlantSelected -> renderPlantSelected(state)
         }
     }
 
-    private fun renderNoSuggestionsFound() {
-
+    private fun renderEmpty() {
+        toolbar.setNavigationIcon(R.drawable.ic_back)
     }
 
     private fun renderLoadingSuggestions() {
@@ -52,7 +54,7 @@ class AddPlantActivity: AppCompatActivity() {
 
     private fun renderPlantSelected(state: AddPlantViewState.PlantSelected) {
         // show plant data
-        add_plant_text.setText(state.plant.name)
+        name.setValue(state.plant.name)
     }
 
 

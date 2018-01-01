@@ -50,7 +50,7 @@ public class ToolbarBehavior extends CoordinatorLayout.Behavior<LinearLayout> {
         float scrollValuePercentage = 1 - (maxScrollValue + dependency.getY()) / maxScrollValue;
         scrollValuePercentage = Math.min(1.5f * scrollValuePercentage, 1); // speed up the animations relative to the movement
 
-        Timber.d("maxScrollValue: " + scrollValuePercentage);
+//        Timber.d("maxScrollValue: " + scrollValuePercentage);
 
         child.setY(initialY + dependency.getY());
 

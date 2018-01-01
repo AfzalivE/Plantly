@@ -94,6 +94,7 @@ class PlantsFragment : Fragment() {
         empty.visibility = View.GONE
         error.visibility = View.GONE
         plantAdapter.setPlantList(state.plants)
+        // TODO get actual list of plants to water today
         todayAdapter.setPlantList(state.plants)
     }
 

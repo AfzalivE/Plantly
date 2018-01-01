@@ -5,4 +5,5 @@
     <string name="title_notifications">Notifications</string>
     <string name="empty_plant_list">No plants found</string>
     <string name="error_plant_list">Error getting user plants</string>
+    <string name="add_a_plant">Add a Plant</string>
 </resources>
