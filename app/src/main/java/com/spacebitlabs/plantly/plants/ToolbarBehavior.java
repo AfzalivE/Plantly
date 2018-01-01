@@ -2,8 +2,10 @@ package com.spacebitlabs.plantly.plants;
 
 import android.content.Context;
 import android.support.annotation.Keep;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +36,11 @@ public class ToolbarBehavior extends CoordinatorLayout.Behavior<LinearLayout> {
     }
 
     @Override
+    public boolean onStartNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull LinearLayout child, @NonNull View directTargetChild, @NonNull View target, int axes, int type) {
+        return (axes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
+    }
+
+    @Override
     public boolean onDependentViewChanged(CoordinatorLayout parent, LinearLayout child, View dependency) {
         if (((ViewGroup) child.getChildAt(2)).getChildAt(0) == null) {
             return false;
@@ -55,8 +62,8 @@ public class ToolbarBehavior extends CoordinatorLayout.Behavior<LinearLayout> {
             ViewGroup todayListViewItem = (ViewGroup) todayListView.getChildAt(i);
             View circleImageView = todayListViewItem.getChildAt(0);
             LinearLayout.LayoutParams lp1 = (LinearLayout.LayoutParams) circleImageView.getLayoutParams();
-            lp1.width = (int) (initialImageWidth * (1 - scrollValuePercentage));
-            lp1.height = (int) (initialImageHeight * (1 - scrollValuePercentage));
+            lp1.width = (int) (initialImageWidth * Math.min(1, 1 - scrollValuePercentage + 0.5));
+            lp1.height = (int) (initialImageHeight * Math.min(1, 1 - scrollValuePercentage + 0.5));
 
             circleImageView.setLayoutParams(lp1);
         }
