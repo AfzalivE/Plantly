@@ -1,6 +1,7 @@
 package com.spacebitlabs.plantly.addplant
 
 import android.content.Context
+import android.transition.TransitionManager
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -44,11 +45,13 @@ class ExpandableInputView : FrameLayout {
         isExpanded = true
         collapsed.visibility = View.GONE
         expanded.visibility = View.VISIBLE
+        TransitionManager.beginDelayedTransition(this)
     }
 
     private fun collapse() {
         isExpanded = false
         collapsed.visibility = View.VISIBLE
         expanded.visibility = View.GONE
+        TransitionManager.beginDelayedTransition(this)
     }
 }
