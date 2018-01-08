@@ -19,8 +19,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
         <activity android:name=".addplant.AddPlantActivity" />
+        <activity
+            android:name=".plantdetail.PlantDetailActivity"
+            android:label="@string/title_activity_plant_detail"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
