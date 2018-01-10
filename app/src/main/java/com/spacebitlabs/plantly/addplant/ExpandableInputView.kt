@@ -1,7 +1,10 @@
 package com.spacebitlabs.plantly.addplant
 
 import android.content.Context
-import android.transition.TransitionManager
+import android.support.transition.ChangeBounds
+import android.support.transition.Fade
+import android.support.transition.TransitionManager.beginDelayedTransition
+import android.support.transition.TransitionSet
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -43,15 +46,22 @@ class ExpandableInputView : FrameLayout {
 
     private fun expand() {
         isExpanded = true
+        val transition = TransitionSet()
+            .setOrdering(TransitionSet.ORDERING_TOGETHER)
+            .addTransition(Fade(Fade.OUT))
+            .addTransition(ChangeBounds())
+            .addTransition(Fade(Fade.IN))
+
+        beginDelayedTransition(this, transition)
+
         collapsed.visibility = View.GONE
         expanded.visibility = View.VISIBLE
-        TransitionManager.beginDelayedTransition(this)
     }
 
     private fun collapse() {
         isExpanded = false
+//        TransitionManager.beginDelayedTransition(this)
         collapsed.visibility = View.VISIBLE
         expanded.visibility = View.GONE
-        TransitionManager.beginDelayedTransition(this)
     }
 }
