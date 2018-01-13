@@ -1,6 +1,7 @@
 package com.spacebitlabs.plantly.addplant
 
 import android.animation.LayoutTransition
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.support.transition.*
 import android.support.transition.TransitionManager.beginDelayedTransition
@@ -20,13 +21,16 @@ class ExpandableInputView : FrameLayout, View.OnClickListener {
     private var isExpanded = false
 
     private var isAnimating = false
+
     constructor(context: Context) : this(context, null)
 
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        inflater.inflate(R.layout.view_expandable_input, this)
+        LayoutInflater.from(context).inflate(R.layout.view_expandable_input, this)
+
+        layoutTransition = LayoutTransition()
         layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+
         setOnClickListener(this)
     }
 
@@ -49,16 +53,24 @@ class ExpandableInputView : FrameLayout, View.OnClickListener {
             .setOrdering(TransitionSet.ORDERING_TOGETHER)
             .addTransition(Fade())
             .addTransition(ChangeBounds())
-            .addListener(object : TransitionListenerAdapter() {
-                override fun onTransitionEnd(transition: Transition) {
-                    isAnimating = false
-                }
-            })
+            .addTransition(ChangeTransform())
+            .addListener(endTransition)
 
-        beginDelayedTransition(this, transition)
+        val zAnimator = ObjectAnimator.ofFloat(this, "translationZ", 8f)
+        zAnimator.start()
+
         val lp = container.layoutParams
         lp.height = dpToPixels(108)
         container.layoutParams = lp
+
+        val marginLp = layoutParams as MarginLayoutParams
+        marginLp.topMargin = dpToPixels(16)
+        marginLp.bottomMargin = dpToPixels(16)
+        marginLp.marginStart = dpToPixels(16)
+        marginLp.marginEnd = dpToPixels(16)
+        layoutParams = marginLp
+
+        beginDelayedTransition(this, transition)
     }
 
     private fun collapse() {
@@ -68,15 +80,29 @@ class ExpandableInputView : FrameLayout, View.OnClickListener {
             .setOrdering(TransitionSet.ORDERING_TOGETHER)
             .addTransition(Fade())
             .addTransition(ChangeBounds())
-            .addListener(object : TransitionListenerAdapter() {
-                override fun onTransitionEnd(transition: Transition) {
-                    isAnimating = false
-                }
-            })
+            .addTransition(ChangeTransform())
+            .addListener(endTransition)
 
-        TransitionManager.beginDelayedTransition(this, transition)
+        val zAnimator = ObjectAnimator.ofFloat(this, "translationZ", 0f)
+        zAnimator.start()
+
         val lp = container.layoutParams
         lp.height = dpToPixels(56)
         container.layoutParams = lp
+
+        val marginLp = layoutParams as MarginLayoutParams
+        marginLp.topMargin = dpToPixels(0)
+        marginLp.bottomMargin = dpToPixels(0)
+        marginLp.marginStart = dpToPixels(0)
+        marginLp.marginEnd = dpToPixels(0)
+        layoutParams = marginLp
+
+        TransitionManager.beginDelayedTransition(this, transition)
+    }
+
+    private val endTransition = object : TransitionListenerAdapter() {
+        override fun onTransitionEnd(transition: Transition) {
+            isAnimating = false
+        }
     }
 }

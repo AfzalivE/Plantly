@@ -9,8 +9,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
-        android:elevation="16dp"
         android:orientation="vertical">
 
         <android.support.design.widget.AppBarLayout
@@ -38,44 +36,29 @@
             android:scaleType="centerCrop"
             android:src="@drawable/sample_plant" />
 
-        <android.support.constraint.ConstraintLayout
+        <com.spacebitlabs.plantly.addplant.ExpandableInputView
+            android:id="@+id/type"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:background="@drawable/shadow_thin" />
 
-            <com.spacebitlabs.plantly.addplant.ExpandableInputView
-                android:id="@+id/type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
-                android:background="@drawable/shadow_thin"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <com.spacebitlabs.plantly.addplant.ExpandableInputView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shadow_thin" />
 
-            <com.spacebitlabs.plantly.addplant.ExpandableInputView
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
-                android:background="@drawable/shadow_thin"
-                app:layout_constraintTop_toBottomOf="@id/type" />
+        <com.spacebitlabs.plantly.addplant.ExpandableInputView
+            android:id="@+id/water_freq"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shadow_thin" />
 
-            <com.spacebitlabs.plantly.addplant.ExpandableInputView
-                android:id="@+id/water_freq"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
-                android:background="@drawable/shadow_thin"
-                app:layout_constraintTop_toBottomOf="@id/name" />
-
-            <com.spacebitlabs.plantly.addplant.ExpandableInputView
-                android:id="@+id/soil_freq"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
-                android:background="@drawable/shadow_thick"
-                app:layout_constraintTop_toBottomOf="@id/water_freq" />
-
-        </android.support.constraint.ConstraintLayout>
+        <com.spacebitlabs.plantly.addplant.ExpandableInputView
+            android:id="@+id/soil_freq"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shadow_thick" />
 
     </LinearLayout>
 
