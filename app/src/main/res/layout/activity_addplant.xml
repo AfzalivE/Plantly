@@ -36,29 +36,54 @@
             android:scaleType="centerCrop"
             android:src="@drawable/sample_plant" />
 
-        <com.spacebitlabs.plantly.addplant.ExpandableInputView
-            android:id="@+id/type"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shadow_thin" />
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false">
 
-        <com.spacebitlabs.plantly.addplant.ExpandableInputView
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shadow_thin" />
+            <com.spacebitlabs.plantly.addplant.FormLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="vertical">
 
-        <com.spacebitlabs.plantly.addplant.ExpandableInputView
-            android:id="@+id/water_freq"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shadow_thin" />
+                <com.spacebitlabs.plantly.addplant.ExpandableInputView
+                    android:id="@+id/type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shadow_thin"
+                    app:label="Type"
+                    app:value="Sansevieria Trifasciata" />
 
-        <com.spacebitlabs.plantly.addplant.ExpandableInputView
-            android:id="@+id/soil_freq"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shadow_thick" />
+                <com.spacebitlabs.plantly.addplant.ExpandableInputView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shadow_thin"
+                    app:label="Name"
+                    app:value="Sansa" />
+
+                <com.spacebitlabs.plantly.addplant.ExpandableInputView
+                    android:id="@+id/water_freq"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shadow_thin"
+                    app:label="Water Frequency"
+                    app:value="7 days" />
+
+                <com.spacebitlabs.plantly.addplant.ExpandableInputView
+                    android:id="@+id/soil_freq"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shadow_thick"
+                    app:label="Soil Frequency"
+                    app:value="1 month" />
+
+            </com.spacebitlabs.plantly.addplant.FormLayout>
+
+        </ScrollView>
 
     </LinearLayout>
 

@@ -2,6 +2,7 @@
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -17,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.3" />
+            app:layout_constraintGuide_percent="0.45" />
 
         <TextView
             android:id="@+id/label"
@@ -25,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_weight="1"
-            android:text="Type"
+            tools:text="Water Frequency"
             android:textColor="#000"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -36,7 +37,7 @@
             android:id="@+id/collapsed_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sansevieria Triasciata"
+            tools:text="Sansevieria Trifasciata"
             android:textSize="16sp"
             android:transitionName="value"
             app:layout_constraintBottom_toBottomOf="parent"

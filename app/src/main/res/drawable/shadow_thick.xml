@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape
             android:dither="true"
             android:shape="rectangle">
             <gradient
                 android:angle="90"
-                android:endColor="@android:color/transparent"
+                android:endColor="@android:color/black"
                 android:gradientRadius="8dp"
                 android:startColor="#ccc" />
 
@@ -17,6 +18,7 @@
         <shape
             android:dither="true"
             android:shape="rectangle">
+            <corners android:radius="2dp" />
             <solid android:color="@android:color/white" />
         </shape>
     </item>

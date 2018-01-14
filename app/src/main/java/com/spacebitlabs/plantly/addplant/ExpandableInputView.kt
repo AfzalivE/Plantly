@@ -4,7 +4,6 @@ import android.animation.LayoutTransition
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.support.transition.*
-import android.support.transition.TransitionManager.beginDelayedTransition
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -19,8 +18,10 @@ import kotlinx.android.synthetic.main.view_expandable_input.view.*
  */
 class ExpandableInputView : FrameLayout, View.OnClickListener {
     private var isExpanded = false
-
     private var isAnimating = false
+
+    private var labelText = ""
+    private var valueText = ""
 
     constructor(context: Context) : this(context, null)
 
@@ -28,14 +29,26 @@ class ExpandableInputView : FrameLayout, View.OnClickListener {
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         LayoutInflater.from(context).inflate(R.layout.view_expandable_input, this)
 
+        val styledAttrs = context.obtainStyledAttributes(attrs, R.styleable.ExpandableInputView)
+
+        labelText = styledAttrs.getString(R.styleable.ExpandableInputView_label)
+        valueText = styledAttrs.getString(R.styleable.ExpandableInputView_value)
+
+        setAttrs()
+
         layoutTransition = LayoutTransition()
         layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
         setOnClickListener(this)
     }
 
-    fun setValue(name: String): Nothing {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    private fun setAttrs() {
+        label.text = labelText
+        setValue(valueText)
+    }
+
+    fun setValue(value: String) {
+        collapsed_value.text = value
     }
 
     override fun onClick(v: View?) {
@@ -51,11 +64,11 @@ class ExpandableInputView : FrameLayout, View.OnClickListener {
         isExpanded = true
         val transition = TransitionSet()
             .setOrdering(TransitionSet.ORDERING_TOGETHER)
-            .addTransition(Fade())
             .addTransition(ChangeBounds())
-            .addTransition(ChangeTransform())
             .addListener(endTransition)
 
+        // have to animate translationZ separately because
+        // beginDelayedTransitions doesn't work with it
         val zAnimator = ObjectAnimator.ofFloat(this, "translationZ", 8f)
         zAnimator.start()
 
@@ -66,11 +79,9 @@ class ExpandableInputView : FrameLayout, View.OnClickListener {
         val marginLp = layoutParams as MarginLayoutParams
         marginLp.topMargin = dpToPixels(16)
         marginLp.bottomMargin = dpToPixels(16)
-        marginLp.marginStart = dpToPixels(16)
-        marginLp.marginEnd = dpToPixels(16)
         layoutParams = marginLp
 
-        beginDelayedTransition(this, transition)
+        TransitionManager.beginDelayedTransition(this, transition)
     }
 
     private fun collapse() {
@@ -78,11 +89,11 @@ class ExpandableInputView : FrameLayout, View.OnClickListener {
         isExpanded = false
         val transition = TransitionSet()
             .setOrdering(TransitionSet.ORDERING_TOGETHER)
-            .addTransition(Fade())
             .addTransition(ChangeBounds())
-            .addTransition(ChangeTransform())
             .addListener(endTransition)
 
+        // have to animate translationZ separately because
+        // beginDelayedTransitions doesn't work with it
         val zAnimator = ObjectAnimator.ofFloat(this, "translationZ", 0f)
         zAnimator.start()
 
@@ -93,8 +104,6 @@ class ExpandableInputView : FrameLayout, View.OnClickListener {
         val marginLp = layoutParams as MarginLayoutParams
         marginLp.topMargin = dpToPixels(0)
         marginLp.bottomMargin = dpToPixels(0)
-        marginLp.marginStart = dpToPixels(0)
-        marginLp.marginEnd = dpToPixels(0)
         layoutParams = marginLp
 
         TransitionManager.beginDelayedTransition(this, transition)
