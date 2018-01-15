@@ -8,4 +8,5 @@
     <string name="add_a_plant">Add a Plant</string>
     <string name="title_activity_plant_detail">PlantDetailActivity</string>
     <string name="action_settings">Settings</string>
+    <string name="photo_of_the_plant">Photo of the plant</string>
 </resources>

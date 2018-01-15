@@ -32,15 +32,16 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="196dp"
-            android:layout_marginBottom="24dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/sample_plant" />
+            android:src="@drawable/sample_plant"
+            android:contentDescription="@string/photo_of_the_plant" />
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipChildren="false"
-            android:clipToPadding="false">
+            android:clipToPadding="false"
+            android:paddingTop="24dp">
 
             <com.spacebitlabs.plantly.addplant.FormLayout
                 android:layout_width="match_parent"
