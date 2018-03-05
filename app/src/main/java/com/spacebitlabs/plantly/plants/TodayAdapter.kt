@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.spacebitlabs.plantly.R
-import com.spacebitlabs.plantly.data.models.Plant
+import com.spacebitlabs.plantly.data.entities.Plant
 import com.spacebitlabs.plantly.inflate
 import kotlinx.android.synthetic.main.today_list_item.view.*
 

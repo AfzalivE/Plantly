@@ -3,7 +3,6 @@ package com.spacebitlabs.plantly
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.os.Handler
-import com.spacebitlabs.plantly.data.source.UserPlantsStore
 import com.spacebitlabs.plantly.plants.PlantListViewState
 import timber.log.Timber
 
@@ -12,7 +11,10 @@ import timber.log.Timber
  */
 class MainViewModel : ViewModel() {
 
-    private val userPlantsStore: UserPlantsStore = UserPlantsStore()
+    private val userPlantsStore by lazy {
+        Injection.get().providePlantStore()
+    }
+
     internal val plantListState: MutableLiveData<PlantListViewState> = MutableLiveData()
 
     fun loadUserPlants() {

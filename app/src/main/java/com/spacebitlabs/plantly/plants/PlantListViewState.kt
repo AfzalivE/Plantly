@@ -1,6 +1,6 @@
 package com.spacebitlabs.plantly.plants
 
-import com.spacebitlabs.plantly.data.models.Plant
+import com.spacebitlabs.plantly.data.entities.Plant
 
 /**
  * ViewStates for PlantList screen

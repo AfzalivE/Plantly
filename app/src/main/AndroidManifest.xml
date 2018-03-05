@@ -23,8 +23,10 @@
         <activity
             android:name=".plantdetail.PlantDetailActivity"
             android:label="@string/title_activity_plant_detail"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity android:name=".test.TestActivity" />
+
+        <service android:name=".reminder.ReminderService" />
     </application>
 
 </manifest>

@@ -7,7 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.spacebitlabs.plantly.R
-import com.spacebitlabs.plantly.data.models.Plant
+import com.spacebitlabs.plantly.data.entities.Plant
 import kotlinx.android.synthetic.main.activity_addplant.*
 
 /**
@@ -31,7 +31,7 @@ class AddPlantActivity: AppCompatActivity() {
             // TODO Validate input
             // construct a plant from input
             val plant = Plant(4, "Sansa2")
-            model.savePlant(plant)
+            model.addPlant(plant)
         }
     }
 

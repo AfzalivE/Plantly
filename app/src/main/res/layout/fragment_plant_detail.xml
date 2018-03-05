@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.spacebitlabs.plantly.plantdetail.PlantDetailActivityFragment"
+    tools:context="com.spacebitlabs.plantly.plantdetail.PlantDetailFragment"
     tools:showIn="@layout/activity_plant_detail">
 
 </android.support.constraint.ConstraintLayout>

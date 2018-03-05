@@ -2,15 +2,18 @@ package com.spacebitlabs.plantly.addplant
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.spacebitlabs.plantly.data.models.Plant
-import com.spacebitlabs.plantly.data.source.UserPlantsStore
+import com.spacebitlabs.plantly.Injection
+import com.spacebitlabs.plantly.data.entities.Plant
 
 /**
  * ViewModel for Add Plant screen
  */
 class AddPlantViewModel : ViewModel() {
 
-    private val userPlantsStore: UserPlantsStore = UserPlantsStore()
+    private val userPlantsStore by lazy {
+        Injection.get().providePlantStore()
+    }
+
     internal val addPlantViewState: MutableLiveData<AddPlantViewState> = MutableLiveData()
 
     fun requestSuggestions(name: String) {
@@ -23,7 +26,7 @@ class AddPlantViewModel : ViewModel() {
         addPlantViewState.value = AddPlantViewState.SuggestionsFound(plants)
     }
 
-    fun savePlant(plant: Plant) {
-        userPlantsStore.savePlant(plant)
+    fun addPlant(plant: Plant) {
+        userPlantsStore.addPlant(plant)
     }
 }

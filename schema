@@ -1,0 +1,28 @@
+Plant:
+
+name
+type
+image
+recommended water freq
+recommended soil freq
+
+
+
+Saved Plant:
+
+Name
+Type
+Water freq
+Soil freq
+Birthdate
+
+
+Age(From birthdate)
+Last watering entry
+Next watering entry (from last entry + freq)
+Last soil entry
+Next soil entry (from last entry + freq)
+Photos
+Main Photo
+Watered # times (from # of events)
+Soil # times (from # of events)

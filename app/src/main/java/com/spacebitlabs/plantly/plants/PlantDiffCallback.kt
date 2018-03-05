@@ -1,7 +1,7 @@
 package com.spacebitlabs.plantly.plants
 
 import android.support.v7.util.DiffUtil
-import com.spacebitlabs.plantly.data.models.Plant
+import com.spacebitlabs.plantly.data.entities.Plant
 
 /**
  * DiffUtil to dispatch updates to the adapter data
