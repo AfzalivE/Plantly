@@ -10,4 +10,5 @@ sealed class AddPlantViewState {
     class Empty : AddPlantViewState()
     class SuggestionsFound(val plantList: List<Plant>) : AddPlantViewState()
     class PlantSelected(val plant: Plant) : AddPlantViewState()
+    class Saved : AddPlantViewState()
 }

@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         val fragment: Fragment? = supportFragmentManager.findFragmentById(R.id.content_frame)
         setFragment(fragment)
 
-        startService(Intent(this, ReminderService::class.java))
+//        startService(Intent(this, ReminderService::class.java))
     }
 
     private fun setFragment(newFragment: Fragment?) {

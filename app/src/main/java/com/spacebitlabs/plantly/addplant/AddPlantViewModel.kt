@@ -4,11 +4,16 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.spacebitlabs.plantly.Injection
 import com.spacebitlabs.plantly.data.entities.Plant
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 
 /**
  * ViewModel for Add Plant screen
  */
 class AddPlantViewModel : ViewModel() {
+
+    private val disposable = CompositeDisposable()
 
     private val userPlantsStore by lazy {
         Injection.get().providePlantStore()
@@ -27,6 +32,16 @@ class AddPlantViewModel : ViewModel() {
     }
 
     fun addPlant(plant: Plant) {
-        userPlantsStore.addPlant(plant)
+        disposable.add(
+            userPlantsStore.addPlant(plant)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    addPlantViewState.value = AddPlantViewState.Saved()
+                }))
+    }
+
+    override fun onCleared() {
+        disposable.clear()
     }
 }

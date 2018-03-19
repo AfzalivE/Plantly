@@ -4,6 +4,8 @@ import com.spacebitlabs.plantly.data.EntryType
 import com.spacebitlabs.plantly.data.PlantDatabase
 import com.spacebitlabs.plantly.data.entities.Entry
 import com.spacebitlabs.plantly.data.entities.Plant
+import io.reactivex.Completable
+import io.reactivex.Flowable
 
 /**
  * Store for the user's plants
@@ -35,16 +37,18 @@ class UserPlantsStore(private val database: PlantDatabase) {
 //        database.plantDao().insertAll(mockPlants)
 //    }
 
-    fun getAllPlants(): List<Plant> {
+    fun getAllPlants(): Flowable<List<Plant>> {
         return database.plantDao().getAll()
     }
 
     /**
      * Used for creating a new plant
      */
-    fun addPlant(plant: Plant) {
-        val plantId = database.plantDao().insert(plant)
-        database.entryDao().insert(Entry(type = EntryType.BIRTH, plantId = plantId))
+    fun addPlant(plant: Plant): Completable {
+        return Completable.fromAction({
+            val plantId = database.plantDao().insert(plant)
+            database.entryDao().insert(Entry(type = EntryType.BIRTH, plantId = plantId))
+        })
     }
 
     /**
@@ -57,7 +61,7 @@ class UserPlantsStore(private val database: PlantDatabase) {
         database.plantDao().update(plant)
     }
 
-    fun getPlant(id: Long): Plant {
+    fun getPlant(id: Long): Flowable<Plant> {
         return database.plantDao().getById(id)
     }
 

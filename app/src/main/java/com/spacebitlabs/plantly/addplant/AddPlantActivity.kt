@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
 import com.spacebitlabs.plantly.R
 import com.spacebitlabs.plantly.data.entities.Plant
 import kotlinx.android.synthetic.main.activity_addplant.*
@@ -13,7 +14,7 @@ import kotlinx.android.synthetic.main.activity_addplant.*
 /**
  * Allows user to lookup and add a plant
  */
-class AddPlantActivity: AppCompatActivity() {
+class AddPlantActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,8 +22,7 @@ class AddPlantActivity: AppCompatActivity() {
 
         val model = ViewModelProviders.of(this).get(AddPlantViewModel::class.java)
         model.addPlantViewState.observe(this, Observer { state ->
-            // TODO show suggestions in a dropdown list
-            render(state)
+            state?.let { render(it) }
         })
 
         renderEmpty()
@@ -35,13 +35,19 @@ class AddPlantActivity: AppCompatActivity() {
         }
     }
 
-    private fun render(state: AddPlantViewState?) {
-        when (state) {
-            is AddPlantViewState.Loading -> renderLoadingSuggestions()
-            is AddPlantViewState.Empty -> renderEmpty()
+    private fun render(state: AddPlantViewState) {
+        return when (state) {
+            is AddPlantViewState.Loading          -> renderLoadingSuggestions()
+            is AddPlantViewState.Empty            -> renderEmpty()
             is AddPlantViewState.SuggestionsFound -> renderSuggestions(state)
-            is AddPlantViewState.PlantSelected -> renderPlantSelected(state)
+            is AddPlantViewState.PlantSelected    -> renderPlantSelected(state)
+            is AddPlantViewState.Saved            -> renderPlantSaved()
         }
+    }
+
+    private fun renderPlantSaved() {
+        Toast.makeText(this, R.string.plant_saved, Toast.LENGTH_SHORT).show()
+        finish()
     }
 
     private fun renderEmpty() {
