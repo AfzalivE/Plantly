@@ -4,48 +4,42 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.transition.TransitionManager
-import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import com.spacebitlabs.plantly.MainViewModel
 import com.spacebitlabs.plantly.R
 import com.spacebitlabs.plantly.addplant.AddPlantActivity
-import kotlinx.android.synthetic.main.fragment_plants.*
+import kotlinx.android.synthetic.main.activity_plants.*
 
 /**
- * Shows the list of plants a user has.
- *
- * User can click the add FAB and add more plants.
+ * Home Activity
  */
-class PlantsFragment : Fragment() {
+class PlantsActivity : AppCompatActivity() {
 
     private val plantAdapter = PlantsAdapter()
     private val todayAdapter = TodayAdapter()
-    private var model: MainViewModel? = null
+    private var model: PlantsViewModel? = null
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater?.inflate(R.layout.fragment_plants, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_plants)
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         renderEmpty()
 
-        model = ViewModelProviders.of(activity).get(MainViewModel::class.java)
+        model = ViewModelProviders.of(this).get(PlantsViewModel::class.java)
         model?.plantListState?.observe(this, Observer { state ->
             render(state)
         })
 
-        plant_list.layoutManager = GridLayoutManager(context, 2)
+        plant_list.layoutManager = GridLayoutManager(this, 2)
         plant_list.adapter = plantAdapter
 
-        today_list.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        today_list.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         today_list.adapter = todayAdapter
 
         add_plant.setOnClickListener {
-            AddPlantActivity.show(activity)
+            AddPlantActivity.show(this)
         }
     }
 
@@ -97,14 +91,4 @@ class PlantsFragment : Fragment() {
         // TODO get actual list of plants to water today
         todayAdapter.setPlantList(state.plants)
     }
-
-    companion object {
-        fun newInstance(): PlantsFragment {
-            val args = Bundle().apply { /* put params */ }
-            val fragment = PlantsFragment()
-            fragment.arguments = args
-            return fragment
-        }
-    }
 }
-

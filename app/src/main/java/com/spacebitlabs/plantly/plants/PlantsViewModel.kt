@@ -1,8 +1,8 @@
-package com.spacebitlabs.plantly
+package com.spacebitlabs.plantly.plants
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.spacebitlabs.plantly.plants.PlantListViewState
+import com.spacebitlabs.plantly.Injection
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -11,7 +11,7 @@ import timber.log.Timber
 /**
  * ViewModel for Plants list
  */
-class MainViewModel : ViewModel() {
+class PlantsViewModel : ViewModel() {
 
     private val disposable = CompositeDisposable()
 

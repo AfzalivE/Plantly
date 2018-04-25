@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_margin="8dp"
+        android:animateLayoutChanges="true"
         android:gravity="center_vertical">
 
         <android.support.constraint.Guideline
@@ -44,7 +45,7 @@
             app:layout_constraintStart_toEndOf="@id/guideline"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <EditText
             android:id="@+id/expanded_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,6 +59,4 @@
 
 
     </android.support.constraint.ConstraintLayout>
-
-
 </merge>

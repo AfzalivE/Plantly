@@ -5,7 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.spacebitlabs.plantly.MainActivity">
+    tools:context="com.spacebitlabs.plantly.plants.PlantsActivity">
 
     <include layout="@layout/layout_appbar" />
 

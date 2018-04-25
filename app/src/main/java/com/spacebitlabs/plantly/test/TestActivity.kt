@@ -31,7 +31,6 @@ class TestActivity : AppCompatActivity() {
         expandedSet.setVisibility(R.id.collapsed_value, View.GONE)
         expandedSet.setVisibility(R.id.expanded_value, View.VISIBLE)
 
-
         val transition = TransitionSet()
             .addTransition(Fade())
             .addTransition(ChangeBounds())
