@@ -1,6 +1,7 @@
 package com.spacebitlabs.plantly
 
 import android.content.res.Resources
+import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.view.LayoutInflater
 import android.view.View
@@ -18,3 +19,5 @@ fun dpToPixels(dp: Int): Int {
     val px = dp * (metrics.densityDpi / 160f)
     return Math.round(px)
 }
+
+fun Long.toBundle(name: String): Bundle = Bundle().also { it.putLong(name, this) }

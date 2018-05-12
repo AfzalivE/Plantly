@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <com.google.android.material.textfield.TextInputLayout
+                <android.support.design.widget.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -41,15 +41,15 @@
                     app:boxCornerRadiusTopLeft="4dp"
                     app:boxCornerRadiusTopRight="4dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <android.support.design.widget.TextInputEditText
                         android:id="@+id/type"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/type" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                </android.support.design.widget.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
+                <android.support.design.widget.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -58,15 +58,15 @@
                     app:boxCornerRadiusTopLeft="4dp"
                     app:boxCornerRadiusTopRight="4dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <android.support.design.widget.TextInputEditText
                         android:id="@+id/name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/name" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                </android.support.design.widget.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
+                <android.support.design.widget.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -75,15 +75,15 @@
                     app:boxCornerRadiusTopLeft="4dp"
                     app:boxCornerRadiusTopRight="4dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <android.support.design.widget.TextInputEditText
                         android:id="@+id/water_freq"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/water_freq" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                </android.support.design.widget.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
+                <android.support.design.widget.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -92,13 +92,13 @@
                     app:boxCornerRadiusTopLeft="4dp"
                     app:boxCornerRadiusTopRight="4dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <android.support.design.widget.TextInputEditText
                         android:id="@+id/soil_freq"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/soil_freq" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                </android.support.design.widget.TextInputLayout>
 
                 <!--<com.spacebitlabs.plantly.addplant.FormLayout-->
                 <!--android:layout_width="match_parent"-->
@@ -147,7 +147,7 @@
 
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

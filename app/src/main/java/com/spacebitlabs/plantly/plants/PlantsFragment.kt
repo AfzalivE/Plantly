@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import com.spacebitlabs.plantly.R
 import kotlinx.android.synthetic.main.fragment_plants.*
 
@@ -38,9 +39,7 @@ class PlantsFragment : Fragment() {
         today_list.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         today_list.adapter = todayAdapter
 
-        add_plant.setOnClickListener {
-            // TODO nav to add plants fragment
-        }
+        add_plant.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.to_add_plants_action))
     }
 
     override fun onResume() {
