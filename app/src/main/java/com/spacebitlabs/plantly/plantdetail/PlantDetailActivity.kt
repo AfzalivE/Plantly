@@ -18,7 +18,6 @@ class PlantDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_plant_detail)
         val plantId = intent.getLongExtra(EXTRA_PLANT_ID, 0)
-        setSupportActionBar(toolbar)
 
         val model = ViewModelProviders.of(this).get(PlantDetailViewModel::class.java)
         model.plantDetailViewState.observe(this, Observer { state ->

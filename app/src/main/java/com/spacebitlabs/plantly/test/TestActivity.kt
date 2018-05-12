@@ -12,7 +12,6 @@ import com.spacebitlabs.plantly.R
 import com.spacebitlabs.plantly.dpToPixels
 import kotlinx.android.synthetic.main.activity_test.*
 
-
 /**
  * Created by afzal on 2018-01-11.
  */

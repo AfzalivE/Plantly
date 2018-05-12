@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.AppBarLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.design.widget.AppBarLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/appbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fitsSystemWindows="true"
     android:gravity="center_vertical"
     android:minHeight="?attr/actionBarSize"
-    android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-    tools:showIn="@layout/fragment_plants">
+    android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
     <android.support.design.widget.CollapsingToolbarLayout
         android:id="@+id/main_collapsing"

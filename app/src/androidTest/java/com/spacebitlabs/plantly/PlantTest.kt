@@ -1,8 +1,8 @@
 package com.spacebitlabs.plantly
 
-import android.arch.persistence.room.Room
-import android.support.test.InstrumentationRegistry
-import android.support.test.runner.AndroidJUnit4
+import androidx.sqlite.room.Room
+import androidx.test.InstrumentationRegistry
+import androidx.test.runner.AndroidJUnit4
 import com.spacebitlabs.plantly.data.PlantDatabase
 import com.spacebitlabs.plantly.data.entities.Plant
 import com.spacebitlabs.plantly.data.source.PlantDao

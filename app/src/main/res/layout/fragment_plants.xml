@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:showIn="@layout/activity_main_plant">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/expandedActionBarSize"
+        android:orientation="vertical"
+        android:paddingTop="16dp"
+        app:layout_behavior="com.spacebitlabs.plantly.plants.ToolbarBehavior">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Good Morning"
+            android:theme="@style/TextAppearance.AppCompat.Title.Inverse" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="You have 6 plants to water today"
+            android:theme="@style/TextAppearance.AppCompat.Subhead.Inverse" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/today_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/today_list_item" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFF"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/plant_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:padding="4dp"
+            android:visibility="visible"
+            tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            tools:listitem="@layout/plants_list_item"
+            tools:spanCount="2" />
+
+    </FrameLayout>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/empty_plant_list"
+        android:textSize="18sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/error_plant_list"
+        android:textSize="18sp"
+        android:visibility="gone" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_plant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#00C853"
+        android:transitionName="fab"
+        app:borderWidth="0dp"
+        app:elevation="16dp"
+        app:fabSize="normal"
+        app:layout_behavior="com.spacebitlabs.plantly.plants.FabBehavior"
+        app:srcCompat="@drawable/ic_add" />
+
+</android.support.design.widget.CoordinatorLayout>

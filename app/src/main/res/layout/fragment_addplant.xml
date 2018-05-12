@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEEEEE">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="196dp"
+            android:contentDescription="@string/photo_of_the_plant"
+            android:scaleType="centerCrop"
+            android:src="@drawable/sample_plant" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:paddingStart="16dp"
+            android:paddingTop="24dp"
+            android:paddingEnd="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxCornerRadiusBottomLeft="4dp"
+                    app:boxCornerRadiusBottomRight="4dp"
+                    app:boxCornerRadiusTopLeft="4dp"
+                    app:boxCornerRadiusTopRight="4dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/type" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxCornerRadiusBottomLeft="4dp"
+                    app:boxCornerRadiusBottomRight="4dp"
+                    app:boxCornerRadiusTopLeft="4dp"
+                    app:boxCornerRadiusTopRight="4dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/name" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxCornerRadiusBottomLeft="4dp"
+                    app:boxCornerRadiusBottomRight="4dp"
+                    app:boxCornerRadiusTopLeft="4dp"
+                    app:boxCornerRadiusTopRight="4dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/water_freq"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/water_freq" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxCornerRadiusBottomLeft="4dp"
+                    app:boxCornerRadiusBottomRight="4dp"
+                    app:boxCornerRadiusTopLeft="4dp"
+                    app:boxCornerRadiusTopRight="4dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/soil_freq"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/soil_freq" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--<com.spacebitlabs.plantly.addplant.FormLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:clipChildren="false"-->
+                <!--android:clipToPadding="false"-->
+                <!--android:orientation="vertical">-->
+
+                <!--<com.spacebitlabs.plantly.addplant.ExpandableInputView-->
+                <!--android:id="@+id/type"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/shadow_thin"-->
+                <!--app:label="Type"-->
+                <!--app:value="Sansevieria Trifasciata" />-->
+
+                <!--<com.spacebitlabs.plantly.addplant.ExpandableInputView-->
+                <!--android:id="@+id/name"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/shadow_thin"-->
+                <!--app:label="Name"-->
+                <!--app:value="Sansa" />-->
+
+                <!--<com.spacebitlabs.plantly.addplant.ExpandableInputView-->
+                <!--android:id="@+id/water_freq"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/shadow_thin"-->
+                <!--app:label="Water Frequency"-->
+                <!--app:value="7 days" />-->
+
+                <!--<com.spacebitlabs.plantly.addplant.ExpandableInputView-->
+                <!--android:id="@+id/soil_freq"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/shadow_thick"-->
+                <!--app:label="Soil Frequency"-->
+                <!--app:value="1 month" />-->
+
+                <!--</com.spacebitlabs.plantly.addplant.FormLayout>-->
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#00C853"
+        android:transitionName="fab"
+        app:borderWidth="0dp"
+        app:elevation="16dp"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/ic_check" />
+
+</FrameLayout>

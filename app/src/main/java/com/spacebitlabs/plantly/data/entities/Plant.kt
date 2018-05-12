@@ -3,6 +3,7 @@ package com.spacebitlabs.plantly.data.entities
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 
+
 /**
  * Data class to hold plant info
  */
