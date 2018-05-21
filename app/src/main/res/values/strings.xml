@@ -15,4 +15,14 @@
     <string name="soil_freq">Soil Frequency</string>
     <string name="name">Name</string>
     <string name="type">Type</string>
+
+    <plurals name="weeks">
+        <item quantity="one">%d week</item>
+        <item quantity="other">%d weeks</item>
+    </plurals>
+
+    <plurals name="days">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
 </resources>

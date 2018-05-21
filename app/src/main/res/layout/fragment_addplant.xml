@@ -66,80 +66,71 @@
 
                 </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:boxCornerRadiusBottomLeft="4dp"
-                    app:boxCornerRadiusBottomRight="4dp"
-                    app:boxCornerRadiusTopLeft="4dp"
-                    app:boxCornerRadiusTopRight="4dp">
+                    android:gravity="center_vertical">
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/water_freq"
-                        android:layout_width="match_parent"
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:hint="@string/water_freq" />
+                        android:layout_weight="1"
+                        app:boxCornerRadiusBottomLeft="4dp"
+                        app:boxCornerRadiusBottomRight="4dp"
+                        app:boxCornerRadiusTopLeft="4dp"
+                        app:boxCornerRadiusTopRight="4dp">
 
-                </android.support.design.widget.TextInputLayout>
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/water_freq"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/water_freq"
+                            android:inputType="phone" />
 
-                <android.support.design.widget.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.v7.widget.AppCompatSpinner
+                        android:id="@+id/water_freq_type"
+                        android:entries="@array/time_types_plural"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:boxCornerRadiusBottomLeft="4dp"
-                    app:boxCornerRadiusBottomRight="4dp"
-                    app:boxCornerRadiusTopLeft="4dp"
-                    app:boxCornerRadiusTopRight="4dp">
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/soil_freq"
-                        android:layout_width="match_parent"
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:hint="@string/soil_freq" />
+                        android:layout_weight="1"
+                        app:boxCornerRadiusBottomLeft="4dp"
+                        app:boxCornerRadiusBottomRight="4dp"
+                        app:boxCornerRadiusTopLeft="4dp"
+                        app:boxCornerRadiusTopRight="4dp">
 
-                </android.support.design.widget.TextInputLayout>
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/soil_freq"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/soil_freq"
+                            android:inputType="phone" />
 
-                <!--<com.spacebitlabs.plantly.addplant.FormLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:clipChildren="false"-->
-                <!--android:clipToPadding="false"-->
-                <!--android:orientation="vertical">-->
+                    </android.support.design.widget.TextInputLayout>
 
-                <!--<com.spacebitlabs.plantly.addplant.ExpandableInputView-->
-                <!--android:id="@+id/type"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="@drawable/shadow_thin"-->
-                <!--app:label="Type"-->
-                <!--app:value="Sansevieria Trifasciata" />-->
+                    <android.support.v7.widget.AppCompatSpinner
+                        android:id="@+id/soil_freq_type"
+                        android:entries="@array/time_types_plural"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
-                <!--<com.spacebitlabs.plantly.addplant.ExpandableInputView-->
-                <!--android:id="@+id/name"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="@drawable/shadow_thin"-->
-                <!--app:label="Name"-->
-                <!--app:value="Sansa" />-->
-
-                <!--<com.spacebitlabs.plantly.addplant.ExpandableInputView-->
-                <!--android:id="@+id/water_freq"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="@drawable/shadow_thin"-->
-                <!--app:label="Water Frequency"-->
-                <!--app:value="7 days" />-->
-
-                <!--<com.spacebitlabs.plantly.addplant.ExpandableInputView-->
-                <!--android:id="@+id/soil_freq"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="@drawable/shadow_thick"-->
-                <!--app:label="Soil Frequency"-->
-                <!--app:value="1 month" />-->
-
-                <!--</com.spacebitlabs.plantly.addplant.FormLayout>-->
+                </LinearLayout>
 
             </LinearLayout>
 

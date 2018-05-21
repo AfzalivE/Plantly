@@ -6,4 +6,33 @@
     android:layout_height="match_parent"
     tools:context="com.spacebitlabs.plantly.plantdetail.PlantDetailFragment">
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="name" />
+
+        <TextView
+            android:id="@+id/type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="type" />
+
+        <TextView
+            android:id="@+id/water_freq"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="water" />
+
+        <TextView
+            android:id="@+id/soil_freq"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="soil" />
+    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

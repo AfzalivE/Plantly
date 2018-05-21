@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.spacebitlabs.plantly.R
 import com.spacebitlabs.plantly.data.entities.Plant
 import kotlinx.android.synthetic.main.fragment_addplant.*
@@ -34,8 +35,11 @@ class AddPlantFragment : Fragment() {
 
         save.setOnClickListener {
             // TODO Validate input
+            val waterFreq = Plant.wordsFreqInMillis(water_freq.text.toString(), water_freq_type.selectedItem.toString())
+            val soilFreq = Plant.wordsFreqInMillis(soil_freq.text.toString(), soil_freq_type.selectedItem.toString())
+
             // construct a plant from input
-            val plant = Plant(4, "Sansa2")
+            val plant = Plant(type.text.toString(), name.text.toString(), waterFreq, soilFreq)
             model.addPlant(plant)
         }
     }
@@ -53,6 +57,7 @@ class AddPlantFragment : Fragment() {
     private fun renderPlantSaved() {
         Toast.makeText(activity, R.string.plant_saved, Toast.LENGTH_SHORT).show()
         // TODO nav close fragment
+        findNavController().navigateUp()
     }
 
     private fun renderEmpty() {

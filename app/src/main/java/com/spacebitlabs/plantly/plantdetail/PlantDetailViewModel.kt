@@ -29,7 +29,5 @@ class PlantDetailViewModel : ViewModel() {
             .subscribe {
                 plantDetailViewState.value = PlantDetailViewState.PlantDetailLoaded(it)
             })
-
-        // TODO show other properties like how many watering/soil events, birthdate, christening, etc
     }
 }

@@ -1,6 +1,7 @@
 package com.spacebitlabs.plantly
 
 import android.app.Application
+import com.jakewharton.threetenabp.AndroidThreeTen
 import timber.log.Timber
 
 /**
@@ -12,6 +13,7 @@ class PlantlyApp : Application() {
         super.onCreate()
 
         Injection.init(this)
+        AndroidThreeTen.init(this)
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())

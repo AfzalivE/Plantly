@@ -26,7 +26,7 @@ class AddPlantViewModel : ViewModel() {
 
         // TODO get suggestions from server then set suggestions value
         val plants = ArrayList<Plant>()
-        plants.add(Plant(10, "Sansa"))
+        plants.add(Plant("Sansevieria Trifasciata", "Sansa", 3, 7))
 
         addPlantViewState.value = AddPlantViewState.SuggestionsFound(plants)
     }
