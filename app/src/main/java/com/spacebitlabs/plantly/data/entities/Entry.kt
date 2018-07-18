@@ -2,6 +2,7 @@ package com.spacebitlabs.plantly.data.entities
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.ForeignKey
+import android.arch.persistence.room.ForeignKey.CASCADE
 import android.arch.persistence.room.PrimaryKey
 import com.spacebitlabs.plantly.data.EntryType
 import org.threeten.bp.OffsetDateTime
@@ -13,7 +14,8 @@ import org.threeten.bp.OffsetDateTime
     foreignKeys = [(ForeignKey(
         entity = Plant::class,
         parentColumns = arrayOf("id"),
-        childColumns = arrayOf("plantId")
+        childColumns = arrayOf("plantId"),
+        onDelete = CASCADE
     ))]
 )
 data class Entry(
@@ -22,5 +24,4 @@ data class Entry(
     val type: EntryType,
     val time: OffsetDateTime = OffsetDateTime.now(),
     val plantId: Long
-) {
-}
+)

@@ -18,8 +18,8 @@ interface PlantDao {
     fun insert(plant: Plant): Long
 
     // Not sure where this would be useful
-//    @Insert
-//    fun insertAll(plants: List<Plant>)
+    @Insert
+    fun insertAll(plants: List<Plant>)
 
     @Update(onConflict = REPLACE)
     fun update(plant: Plant)

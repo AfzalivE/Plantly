@@ -11,7 +11,7 @@ import com.spacebitlabs.plantly.data.source.PlantDao
 /**
  * Created by afzal_najam on 2018-02-20.
  */
-@Database(entities = [Plant::class, Entry::class], version = 1)
+@Database(entities = [Plant::class, Entry::class], version = 2)
 @TypeConverters(EntryTypeConverters::class)
 abstract class PlantDatabase : RoomDatabase() {
     abstract fun plantDao(): PlantDao

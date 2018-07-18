@@ -17,25 +17,25 @@ class UserPlantsStore(private val database: PlantDatabase) {
 //        loadMockData()
     }
 
-//    private fun loadMockData() {
-//        database.plantDao().deleteAll()
-//
-//        val mockPlants = listOf(
-//            Plant(0, "Sansa"),
-//            Plant(1, "Drogo"),
-//            Plant(2, "Cro"),
-//            Plant(3, "Krypton"),
-//            Plant(4, "Xenon"),
-//            Plant(5, "Argon"),
-//            Plant(6, "Sansa"),
-//            Plant(7, "Drogo"),
-//            Plant(8, "Cro"),
-//            Plant(9, "Krypton"),
-//            Plant(10, "Xenon"),
-//            Plant(11, "Argon")
-//        )
-//        database.plantDao().insertAll(mockPlants)
-//    }
+    private fun loadMockData() {
+        database.plantDao().deleteAll()
+
+        val mockPlants = listOf(
+            Plant("Sansa", "Sansa", 3, 10),
+            Plant("Drogo", "Drogo", 3, 10),
+            Plant("Cro", "Cro", 3, 10),
+            Plant("Krypton", "Krypton", 3, 10),
+            Plant("Xenon", "Xenon", 3, 10),
+            Plant("Argon", "Argon", 3, 10),
+            Plant("Sansa", "Sansa", 3, 10),
+            Plant("Drogo", "Drogo", 3, 10),
+            Plant("Cro", "Cro", 3, 10),
+            Plant("Krypton", "Krypton", 3, 10),
+            Plant("Xenon", "Xenon", 3, 10),
+            Plant("Argon", "Argon", 3, 10)
+        )
+        database.plantDao().insertAll(mockPlants)
+    }
 
     fun getAllPlants(): Flowable<List<Plant>> {
         return database.plantDao().getAll()
@@ -46,6 +46,7 @@ class UserPlantsStore(private val database: PlantDatabase) {
      */
     fun addPlant(plant: Plant): Completable {
         return Completable.fromAction {
+            loadMockData()
             val plantId = database.plantDao().insert(plant)
             database.entryDao().insert(Entry(type = EntryType.BIRTH, plantId = plantId))
         }

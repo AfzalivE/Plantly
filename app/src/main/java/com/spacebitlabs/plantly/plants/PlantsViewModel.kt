@@ -30,14 +30,14 @@ class PlantsViewModel : ViewModel() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { plantListState.value = PlantListViewState.Loading() }
-                .subscribe({
+                .subscribe {
                     Timber.d("Got ${it.size} plants")
                     if (it.isEmpty()) {
                         plantListState.value = PlantListViewState.Empty()
                     } else {
                         plantListState.value = PlantListViewState.PlantsFound(it)
                     }
-                })
+                }
         )
     }
 

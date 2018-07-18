@@ -16,7 +16,9 @@ class Injection private constructor(private val appContext: Context) {
     }
 
     fun provideDatabase(): PlantDatabase {
-        return Room.databaseBuilder(provideContext(), PlantDatabase::class.java, DATABASE_FILE_NAME).build()
+        return Room.databaseBuilder(provideContext(), PlantDatabase::class.java, DATABASE_FILE_NAME)
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
     fun providePlantStore(): UserPlantsStore {
