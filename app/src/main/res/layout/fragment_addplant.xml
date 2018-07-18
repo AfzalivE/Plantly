@@ -36,10 +36,10 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:boxCornerRadiusBottomLeft="4dp"
-                    app:boxCornerRadiusBottomRight="4dp"
-                    app:boxCornerRadiusTopLeft="4dp"
-                    app:boxCornerRadiusTopRight="4dp">
+                    app:boxCornerRadiusBottomStart="4dp"
+                    app:boxCornerRadiusBottomEnd="4dp"
+                    app:boxCornerRadiusTopStart="4dp"
+                    app:boxCornerRadiusTopEnd="4dp">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/type"
@@ -53,10 +53,10 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:boxCornerRadiusBottomLeft="4dp"
-                    app:boxCornerRadiusBottomRight="4dp"
-                    app:boxCornerRadiusTopLeft="4dp"
-                    app:boxCornerRadiusTopRight="4dp">
+                    app:boxCornerRadiusBottomStart="4dp"
+                    app:boxCornerRadiusBottomEnd="4dp"
+                    app:boxCornerRadiusTopStart="4dp"
+                    app:boxCornerRadiusTopEnd="4dp">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/name"
@@ -77,10 +77,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        app:boxCornerRadiusBottomLeft="4dp"
-                        app:boxCornerRadiusBottomRight="4dp"
-                        app:boxCornerRadiusTopLeft="4dp"
-                        app:boxCornerRadiusTopRight="4dp">
+                        app:boxCornerRadiusBottomStart="4dp"
+                        app:boxCornerRadiusBottomEnd="4dp"
+                        app:boxCornerRadiusTopStart="4dp"
+                        app:boxCornerRadiusTopEnd="4dp">
 
                         <android.support.design.widget.TextInputEditText
                             android:id="@+id/water_freq"
@@ -110,10 +110,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        app:boxCornerRadiusBottomLeft="4dp"
-                        app:boxCornerRadiusBottomRight="4dp"
-                        app:boxCornerRadiusTopLeft="4dp"
-                        app:boxCornerRadiusTopRight="4dp">
+                        app:boxCornerRadiusBottomStart="4dp"
+                        app:boxCornerRadiusBottomEnd="4dp"
+                        app:boxCornerRadiusTopStart="4dp"
+                        app:boxCornerRadiusTopEnd="4dp">
 
                         <android.support.design.widget.TextInputEditText
                             android:id="@+id/soil_freq"

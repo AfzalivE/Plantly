@@ -23,8 +23,7 @@ class PlantDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val plantId = arguments?.let {
-            val safeArgs = PlantDetailFragmentArgs.fromBundle(it)
-            safeArgs.plant_id.toLong()
+            PlantDetailFragmentArgs.fromBundle(it).plantId
         } ?: 0
 
         val model = ViewModelProviders.of(this).get(PlantDetailViewModel::class.java)
@@ -46,8 +45,8 @@ class PlantDetailFragment : Fragment() {
         plant.let {
             name.text = it.name
             type.text = it.type
-            water_freq.text = resources.getQuantityString(R.plurals.days, it.waterFreq.toInt())
-            soil_freq.text = resources.getQuantityString(R.plurals.weeks, it.soilFreq.toInt())
+            water_freq.text = resources.getQuantityString(R.plurals.days, it.waterFreq.toInt(), it.waterFreq.toInt())
+            soil_freq.text = resources.getQuantityString(R.plurals.weeks, it.soilFreq.toInt(), it.waterFreq.toInt())
         }
     }
 

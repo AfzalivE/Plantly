@@ -45,10 +45,10 @@ class UserPlantsStore(private val database: PlantDatabase) {
      * Used for creating a new plant
      */
     fun addPlant(plant: Plant): Completable {
-        return Completable.fromAction({
+        return Completable.fromAction {
             val plantId = database.plantDao().insert(plant)
             database.entryDao().insert(Entry(type = EntryType.BIRTH, plantId = plantId))
-        })
+        }
     }
 
     /**
