@@ -25,7 +25,7 @@ android {
 
 ext {
     nav_version = "1.0.0-alpha03"
-    work_version = "1.0.0-alpha03"
+    work_version = "1.0.0-alpha04"
 }
 
 dependencies {
