@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import com.spacebitlabs.plantly.R
 import com.spacebitlabs.plantly.data.entities.Plant
+import com.spacebitlabs.plantly.millisFreqToDays
 import com.spacebitlabs.plantly.toBundle
 import kotlinx.android.synthetic.main.fragment_plant_detail.*
 import timber.log.Timber
@@ -45,8 +46,10 @@ class PlantDetailFragment : Fragment() {
         plant.let {
             name.text = it.name
             type.text = it.type
-            water_freq.text = resources.getQuantityString(R.plurals.days, it.waterFreq.toInt(), it.waterFreq.toInt())
-            soil_freq.text = resources.getQuantityString(R.plurals.weeks, it.soilFreq.toInt(), it.waterFreq.toInt())
+            val waterFreqDays = it.waterFreq.millisFreqToDays()
+            val soilFreqDays = it.soilFreq.millisFreqToDays()
+            water_freq.text = resources.getQuantityString(R.plurals.days, waterFreqDays, waterFreqDays)
+            soil_freq.text = resources.getQuantityString(R.plurals.days, soilFreqDays, soilFreqDays)
         }
     }
 

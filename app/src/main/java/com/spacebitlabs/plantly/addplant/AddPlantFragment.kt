@@ -13,6 +13,8 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.spacebitlabs.plantly.R
 import com.spacebitlabs.plantly.data.entities.Plant
+import com.spacebitlabs.plantly.hideKeyboard
+import com.spacebitlabs.plantly.wordsFreqInMillis
 import kotlinx.android.synthetic.main.fragment_addplant.*
 
 /**
@@ -34,9 +36,33 @@ class AddPlantFragment : Fragment() {
         renderEmpty()
 
         save.setOnClickListener {
-            // TODO Validate input
-            val waterFreq = Plant.wordsFreqInMillis(water_freq.text.toString(), water_freq_type.selectedItem.toString())
-            val soilFreq = Plant.wordsFreqInMillis(soil_freq.text.toString(), soil_freq_type.selectedItem.toString())
+            activity?.hideKeyboard()
+            var isValid = true
+
+            if (type.text.isNullOrEmpty()) {
+                type.error = "Type cannot be empty"
+                isValid = false
+            }
+
+            if (name.text.isNullOrEmpty()) {
+                name.error = "Name cannot be empty"
+                isValid = false
+            }
+
+            if (water_freq.text.isNullOrEmpty()) {
+                water_freq.error = "Water frequency is required"
+                isValid = false
+            }
+
+            if (soil_freq.text.isNullOrEmpty()) {
+                soil_freq.error = "Soil frequency is required"
+                isValid = false
+            }
+
+            if (!isValid) return@setOnClickListener
+
+            val waterFreq = water_freq.text.toString().wordsFreqInMillis(water_freq_type.selectedItem.toString())
+            val soilFreq = soil_freq.text.toString().wordsFreqInMillis(soil_freq_type.selectedItem.toString())
 
             // construct a plant from input
             val plant = Plant(type.text.toString(), name.text.toString(), waterFreq, soilFreq)
