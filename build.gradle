@@ -9,7 +9,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.3.0-alpha03'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:1.0.0-alpha03"
+        classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:1.0.0-alpha04"
     }
 }
 
@@ -17,6 +17,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url "http://dl.bintray.com/kotlin/kotlin-eap" }
         maven { url "https://jitpack.io" }
     }
 }
