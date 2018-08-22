@@ -25,7 +25,6 @@ class PlantDetailViewModel : ViewModel() {
         disposable.add(userPlantsStore.getPlant(plantId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-//            .doOnSubscribe { plantDetailViewState.value = PlantDetailViewState.Loading() }
             .subscribe {
                 plantDetailViewState.value = PlantDetailViewState.PlantDetailLoaded(it)
             })

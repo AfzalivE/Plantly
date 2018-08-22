@@ -5,4 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="scrim">#B9323232</color>
     <color name="dark_green">#00957B</color>
+    <color name="light_green">#00AA8D</color>
+
+    <color name="plant_detail_green_bg">@color/light_green</color>
 </resources>

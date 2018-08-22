@@ -16,6 +16,11 @@
     <string name="name">Name</string>
     <string name="type">Type</string>
 
+    <string name="header_img_content_desc">Image of the plant</string>
+    <string name="water_times">Watered 28 times</string>
+    <string name="fertilize_times">Fertilized 8 times</string>
+    <string name="photo_count">28 Photos</string>
+
     <plurals name="weeks">
         <item quantity="one">%d week</item>
         <item quantity="other">%d weeks</item>
@@ -24,5 +29,10 @@
     <plurals name="days">
         <item quantity="one">%d day</item>
         <item quantity="other">%d days</item>
+    </plurals>
+
+    <plurals name="times">
+        <item quantity="one">%d time</item>
+        <item quantity="other">%d times</item>
     </plurals>
 </resources>
