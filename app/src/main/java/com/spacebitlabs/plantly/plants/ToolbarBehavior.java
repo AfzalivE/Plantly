@@ -48,7 +48,8 @@ public class ToolbarBehavior extends CoordinatorLayout.Behavior<LinearLayout> {
         float scrollValuePercentage = 1 - (maxScrollValue + dependency.getY()) / maxScrollValue;
         scrollValuePercentage = Math.min(1.5f * scrollValuePercentage, 1); // speed up the animations relative to the movement
 
-//        Timber.d("maxScrollValue: " + scrollValuePercentage);
+//        Timber.d("maxScrollValue: %s", scrollValuePercentage);
+//        Timber.d("InitialY: %s", initialY);
 
         child.setY(initialY + dependency.getY());
 
@@ -76,9 +77,11 @@ public class ToolbarBehavior extends CoordinatorLayout.Behavior<LinearLayout> {
             maxScrollValue = dependency.getHeight() - dependency.getMinimumHeight();
         }
 
-        if (initialY == 0) {
-            initialY = child.getY();
-        }
+        // initialY is always 0 so that the reset position is
+        // always at the correct Y
+//        if (initialY == 0) {
+//            initialY = child.getY();
+//        }
 
         if (initialImageWidth == 0) {
             initialImageWidth = getTodayItemImage(child).getWidth();
