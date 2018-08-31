@@ -36,9 +36,9 @@ class AddPlantViewModel : ViewModel() {
             userPlantsStore.addPlant(plant)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
+                .subscribe {
                     addPlantViewState.value = AddPlantViewState.Saved()
-                }))
+                })
     }
 
     override fun onCleared() {

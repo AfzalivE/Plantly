@@ -1,5 +1,6 @@
 package com.spacebitlabs.plantly.data.entities
 
+import android.arch.persistence.room.Embedded
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 
@@ -13,6 +14,8 @@ data class Plant(
     val name: String,
     val waterFreq: Long,
     val soilFreq: Long,
+    @Embedded
+    val coverPhoto: SimplePhoto = SimplePhoto(""),
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
 )
