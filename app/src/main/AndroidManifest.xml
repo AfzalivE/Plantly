@@ -4,6 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.spacebitlabs.plantly">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+
     <application
         android:name=".PlantlyApp"
         android:allowBackup="true"
@@ -30,6 +37,17 @@
         </activity>
 
         <service android:name=".reminder.ReminderService" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.spacebitlabs.plantly.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
+
     </application>
 
 </manifest>
