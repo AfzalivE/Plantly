@@ -37,7 +37,7 @@ class HiddenActivity : Activity() {
             photoUri = intent.getParcelableExtra(EXTRA_URI)
         }
 
-        takePicture()
+        startCameraActivity()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -49,7 +49,7 @@ class HiddenActivity : Activity() {
         finish()
     }
 
-    fun takePicture() {
+    private fun startCameraActivity() {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(packageManager ?: return) != null) {
