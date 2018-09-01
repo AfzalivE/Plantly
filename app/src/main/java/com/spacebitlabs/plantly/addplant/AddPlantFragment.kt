@@ -1,32 +1,22 @@
 package com.spacebitlabs.plantly.addplant
 
-import android.app.Activity.RESULT_OK
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
 import android.support.v4.app.Fragment
-import android.support.v4.content.FileProvider
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import com.afzaln.photopicker.PhotoPicker
 import com.spacebitlabs.plantly.R
 import com.spacebitlabs.plantly.data.entities.Plant
 import com.spacebitlabs.plantly.hideKeyboard
 import com.spacebitlabs.plantly.wordsFreqInMillis
 import kotlinx.android.synthetic.main.fragment_addplant.*
-import java.io.File
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
-
-
 
 
 /**
@@ -82,73 +72,15 @@ class AddPlantFragment : Fragment() {
         }
 
         cover_photo.setOnClickListener {
-            dispatchTakePictureIntent()
+            context ?: return@setOnClickListener
+            PhotoPicker
+                .with(context!!)
+                .intoImageView(cover_photo)
+                .takePicture()
         }
-    }
-
-    @Throws(IOException::class)
-    private fun createImageFile(): File {
-        // Create an image file name
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val imageFileName = "JPEG_" + timeStamp + "_"
-        val storageDir = activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile(
-            imageFileName,
-            ".jpg",
-            storageDir
-        )
     }
 
     private var currentPhotoPath: String? = null
-
-    private fun dispatchTakePictureIntent() {
-        activity ?: return
-
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(activity?.packageManager ?: return) != null) {
-            // Create the File where the photo should go
-            val photoFile = createImageFile()
-            currentPhotoPath = photoFile.absolutePath
-            val photoUri = FileProvider.getUriForFile(context!!, "com.spacebitlabs.plantly.fileprovider", photoFile)
-            // Continue only if the File was successfully created
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-        }
-    }
-
-    private fun setPic() {
-        currentPhotoPath ?: return
-
-        // Get the dimensions of the View
-        val targetW = cover_photo.width
-        val targetH = cover_photo.height
-
-        // Get the dimensions of the bitmap
-        val bmOptions = BitmapFactory.Options()
-        bmOptions.inJustDecodeBounds = true
-        BitmapFactory.decodeFile(currentPhotoPath, bmOptions)
-        val photoW = bmOptions.outWidth
-        val photoH = bmOptions.outHeight
-
-        // Determine how much to scale down the image
-        val scaleFactor = Math.min(photoW / targetW, photoH / targetH)
-
-        // Decode the image file into a Bitmap sized to fill the View
-        bmOptions.inJustDecodeBounds = false
-        bmOptions.inSampleSize = scaleFactor
-        bmOptions.inPurgeable = true
-
-        val bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions)
-        cover_photo.setImageBitmap(bitmap)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            val extras = data!!.extras
-            setPic()
-        }
-    }
 
     private fun render(state: AddPlantViewState) {
         return when (state) {
@@ -188,7 +120,5 @@ class AddPlantFragment : Fragment() {
         fun show(context: Context) {
             context.startActivity(Intent(context, AddPlantFragment::class.java))
         }
-
-        private const val REQUEST_IMAGE_CAPTURE = 1
     }
 }
