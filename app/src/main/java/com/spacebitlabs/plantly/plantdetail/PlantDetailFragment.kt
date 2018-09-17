@@ -53,7 +53,7 @@ class PlantDetailFragment : Fragment() {
                     .into(cover_photo)
             }
 
-            toolbar.title = it.name
+            title.text = it.name
 //            name.text = it.name
 //            type.text = it.type
 //            val waterFreqDays = it.waterFreq.millisFreqToDays()
