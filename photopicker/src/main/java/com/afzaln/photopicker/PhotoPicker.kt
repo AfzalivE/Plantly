@@ -9,13 +9,16 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-class PhotoPicker(val context: Context, private val imageView: ImageView?, val file: File) {
+class PhotoPicker(val context: Context, private val imageView: ImageView?, val file: File, private inline val onSave: (String) -> Unit) {
 
     fun takePicture() {
         val photoUri = FileProvider.getUriForFile(context, "com.spacebitlabs.photopicker.fileprovider", file)
         HiddenActivity.resultCallback = {
             when (it) {
-                Activity.RESULT_OK -> PhotoHandler.setPic(imageView, file.absolutePath)
+                Activity.RESULT_OK -> {
+                    PhotoHandler.setPic(imageView, file.absolutePath)
+                    onSave.invoke(file.absolutePath)
+                }
             }
             HiddenActivity.resultCallback = null
         }
@@ -34,6 +37,7 @@ class PhotoPicker(val context: Context, private val imageView: ImageView?, val f
     class Builder(val context: Context) {
         private var imageView: ImageView? = null
         private var file: File
+        private var onSave: (String) -> Unit = {}
 
         init {
             // Create an image file name
@@ -82,7 +86,12 @@ class PhotoPicker(val context: Context, private val imageView: ImageView?, val f
 
 
         private fun build(): PhotoPicker {
-            return PhotoPicker(context, imageView, file)
+            return PhotoPicker(context, imageView, file, onSave)
+        }
+
+        fun onSave(onSave: (String) -> Unit): Builder {
+            this.onSave = onSave
+            return this
         }
     }
 
