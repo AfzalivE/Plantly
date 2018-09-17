@@ -68,19 +68,22 @@ class AddPlantFragment : Fragment() {
 
             // construct a plant from input
             val plant = Plant(type.text.toString(), name.text.toString(), waterFreq, soilFreq)
-            model.addPlant(plant)
+            model.savePlant(plant)
         }
 
         cover_photo.setOnClickListener {
             context ?: return@setOnClickListener
+            activity?.hideKeyboard()
             PhotoPicker
                 .with(context!!)
                 .intoImageView(cover_photo)
+                .onSave { filePath: String ->
+                    // TODO clean this somehow?
+                    model.addPlantCoverImage(filePath)
+                }
                 .takePicture()
         }
     }
-
-    private var currentPhotoPath: String? = null
 
     private fun render(state: AddPlantViewState) {
         return when (state) {

@@ -15,7 +15,7 @@ data class Plant(
     val waterFreq: Long,
     val soilFreq: Long,
     @Embedded
-    val coverPhoto: SimplePhoto = SimplePhoto(""),
+    var coverPhoto: SimplePhoto = SimplePhoto(""),
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
 )

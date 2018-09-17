@@ -11,6 +11,8 @@ import androidx.navigation.Navigation
 import com.spacebitlabs.plantly.R
 import com.spacebitlabs.plantly.data.entities.Plant
 import com.spacebitlabs.plantly.toBundle
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_plant_detail.*
 import timber.log.Timber
 
 class PlantDetailFragment : Fragment() {
@@ -42,6 +44,16 @@ class PlantDetailFragment : Fragment() {
     private fun renderPlantDetail(plant: Plant) {
         Timber.d("Rendering plant detail")
         plant.let {
+            if (plant.coverPhoto.filePath != "") {
+                Picasso.get().isLoggingEnabled = true
+                Picasso.get()
+                    .load("file://${plant.coverPhoto.filePath}")
+                    .fit()
+                    .centerCrop()
+                    .into(cover_photo)
+            }
+
+            toolbar.title = it.name
 //            name.text = it.name
 //            type.text = it.type
 //            val waterFreqDays = it.waterFreq.millisFreqToDays()
