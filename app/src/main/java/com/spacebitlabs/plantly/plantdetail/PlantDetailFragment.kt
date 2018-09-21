@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -71,9 +72,10 @@ class PlantDetailFragment : Fragment() {
         }
 
         birthday_txt.text = LocalDate.from(birthday).format(DateTimeFormatter.ofPattern("EEE, d MMM yyyy"))
-
         water_count.text = resources.getQuantityString(R.plurals.watered, waterCount, waterCount)
         fertilize_count.text = resources.getQuantityString(R.plurals.fertilized, soilCount, soilCount)
+        // TODO change from "today/yesterday/1 hour ago" to "1 day or 1 hour"
+        age.text = DateUtils.getRelativeTimeSpanString(birthday.toInstant().toEpochMilli())
     }
 
     companion object {
