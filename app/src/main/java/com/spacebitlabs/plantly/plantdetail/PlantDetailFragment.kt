@@ -42,11 +42,11 @@ class PlantDetailFragment : Fragment() {
 
     private fun render(state: PlantDetailViewState?) {
         when (state) {
-            is PlantDetailViewState.PlantDetailLoaded -> renderPlantDetail(state.plant, state.birthday)
+            is PlantDetailViewState.PlantDetailLoaded -> renderPlantDetail(state.plant, state.birthday, state.waterCount, state.soilCount)
         }
     }
 
-    private fun renderPlantDetail(plantWithPhotos: PlantWithPhotos, birthday: OffsetDateTime) {
+    private fun renderPlantDetail(plantWithPhotos: PlantWithPhotos, birthday: OffsetDateTime, waterCount: Int, soilCount: Int) {
         Timber.d("Rendering plantWithPhotos detail")
         plantWithPhotos.plant.let {
             if (it.coverPhoto.filePath != "") {
@@ -71,6 +71,9 @@ class PlantDetailFragment : Fragment() {
         }
 
         birthday_txt.text = LocalDate.from(birthday).format(DateTimeFormatter.ofPattern("EEE, d MMM yyyy"))
+
+        water_count.text = resources.getQuantityString(R.plurals.watered, waterCount, waterCount)
+        fertilize_count.text = resources.getQuantityString(R.plurals.fertilized, soilCount, soilCount)
     }
 
     companion object {

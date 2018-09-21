@@ -76,6 +76,10 @@ class UserPlantsStore(private val database: PlantDatabase) {
     }
 
     fun getEntries(plant: Plant): List<Entry> {
-        return database.entryDao().getEvents(plantId = plant.id)
+        return database.entryDao().getEvents(plant.id)
+    }
+
+    fun getEntriesByType(plant: Plant, type: EntryType): List<Entry> {
+        return database.entryDao().getEventsByType(plant.id, type)
     }
 }

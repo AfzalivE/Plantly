@@ -29,7 +29,14 @@ class PlantDetailViewModel : ViewModel() {
                 val birthday = entries.filter {
                     it.type == EntryType.BIRTH
                 }
-                PlantDetailViewState.PlantDetailLoaded(plantWithPhotos, birthday[0].time)
+                val waterCount = entries.filter {
+                    it.type == EntryType.WATER
+                }.size
+                val soilCount = entries.filter {
+                    it.type == EntryType.SOIL
+                }.size
+
+                PlantDetailViewState.PlantDetailLoaded(plantWithPhotos, birthday[0].time, waterCount, soilCount)
             }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

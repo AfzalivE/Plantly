@@ -11,7 +11,7 @@ interface EntryDao {
     fun getEvents(plantId: Long): List<Entry>
 
     @Query("SELECT * FROM entry WHERE plantId LIKE :plantId AND type LIKE :type ORDER BY datetime(time)")
-    fun getEvents(plantId: Long, type: EntryType): List<Entry>
+    fun getEventsByType(plantId: Long, type: EntryType): List<Entry>
 
     @Insert(onConflict = REPLACE)
     fun insert(entry: Entry)
@@ -25,4 +25,6 @@ interface EntryDao {
     // Not sure where this would be useful
     @Query("DELETE FROM entry where plantId LIKE :plantId")
     fun deleteAll(plantId: Long)
+
+    // TODO maybe in the future, we can have queries for counts too
 }
