@@ -44,6 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp">
 
@@ -216,7 +217,7 @@
                 app:layout_constraintTop_toBottomOf="@id/age" />
 
             <TextView
-                android:id="@+id/birthday"
+                android:id="@+id/birthday_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Tuesday, September 5th 2017"

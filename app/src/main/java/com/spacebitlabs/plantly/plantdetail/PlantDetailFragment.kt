@@ -15,6 +15,9 @@ import com.spacebitlabs.plantly.millisFreqToDays
 import com.spacebitlabs.plantly.toBundle
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_plant_detail.*
+import org.threeten.bp.LocalDate
+import org.threeten.bp.OffsetDateTime
+import org.threeten.bp.format.DateTimeFormatter
 import timber.log.Timber
 
 class PlantDetailFragment : Fragment() {
@@ -39,11 +42,11 @@ class PlantDetailFragment : Fragment() {
 
     private fun render(state: PlantDetailViewState?) {
         when (state) {
-            is PlantDetailViewState.PlantDetailLoaded -> renderPlantDetail(state.plant)
+            is PlantDetailViewState.PlantDetailLoaded -> renderPlantDetail(state.plant, state.birthday)
         }
     }
 
-    private fun renderPlantDetail(plantWithPhotos: PlantWithPhotos) {
+    private fun renderPlantDetail(plantWithPhotos: PlantWithPhotos, birthday: OffsetDateTime) {
         Timber.d("Rendering plantWithPhotos detail")
         plantWithPhotos.plant.let {
             if (it.coverPhoto.filePath != "") {
@@ -66,6 +69,8 @@ class PlantDetailFragment : Fragment() {
         plantWithPhotos.photos.let {
             photos_count.text = resources.getQuantityString(R.plurals.photos, it.size, it.size)
         }
+
+        birthday_txt.text = LocalDate.from(birthday).format(DateTimeFormatter.ofPattern("EEE, d MMM yyyy"))
     }
 
     companion object {
