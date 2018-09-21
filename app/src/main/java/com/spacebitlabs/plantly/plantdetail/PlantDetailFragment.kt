@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import com.spacebitlabs.plantly.R
 import com.spacebitlabs.plantly.data.entities.Plant
+import com.spacebitlabs.plantly.data.entities.PlantWithPhotos
+import com.spacebitlabs.plantly.millisFreqToDays
 import com.spacebitlabs.plantly.toBundle
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_plant_detail.*
@@ -41,25 +43,28 @@ class PlantDetailFragment : Fragment() {
         }
     }
 
-    private fun renderPlantDetail(plant: Plant) {
-        Timber.d("Rendering plant detail")
-        plant.let {
-            if (plant.coverPhoto.filePath != "") {
+    private fun renderPlantDetail(plantWithPhotos: PlantWithPhotos) {
+        Timber.d("Rendering plantWithPhotos detail")
+        plantWithPhotos.plant.let {
+            if (it.coverPhoto.filePath != "") {
                 Picasso.get().isLoggingEnabled = true
                 Picasso.get()
-                    .load("file://${plant.coverPhoto.filePath}")
+                    .load("file://${it.coverPhoto.filePath}")
                     .fit()
                     .centerCrop()
                     .into(cover_photo)
             }
 
             title.text = it.name
-//            name.text = it.name
 //            type.text = it.type
-//            val waterFreqDays = it.waterFreq.millisFreqToDays()
-//            val soilFreqDays = it.soilFreq.millisFreqToDays()
-//            water_freq.text = resources.getQuantityString(R.plurals.days, waterFreqDays, waterFreqDays)
-//            soil_freq.text = resources.getQuantityString(R.plurals.days, soilFreqDays, soilFreqDays)
+            val waterFreqDays = it.waterFreq.millisFreqToDays()
+            val soilFreqDays = it.soilFreq.millisFreqToDays()
+            water_freq.text = resources.getQuantityString(R.plurals.days, waterFreqDays, waterFreqDays)
+            soil_freq.text = resources.getQuantityString(R.plurals.days, soilFreqDays, soilFreqDays)
+        }
+
+        plantWithPhotos.photos.let {
+            photos_count.text = resources.getQuantityString(R.plurals.photos, it.size, it.size)
         }
     }
 

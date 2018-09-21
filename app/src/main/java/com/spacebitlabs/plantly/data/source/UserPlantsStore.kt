@@ -4,6 +4,7 @@ import com.spacebitlabs.plantly.data.EntryType
 import com.spacebitlabs.plantly.data.PlantDatabase
 import com.spacebitlabs.plantly.data.entities.Entry
 import com.spacebitlabs.plantly.data.entities.Plant
+import com.spacebitlabs.plantly.data.entities.PlantWithPhotos
 import io.reactivex.Completable
 import io.reactivex.Flowable
 
@@ -64,6 +65,10 @@ class UserPlantsStore(private val database: PlantDatabase) {
 
     fun getPlant(id: Long): Flowable<Plant> {
         return database.plantDao().getById(id)
+    }
+
+    fun getPlantWithPhotos(id: Long): Flowable<PlantWithPhotos> {
+        return database.plantWithPhotosDao().getById(id)
     }
 
     fun addEntry(event: Entry) {

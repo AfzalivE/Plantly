@@ -22,7 +22,7 @@ class PlantDetailViewModel : ViewModel() {
 
     // TODO take this out to a use case class
     fun getPlantDetail(plantId: Long) {
-        disposable.add(userPlantsStore.getPlant(plantId)
+        disposable.add(userPlantsStore.getPlantWithPhotos(plantId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
