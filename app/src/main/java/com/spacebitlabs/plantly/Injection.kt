@@ -15,21 +15,26 @@ class Injection private constructor(private val appContext: Context) {
         return appContext
     }
 
-    fun provideDatabase(): PlantDatabase {
+    private fun provideDatabase(): PlantDatabase {
         return Room.databaseBuilder(provideContext(), PlantDatabase::class.java, DATABASE_FILE_NAME)
             .fallbackToDestructiveMigration()
             .build()
     }
 
     fun providePlantStore(): UserPlantsStore {
-        return UserPlantsStore(provideDatabase())
+        val userPlantsStore = UserPlantsStore(provideDatabase())
+
+        userPlantsStore.loadMockData()
+
+        return userPlantsStore
     }
 
     companion object {
         private const val DATABASE_FILE_NAME: String = "plant_db"
 
         @SuppressLint("StaticFieldLeak", "Keeping app context is safe here")
-        @Volatile private lateinit var INSTANCE: Injection
+        @Volatile
+        private lateinit var INSTANCE: Injection
 
         fun init(appContext: Context) {
             INSTANCE = Injection(appContext)

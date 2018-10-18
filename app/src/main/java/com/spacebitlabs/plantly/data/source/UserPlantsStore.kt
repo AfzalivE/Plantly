@@ -7,6 +7,7 @@ import com.spacebitlabs.plantly.data.entities.Plant
 import com.spacebitlabs.plantly.data.entities.PlantWithPhotos
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import kotlin.concurrent.thread
 
 /**
  * Store for the user's plants
@@ -15,27 +16,16 @@ class UserPlantsStore(private val database: PlantDatabase) {
     val plants: ArrayList<Plant> = ArrayList()
 
     init {
-//        loadMockData()
+
     }
 
-    private fun loadMockData() {
-        database.plantDao().deleteAll()
-
-        val mockPlants = listOf(
-            Plant("Sansa", "Sansa", 3, 10),
-            Plant("Drogo", "Drogo", 3, 10),
-            Plant("Cro", "Cro", 3, 10),
-            Plant("Krypton", "Krypton", 3, 10),
-            Plant("Xenon", "Xenon", 3, 10),
-            Plant("Argon", "Argon", 3, 10),
-            Plant("Sansa", "Sansa", 3, 10),
-            Plant("Drogo", "Drogo", 3, 10),
-            Plant("Cro", "Cro", 3, 10),
-            Plant("Krypton", "Krypton", 3, 10),
-            Plant("Xenon", "Xenon", 3, 10),
-            Plant("Argon", "Argon", 3, 10)
-        )
-        database.plantDao().insertAll(mockPlants)
+    internal fun loadMockData() {
+        thread {
+            if (database.plantDao().count() == 0) {
+                database.plantDao().deleteAll()
+                database.plantDao().insertAll(mockPlants)
+            }
+        }
     }
 
     fun getAllPlants(): Flowable<List<Plant>> {
@@ -47,7 +37,6 @@ class UserPlantsStore(private val database: PlantDatabase) {
      */
     fun addPlant(plant: Plant): Completable {
         return Completable.fromAction {
-            loadMockData()
             val plantId = database.plantDao().insert(plant)
             database.entryDao().insert(Entry(type = EntryType.BIRTH, plantId = plantId))
         }
@@ -72,7 +61,9 @@ class UserPlantsStore(private val database: PlantDatabase) {
     }
 
     fun addEntry(event: Entry) {
-        database.entryDao().insert(event)
+        thread {
+            database.entryDao().insert(event)
+        }
     }
 
     fun getEntries(plant: Plant): List<Entry> {
@@ -81,5 +72,22 @@ class UserPlantsStore(private val database: PlantDatabase) {
 
     fun getEntriesByType(plant: Plant, type: EntryType): List<Entry> {
         return database.entryDao().getEventsByType(plant.id, type)
+    }
+
+    companion object {
+        private val mockPlants = listOf(
+//            Plant("Sansa", "Sansa", 3, 10),
+//            Plant("Drogo", "Drogo", 3, 10),
+//            Plant("Cro", "Cro", 3, 10),
+//            Plant("Krypton", "Krypton", 3, 10),
+//            Plant("Xenon", "Xenon", 3, 10),
+//            Plant("Argon", "Argon", 3, 10),
+//            Plant("Sansa", "Sansa", 3, 10),
+            Plant("Drogo", "Drogo", 3, 10),
+            Plant("Cro", "Cro", 3, 10),
+            Plant("Krypton", "Krypton", 3, 10),
+            Plant("Xenon", "Xenon", 3, 10),
+            Plant("Argon", "Argon", 3, 10)
+        )
     }
 }

@@ -26,6 +26,11 @@ class PlantDetailFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_plant_detail, container, false)
 
+    private val viewModel: PlantDetailViewModel
+        get() {
+            return ViewModelProviders.of(this).get(PlantDetailViewModel::class.java)
+        }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -33,12 +38,11 @@ class PlantDetailFragment : Fragment() {
             PlantDetailFragmentArgs.fromBundle(it).plantId
         } ?: 0
 
-        val model = ViewModelProviders.of(this).get(PlantDetailViewModel::class.java)
-        model.plantDetailViewState.observe(this, Observer { state ->
+        viewModel.plantDetailViewState.observe(this, Observer { state ->
             render(state)
         })
 
-        model.getPlantDetail(plantId)
+        viewModel.getPlantDetail(plantId)
     }
 
     private fun render(state: PlantDetailViewState?) {
@@ -76,6 +80,14 @@ class PlantDetailFragment : Fragment() {
         fertilize_count.text = resources.getQuantityString(R.plurals.fertilized, soilCount, soilCount)
         // TODO change from "today/yesterday/1 hour ago" to "1 day or 1 hour"
         age.text = DateUtils.getRelativeTimeSpanString(birthday.toInstant().toEpochMilli())
+
+        setupClicks()
+    }
+
+    private fun setupClicks() {
+        water_img.setOnClickListener {
+            viewModel.waterPlant()
+        }
     }
 
     companion object {

@@ -37,6 +37,8 @@ ext {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.30.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.30.2'
 
     // support libs
     implementation "com.android.support:appcompat-v7:28.0.0"
@@ -70,6 +72,7 @@ dependencies {
 
     // debug libs
     implementation "com.jakewharton:timber:4.5.1"
+    debugImplementation "com.amitshekhar.android:debug-db:1.0.4"
 
     // test libs
     testImplementation "junit:junit:4.12"

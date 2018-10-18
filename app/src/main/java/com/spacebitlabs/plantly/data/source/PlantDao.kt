@@ -29,4 +29,7 @@ interface PlantDao {
 
     @Query("DELETE FROM plant")
     fun deleteAll()
+
+    @Query("SELECT COUNT(*) FROM plant")
+    fun count(): Int
 }
