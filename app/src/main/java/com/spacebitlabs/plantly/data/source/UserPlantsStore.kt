@@ -66,8 +66,8 @@ class UserPlantsStore(private val database: PlantDatabase) {
         }
     }
 
-    fun getEntries(plant: Plant): List<Entry> {
-        return database.entryDao().getEvents(plant.id)
+    fun getEntries(plantId: Long): Flowable<List<Entry>> {
+        return database.entryDao().getEvents(plantId)
     }
 
     fun getEntriesByType(plant: Plant, type: EntryType): List<Entry> {
