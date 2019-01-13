@@ -9,7 +9,7 @@ import io.reactivex.Flowable
 @Dao
 interface EntryDao {
     @Query("SELECT * FROM entry WHERE plantId LIKE :plantId ORDER BY datetime(time)")
-    fun getEvents(plantId: Long): Flowable<List<Entry>>
+    fun getEvents(plantId: Long): List<Entry>
 
     @Query("SELECT * FROM entry WHERE plantId LIKE :plantId AND type LIKE :type ORDER BY datetime(time)")
     fun getEventsByType(plantId: Long, type: EntryType): List<Entry>

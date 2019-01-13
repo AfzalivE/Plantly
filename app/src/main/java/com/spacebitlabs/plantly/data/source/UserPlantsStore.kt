@@ -5,8 +5,9 @@ import com.spacebitlabs.plantly.data.PlantDatabase
 import com.spacebitlabs.plantly.data.entities.Entry
 import com.spacebitlabs.plantly.data.entities.Plant
 import com.spacebitlabs.plantly.data.entities.PlantWithPhotos
-import io.reactivex.Completable
 import io.reactivex.Flowable
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.withContext
 import kotlin.concurrent.thread
 
 /**
@@ -28,17 +29,24 @@ class UserPlantsStore(private val database: PlantDatabase) {
         }
     }
 
-    fun getAllPlants(): Flowable<List<Plant>> {
-        return database.plantDao().getAll()
+//    fun getAllPlants(): Flowable<List<Plant>> {
+//        return database.plantDao().getAll()
+//    }
+
+    suspend fun getAllPlants(): List<Plant> {
+        return withContext(IO) {
+            database.plantDao().getAll()
+        }
     }
 
     /**
      * Used for creating a new plant
      */
-    fun addPlant(plant: Plant): Completable {
-        return Completable.fromAction {
+    suspend fun addPlant(plant: Plant): Long {
+        return withContext(IO) {
             val plantId = database.plantDao().insert(plant)
             database.entryDao().insert(Entry(type = EntryType.BIRTH, plantId = plantId))
+            return@withContext plantId
         }
     }
 
@@ -56,8 +64,10 @@ class UserPlantsStore(private val database: PlantDatabase) {
         return database.plantDao().getById(id)
     }
 
-    fun getPlantWithPhotos(id: Long): Flowable<PlantWithPhotos> {
-        return database.plantWithPhotosDao().getById(id)
+    suspend fun getPlantWithPhotos(id: Long): PlantWithPhotos {
+        return withContext(IO) {
+            database.plantWithPhotosDao().getById(id)
+        }
     }
 
     fun addEntry(event: Entry) {
@@ -66,8 +76,10 @@ class UserPlantsStore(private val database: PlantDatabase) {
         }
     }
 
-    fun getEntries(plantId: Long): Flowable<List<Entry>> {
-        return database.entryDao().getEvents(plantId)
+    suspend fun getEntries(plantId: Long): List<Entry> {
+        return withContext(IO) {
+            database.entryDao().getEvents(plantId)
+        }
     }
 
     fun getEntriesByType(plant: Plant, type: EntryType): List<Entry> {

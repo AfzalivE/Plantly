@@ -9,7 +9,7 @@ import io.reactivex.Flowable
 interface PlantDao {
 
     @Query("SELECT * FROM plant")
-    fun getAll(): Flowable<List<Plant>>
+    fun getAll(): List<Plant>
 
     @Query("SELECT * FROM plant WHERE id LIKE :id LIMIT 1")
     fun getById(id: Long): Flowable<Plant>

@@ -5,16 +5,32 @@ import android.arch.lifecycle.ViewModel
 import com.spacebitlabs.plantly.Injection
 import com.spacebitlabs.plantly.data.entities.Plant
 import com.spacebitlabs.plantly.data.entities.SimplePhoto
+import com.spacebitlabs.plantly.plants.PlantsViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.*
 
 /**
  * ViewModel for Add Plant screen
  */
 class AddPlantViewModel : ViewModel() {
 
-    private val disposable = CompositeDisposable()
+    /**
+     * This is the job for all coroutines started by this ViewModel.
+     *
+     * Cancelling this job will cancel all coroutines started by this ViewModel.
+     */
+    private val viewModelJob = Job()
+
+    /**
+     * This is the scope for all coroutines launched by [PlantsViewModel].
+     *
+     * Since we pass [viewModelJob], you can cancel all coroutines launched by [viewModelScope] by calling
+     * viewModelJob.cancel().  This is called in [onCleared].
+     */
+    private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
     private var plantCoverImagePath = ""
 
     private val userPlantsStore by lazy {
@@ -35,17 +51,16 @@ class AddPlantViewModel : ViewModel() {
 
     fun savePlant(plant: Plant) {
         plant.coverPhoto = SimplePhoto(plantCoverImagePath)
-        disposable.add(
+
+        viewModelScope.launch {
             userPlantsStore.addPlant(plant)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    addPlantViewState.value = AddPlantViewState.Saved()
-                })
+            addPlantViewState.value = AddPlantViewState.Saved()
+        }
     }
 
     override fun onCleared() {
-        disposable.clear()
+        super.onCleared()
+        viewModelScope.cancel()
     }
 
     fun addPlantCoverImage(filePath: String) {

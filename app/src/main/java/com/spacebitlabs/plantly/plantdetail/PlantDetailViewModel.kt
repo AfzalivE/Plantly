@@ -5,10 +5,8 @@ import android.arch.lifecycle.ViewModel
 import com.spacebitlabs.plantly.Injection
 import com.spacebitlabs.plantly.actions.WaterPlantUseCase
 import com.spacebitlabs.plantly.data.EntryType
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.Flowables
-import io.reactivex.schedulers.Schedulers
+import com.spacebitlabs.plantly.plants.PlantsViewModel
+import kotlinx.coroutines.*
 import org.threeten.bp.OffsetDateTime
 import timber.log.Timber
 
@@ -17,7 +15,21 @@ import timber.log.Timber
  */
 class PlantDetailViewModel : ViewModel() {
 
-    private val disposable = CompositeDisposable()
+    /**
+     * This is the job for all coroutines started by this ViewModel.
+     *
+     * Cancelling this job will cancel all coroutines started by this ViewModel.
+     */
+    private val viewModelJob = Job()
+
+    /**
+     * This is the scope for all coroutines launched by [PlantsViewModel].
+     *
+     * Since we pass [viewModelJob], you can cancel all coroutines launched by [viewModelScope] by calling
+     * viewModelJob.cancel().  This is called in [onCleared].
+     */
+    private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
     private var plantId = 0L
 
     private val userPlantsStore by lazy {
@@ -36,13 +48,10 @@ class PlantDetailViewModel : ViewModel() {
     fun getPlantDetail(plantId: Long) {
         this.plantId = plantId
 
-        disposable.add(Flowables.combineLatest(
-            userPlantsStore.getPlantWithPhotos(plantId),
-            userPlantsStore.getEntries(plantId)
-        ) { plant, entries ->
-            Pair(plant, entries)
-        }.map { pair ->
-            val (plantWithPhotos, entries) = pair
+        viewModelScope.launch {
+            val plant = userPlantsStore.getPlantWithPhotos(plantId)
+            val entries = userPlantsStore.getEntries(plantId)
+
             val birthday = entries.filter {
                 it.type == EntryType.BIRTH
             }
@@ -53,27 +62,19 @@ class PlantDetailViewModel : ViewModel() {
                 it.type == EntryType.SOIL
             }.size
 
-            PlantDetailViewState.PlantDetailLoaded(
-                plantWithPhotos,
+            plantDetailViewState.value = PlantDetailViewState.PlantDetailLoaded(
+                plant,
                 if (birthday.isEmpty()) OffsetDateTime.now() else birthday[0].time,
                 waterCount,
                 soilCount
             )
-        }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                plantDetailViewState.value = it
-            })
 
-        userPlantsStore.getEntries(plantId)
-            .subscribe {
-                Timber.d("Updating entries: $it")
-            }
+            Timber.d("Fetched entries: $entries")
+        }
     }
 
     override fun onCleared() {
         super.onCleared()
-        disposable.clear()
+        viewModelScope.cancel()
     }
 }

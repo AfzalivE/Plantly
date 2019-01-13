@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.motion.MotionLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.motion.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,11 +12,12 @@
         android:id="@+id/cover_photo"
         android:layout_width="match_parent"
         android:layout_height="180dp"
+        android:background="@color/light_green"
+        android:contentDescription="@string/header_img_content_desc"
         android:scaleType="centerCrop"
         android:src="@color/light_green"
-        android:contentDescription="@string/header_img_content_desc"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/cover_photo" />
 
     <TextView
         android:id="@+id/title"
@@ -50,12 +50,13 @@
 
             <ImageView
                 android:id="@+id/water_img"
+                android:layout_width="84dp"
+                android:layout_height="84dp"
                 android:background="@drawable/filled_circle"
-                android:src="@drawable/ic_water_can"
                 android:padding="18dp"
-                android:layout_width="98dp"
-                android:layout_height="98dp"
-                android:layout_marginStart="30dp"
+                android:layout_marginEnd="18dp"
+                android:src="@drawable/ic_water_can"
+                app:layout_constraintEnd_toStartOf="@+id/fertilize_img"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -64,21 +65,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                tools:text="Watered 28 times"
                 android:textColor="@color/c_black"
                 app:layout_constraintEnd_toEndOf="@id/water_img"
                 app:layout_constraintStart_toStartOf="@id/water_img"
-                app:layout_constraintTop_toBottomOf="@id/water_img" />
+                app:layout_constraintTop_toBottomOf="@id/water_img"
+                tools:text="Watered 28 times" />
 
             <ImageView
                 android:id="@+id/fertilize_img"
+                android:layout_width="84dp"
+                android:layout_height="84dp"
                 android:background="@drawable/filled_circle"
-                android:src="@drawable/ic_water_can"
                 android:padding="18dp"
-                android:layout_width="98dp"
-                android:layout_height="98dp"
-                android:layout_marginEnd="30dp"
+                android:layout_marginStart="18dp"
+                android:src="@drawable/ic_water_can"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/water_img"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -86,30 +88,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                tools:text="Fertilized 8 times"
                 android:textColor="@color/c_black"
                 app:layout_constraintEnd_toEndOf="@id/fertilize_img"
                 app:layout_constraintStart_toStartOf="@id/fertilize_img"
-                app:layout_constraintTop_toBottomOf="@id/fertilize_img" />
+                app:layout_constraintTop_toBottomOf="@id/fertilize_img"
+                tools:text="Fertilized 8 times" />
 
             <TextView
                 android:id="@+id/photos_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:textSize="16sp"
-                tools:text="28 Photos"
                 android:textColor="@color/c_black"
+                android:textSize="16sp"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/water_count" />
+                app:layout_constraintTop_toBottomOf="@id/water_count"
+                tools:text="28 Photos" />
 
             <View
                 android:id="@+id/photos_placeholder"
                 android:layout_width="match_parent"
-                android:layout_marginEnd="20dp"
                 android:layout_height="96dp"
                 android:layout_marginTop="4dp"
+                android:layout_marginEnd="20dp"
                 android:background="@color/light_green"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/photos_count" />
 
@@ -117,6 +121,7 @@
                 android:id="@+id/photos_button"
                 android:layout_width="24dp"
                 android:layout_height="96dp"
+                android:visibility="gone"
                 app:layout_constraintStart_toEndOf="@id/photos_placeholder"
                 app:layout_constraintTop_toTopOf="@id/photos_placeholder" />
 
@@ -124,11 +129,11 @@
                 android:id="@+id/next_watering_lbl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/next_watering"
-                android:textSize="16sp"
                 android:layout_marginTop="24dp"
                 android:fontFamily="sans-serif-light"
+                android:text="@string/next_watering"
                 android:textColor="@color/c_black"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/photos_placeholder" />
 
@@ -136,20 +141,20 @@
                 android:id="@+id/next_watering_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Friday, December 15th"
                 android:textColor="@color/c_black"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/next_watering_lbl" />
+                app:layout_constraintTop_toBottomOf="@id/next_watering_lbl"
+                tools:text="Friday, December 15th" />
 
             <TextView
                 android:id="@+id/water_freq_lbl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/water_freq"
-                android:textSize="16sp"
                 android:layout_marginTop="24dp"
                 android:fontFamily="sans-serif-light"
+                android:text="@string/water_freq"
                 android:textColor="@color/c_black"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/next_watering_date" />
 
@@ -157,20 +162,20 @@
                 android:id="@+id/water_freq"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Every 3 days"
                 android:textColor="@color/c_black"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/water_freq_lbl" />
+                app:layout_constraintTop_toBottomOf="@id/water_freq_lbl"
+                tools:text="Every 3 days" />
 
             <TextView
                 android:id="@+id/soil_freq_lbl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/soil_freq"
-                android:textSize="16sp"
                 android:layout_marginTop="24dp"
                 android:fontFamily="sans-serif-light"
+                android:text="@string/soil_freq"
                 android:textColor="@color/c_black"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/water_freq" />
 
@@ -178,20 +183,20 @@
                 android:id="@+id/soil_freq"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Every month"
                 android:textColor="@color/c_black"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/soil_freq_lbl" />
+                app:layout_constraintTop_toBottomOf="@id/soil_freq_lbl"
+                tools:text="Every month" />
 
             <TextView
                 android:id="@+id/age_lbl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/age"
-                android:textSize="16sp"
                 android:layout_marginTop="24dp"
                 android:fontFamily="sans-serif-light"
+                android:text="@string/age"
                 android:textColor="@color/c_black"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/soil_freq" />
 
@@ -199,20 +204,20 @@
                 android:id="@+id/age"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="3 months and 4 days"
                 android:textColor="@color/c_black"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/age_lbl" />
+                app:layout_constraintTop_toBottomOf="@id/age_lbl"
+                tools:text="3 months and 4 days" />
 
             <TextView
                 android:id="@+id/birthday_lbl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/birthday"
-                android:textSize="16sp"
                 android:layout_marginTop="24dp"
                 android:fontFamily="sans-serif-light"
+                android:text="@string/birthday"
                 android:textColor="@color/c_black"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/age" />
 
@@ -220,10 +225,10 @@
                 android:id="@+id/birthday_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Tuesday, September 5th 2017"
                 android:textColor="@color/c_black"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/birthday_lbl" />
+                app:layout_constraintTop_toBottomOf="@id/birthday_lbl"
+                tools:text="Tuesday, September 5th 2017" />
 
         </android.support.constraint.ConstraintLayout>
 

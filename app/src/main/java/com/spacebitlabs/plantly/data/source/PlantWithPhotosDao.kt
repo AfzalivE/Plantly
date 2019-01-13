@@ -15,6 +15,6 @@ interface PlantWithPhotosDao {
 
     @Query("SELECT * FROM plant WHERE id LIKE :id LIMIT 1")
     @Transaction
-    fun getById(id: Long): Flowable<PlantWithPhotos>
+    fun getById(id: Long): PlantWithPhotos
 
 }

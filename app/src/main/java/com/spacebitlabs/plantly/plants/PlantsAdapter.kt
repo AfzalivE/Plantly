@@ -9,6 +9,7 @@ import com.spacebitlabs.plantly.data.entities.Plant
 import com.spacebitlabs.plantly.inflate
 import com.spacebitlabs.plantly.plantdetail.PlantDetailFragment
 import com.spacebitlabs.plantly.plants.PlantsAdapter.PlantHolder
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.plants_list_item.view.*
 
 /**
@@ -45,7 +46,15 @@ class PlantsAdapter : RecyclerView.Adapter<PlantHolder>() {
         fun bind(plant: Plant) = with(itemView) {
             this@PlantHolder.plant = plant
             name.text = plant.name
-            image.setImageResource(R.drawable.sample_plant)
+            if (plant.coverPhoto.filePath.isEmpty()) {
+                image.setImageResource(R.drawable.sample_plant)
+            } else {
+                Picasso.get()
+                    .load("file://${plant.coverPhoto.filePath}")
+                    .fit()
+                    .centerCrop()
+                    .into(image)
+            }
 
             itemView.setOnClickListener(this@PlantHolder)
         }

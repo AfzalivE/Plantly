@@ -7,11 +7,8 @@ import com.spacebitlabs.plantly.data.entities.Plant
  */
 sealed class PlantListViewState {
 
-    class PlantsFound(val plants: List<Plant>) : PlantListViewState()
-
-    class Empty : PlantListViewState()
-
-    class Loading : PlantListViewState()
-
-    class Error: PlantListViewState()
+    class PlantsFound(val plants: List<Plant>, val todayPlants: List<Plant>) : PlantListViewState()
+    object Empty : PlantListViewState()
+    object Loading : PlantListViewState()
+    object Error : PlantListViewState()
 }

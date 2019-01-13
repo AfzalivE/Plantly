@@ -3,9 +3,10 @@ package com.spacebitlabs.plantly.plants
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.spacebitlabs.plantly.Injection
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 /**
@@ -13,7 +14,20 @@ import timber.log.Timber
  */
 class PlantsViewModel : ViewModel() {
 
-    private val disposable = CompositeDisposable()
+    /**
+     * This is the job for all coroutines started by this ViewModel.
+     *
+     * Cancelling this job will cancel all coroutines started by this ViewModel.
+     */
+    private val viewModelJob = Job()
+
+    /**
+     * This is the scope for all coroutines launched by [PlantsViewModel].
+     *
+     * Since we pass [viewModelJob], you can cancel all coroutines launched by [viewModelScope] by calling
+     * viewModelJob.cancel().  This is called in [onCleared].
+     */
+    private val viewModelScope = CoroutineScope(Main + viewModelJob)
 
     private val userPlantsStore by lazy {
         Injection.get().providePlantStore()
@@ -23,29 +37,22 @@ class PlantsViewModel : ViewModel() {
 
     fun loadUserPlants() {
         Timber.d("Loading users' plants")
-        plantListState.value = PlantListViewState.Loading()
+        plantListState.value = PlantListViewState.Loading
 
-        disposable.add(
-            userPlantsStore.getAllPlants()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { plantListState.value = PlantListViewState.Loading() }
-                .subscribe {
-                    Timber.d("Got ${it.size} plants")
-                    if (it.isEmpty()) {
-                        plantListState.value = PlantListViewState.Empty()
-                    } else {
-                        plantListState.value = PlantListViewState.PlantsFound(it)
-                    }
-                }
-        )
-    }
+        viewModelScope.launch {
+            val plants = userPlantsStore.getAllPlants()
+            Timber.d("Got ${plants.size} plants")
 
-    fun addPlantClicked() {
-
+            if (plants.isEmpty()) {
+                plantListState.value = PlantListViewState.Empty
+            } else {
+                plantListState.value = PlantListViewState.PlantsFound(plants, listOf())
+            }
+        }
     }
 
     override fun onCleared() {
-        disposable.clear()
+        super.onCleared()
+        viewModelJob.cancel()
     }
 }

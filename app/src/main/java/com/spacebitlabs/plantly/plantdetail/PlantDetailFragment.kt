@@ -55,7 +55,6 @@ class PlantDetailFragment : Fragment() {
         Timber.d("Rendering plantWithPhotos detail")
         plantWithPhotos.plant.let {
             if (it.coverPhoto.filePath != "") {
-                Picasso.get().isLoggingEnabled = true
                 Picasso.get()
                     .load("file://${it.coverPhoto.filePath}")
                     .fit()
