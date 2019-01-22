@@ -3,7 +3,6 @@ package com.spacebitlabs.plantly.data.source
 import android.arch.persistence.room.*
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import com.spacebitlabs.plantly.data.entities.Plant
-import io.reactivex.Flowable
 
 @Dao
 interface PlantDao {
@@ -12,7 +11,7 @@ interface PlantDao {
     fun getAll(): List<Plant>
 
     @Query("SELECT * FROM plant WHERE id LIKE :id LIMIT 1")
-    fun getById(id: Long): Flowable<Plant>
+    fun getById(id: Long): Plant
 
     @Insert(onConflict = REPLACE)
     fun insert(plant: Plant): Long

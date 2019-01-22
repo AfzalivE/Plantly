@@ -4,7 +4,6 @@ import android.arch.persistence.room.*
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import com.spacebitlabs.plantly.data.EntryType
 import com.spacebitlabs.plantly.data.entities.Entry
-import io.reactivex.Flowable
 
 @Dao
 interface EntryDao {
@@ -23,7 +22,7 @@ interface EntryDao {
     @Delete
     fun delete(entry: Entry)
 
-    // Not sure where this would be useful
+    // Delete all entries related to a plant
     @Query("DELETE FROM entry where plantId LIKE :plantId")
     fun deleteAll(plantId: Long)
 

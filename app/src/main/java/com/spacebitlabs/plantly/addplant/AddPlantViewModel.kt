@@ -6,9 +6,6 @@ import com.spacebitlabs.plantly.Injection
 import com.spacebitlabs.plantly.data.entities.Plant
 import com.spacebitlabs.plantly.data.entities.SimplePhoto
 import com.spacebitlabs.plantly.plants.PlantsViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.*
 
 /**

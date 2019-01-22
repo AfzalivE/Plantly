@@ -5,7 +5,7 @@ import com.spacebitlabs.plantly.data.PlantDatabase
 import com.spacebitlabs.plantly.data.entities.Entry
 import com.spacebitlabs.plantly.data.entities.Plant
 import com.spacebitlabs.plantly.data.entities.PlantWithPhotos
-import io.reactivex.Flowable
+import com.spacebitlabs.plantly.reminder.WorkReminder
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 import kotlin.concurrent.thread
@@ -13,7 +13,7 @@ import kotlin.concurrent.thread
 /**
  * Store for the user's plants
  */
-class UserPlantsStore(private val database: PlantDatabase) {
+class UserPlantsStore(private val database: PlantDatabase, private val workReminder: WorkReminder) {
     val plants: ArrayList<Plant> = ArrayList()
 
     init {
@@ -29,10 +29,6 @@ class UserPlantsStore(private val database: PlantDatabase) {
         }
     }
 
-//    fun getAllPlants(): Flowable<List<Plant>> {
-//        return database.plantDao().getAll()
-//    }
-
     suspend fun getAllPlants(): List<Plant> {
         return withContext(IO) {
             database.plantDao().getAll()
@@ -46,7 +42,25 @@ class UserPlantsStore(private val database: PlantDatabase) {
         return withContext(IO) {
             val plantId = database.plantDao().insert(plant)
             database.entryDao().insert(Entry(type = EntryType.BIRTH, plantId = plantId))
+
+            if (database.plantDao().count() == 1) {
+                workReminder.scheduleDailyReminder()
+            }
             return@withContext plantId
+        }
+    }
+
+    /**
+     * Used for creating a new plant
+     */
+    suspend fun deletePlant(plant: Plant) {
+        return withContext(IO) {
+            database.plantDao().delete(plant)
+            database.entryDao().deleteAll(plant.id)
+
+            if (database.plantDao().count() == 0) {
+                workReminder.cancelDailyReminder()
+            }
         }
     }
 
@@ -60,8 +74,10 @@ class UserPlantsStore(private val database: PlantDatabase) {
         database.plantDao().update(plant)
     }
 
-    fun getPlant(id: Long): Flowable<Plant> {
-        return database.plantDao().getById(id)
+    suspend fun getPlant(id: Long): Plant {
+        return withContext(IO) {
+            database.plantDao().getById(id)
+        }
     }
 
     suspend fun getPlantWithPhotos(id: Long): PlantWithPhotos {
