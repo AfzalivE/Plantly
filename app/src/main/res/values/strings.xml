@@ -20,6 +20,8 @@
     <string name="age">Age</string>
     <string name="birthday">Birthday</string>
     <string name="next_watering">Next Watering</string>
+    <string name="channel_name">Default</string>
+    <string name="channel_description">Miscellaneous</string>
 
     <plurals name="weeks">
         <item quantity="one">%d week</item>

@@ -34,12 +34,12 @@ class TestActivity : AppCompatActivity() {
             .addTransition(Fade())
             .addTransition(ChangeBounds())
 
-        fab.setOnClickListener({
+        fab.setOnClickListener {
             TransitionManager.beginDelayedTransition(container, transition)
             val lp = container.layoutParams
             lp.height = dpToPixels(108)
             container.layoutParams = lp
             expandedSet.applyTo(container)
-        })
+        }
     }
 }

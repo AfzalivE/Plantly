@@ -10,39 +10,6 @@
 
     <include layout="@layout/layout_appbar" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/expandedActionBarSize"
-        android:orientation="vertical"
-        android:paddingTop="16dp"
-        app:layout_behavior="com.spacebitlabs.plantly.plants.ToolbarBehavior">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="Good Morning"
-            android:theme="@style/TextAppearance.AppCompat.Title.Inverse" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="You have 6 plants to water today"
-            android:theme="@style/TextAppearance.AppCompat.Subhead.Inverse" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/today_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:orientation="horizontal"
-            android:paddingStart="16dp"
-            tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/today_list_item" />
-
-    </LinearLayout>
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -61,6 +28,44 @@
             tools:spanCount="2" />
 
     </FrameLayout>
+
+
+    <LinearLayout
+        android:id="@+id/today_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/expandedToolbarSize"
+        android:orientation="vertical"
+        android:paddingTop="16dp"
+        android:visibility="visible"
+        app:layout_behavior="com.spacebitlabs.plantly.plants.ToolbarBehavior">
+
+        <TextView
+            android:id="@+id/today_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Good Morning"
+            android:theme="@style/TextAppearance.AppCompat.Title.Inverse" />
+
+        <TextView
+            android:id="@+id/today_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="You have 6 plants to water today"
+            android:theme="@style/TextAppearance.AppCompat.Subhead.Inverse" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/today_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/today_list_item" />
+
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progress"
