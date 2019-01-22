@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
+import com.spacebitlabs.plantly.data.entities.Plant
 import kotlinx.android.synthetic.main.fragment_plants.*
 import kotlinx.android.synthetic.main.layout_appbar.*
 
@@ -63,7 +64,14 @@ class PlantsFragment : Fragment() {
             is PlantListViewState.Loading     -> renderLoading()
             is PlantListViewState.Empty       -> renderEmpty()
             is PlantListViewState.Error       -> renderError()
-            is PlantListViewState.PlantsFound -> renderPlantList(state)
+            is PlantListViewState.PlantsFound -> {
+                renderPlantList(state)
+                if (state.todayPlants.isEmpty()) {
+                    renderEmptyToday()
+                } else {
+                    renderToday(state.todayPlants)
+                }
+            }
         }
     }
 
@@ -98,18 +106,18 @@ class PlantsFragment : Fragment() {
         empty.visibility = View.GONE
         error.visibility = View.GONE
         plantAdapter.setPlantList(state.plants)
-        // TODO get actual list of plants to water today
-        if (state.todayPlants.isEmpty()) {
-            // TODO show no plants to water today! message
-            today_title.text = "Good Morning"
-            today_subtitle.text = "No plants to water today!"
+    }
 
-//            todayAdapter.setPlantList(state.plants)
-        } else {
-            today_title.text = "Good Morning"
-            today_subtitle.text = "${state.plants.size} plants to water today"
-            todayAdapter.setPlantList(state.plants)
-        }
+    private fun renderEmptyToday() {
+        today_title.text = "Good Morning"
+        today_subtitle.text = "No plants to water today!"
+    }
+
+    private fun renderToday(todayPlants: List<Plant>) {
+        // TODO get actual list of plants to water today
+        today_title.text = "Good Morning"
+        today_subtitle.text = "${todayPlants.size} plants to water today"
+        todayAdapter.setPlantList(todayPlants)
     }
 
     private fun lockAppBar() {
