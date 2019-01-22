@@ -5,9 +5,9 @@ import android.arch.lifecycle.ViewModel
 import com.spacebitlabs.plantly.Injection
 import com.spacebitlabs.plantly.actions.WaterPlantUseCase
 import com.spacebitlabs.plantly.data.EntryType
+import com.spacebitlabs.plantly.millisFreqToDays
 import com.spacebitlabs.plantly.plants.PlantsViewModel
 import kotlinx.coroutines.*
-import org.threeten.bp.OffsetDateTime
 import timber.log.Timber
 
 /**
@@ -52,9 +52,10 @@ class PlantDetailViewModel : ViewModel() {
             val plant = userPlantsStore.getPlantWithPhotos(plantId)
             val entries = userPlantsStore.getEntries(plantId)
 
-            val birthday = entries.filter {
+            val birthday = entries.first {
                 it.type == EntryType.BIRTH
             }
+
             val waterCount = entries.filter {
                 it.type == EntryType.WATER
             }.size
@@ -62,11 +63,16 @@ class PlantDetailViewModel : ViewModel() {
                 it.type == EntryType.SOIL
             }.size
 
+            val nextWatering = entries.last {
+                it.type == EntryType.WATER || it.type == EntryType.BIRTH
+            }.time.plusDays(plant.plant.waterFreq.millisFreqToDays().toLong())
+
             plantDetailViewState.value = PlantDetailViewState.PlantDetailLoaded(
                 plant,
-                if (birthday.isEmpty()) OffsetDateTime.now() else birthday[0].time,
+                birthday.time,
                 waterCount,
-                soilCount
+                soilCount,
+                nextWatering
             )
 
             Timber.d("Fetched entries: $entries")

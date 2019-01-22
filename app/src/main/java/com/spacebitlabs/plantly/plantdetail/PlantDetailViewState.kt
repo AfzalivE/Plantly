@@ -8,6 +8,7 @@ sealed class PlantDetailViewState {
         val plant: PlantWithPhotos,
         val birthday: OffsetDateTime,
         val waterCount: Int,
-        val soilCount: Int
+        val soilCount: Int,
+        val nextWatering: OffsetDateTime
     ) : PlantDetailViewState()
 }

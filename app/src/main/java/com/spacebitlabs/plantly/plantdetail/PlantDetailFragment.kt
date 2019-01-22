@@ -47,11 +47,23 @@ class PlantDetailFragment : Fragment() {
 
     private fun render(state: PlantDetailViewState?) {
         when (state) {
-            is PlantDetailViewState.PlantDetailLoaded -> renderPlantDetail(state.plant, state.birthday, state.waterCount, state.soilCount)
+            is PlantDetailViewState.PlantDetailLoaded -> renderPlantDetail(
+                state.plant,
+                state.birthday,
+                state.waterCount,
+                state.soilCount,
+                state.nextWatering
+            )
         }
     }
 
-    private fun renderPlantDetail(plantWithPhotos: PlantWithPhotos, birthday: OffsetDateTime, waterCount: Int, soilCount: Int) {
+    private fun renderPlantDetail(
+        plantWithPhotos: PlantWithPhotos,
+        birthday: OffsetDateTime,
+        waterCount: Int,
+        soilCount: Int,
+        nextWatering: OffsetDateTime
+    ) {
         Timber.d("Rendering plantWithPhotos detail")
         plantWithPhotos.plant.let {
             if (it.coverPhoto.filePath != "") {
@@ -79,6 +91,8 @@ class PlantDetailFragment : Fragment() {
         fertilize_count.text = resources.getQuantityString(R.plurals.fertilized, soilCount, soilCount)
         // TODO change from "today/yesterday/1 hour ago" to "1 day or 1 hour"
         age.text = DateUtils.getRelativeTimeSpanString(birthday.toInstant().toEpochMilli())
+
+        next_watering_date.text = DateUtils.getRelativeTimeSpanString(nextWatering.toInstant().toEpochMilli())
 
         setupClicks()
     }
