@@ -1,8 +1,8 @@
 package com.spacebitlabs.plantly
 
-import androidx.sqlite.room.Room
-import androidx.test.InstrumentationRegistry
-import androidx.test.runner.AndroidJUnit4
+import android.arch.persistence.room.Room
+import android.support.test.InstrumentationRegistry
+import android.support.test.runner.AndroidJUnit4
 import com.spacebitlabs.plantly.data.EntryType
 import com.spacebitlabs.plantly.data.PlantDatabase
 import com.spacebitlabs.plantly.data.entities.Entry
@@ -30,7 +30,15 @@ class EntryTest {
         db = Room.inMemoryDatabaseBuilder(context, PlantDatabase::class.java).build()
         entryDao = db.entryDao()
 
-        db.plantDao().insert(Plant(id = 1, name = "Test"))
+        db.plantDao().insert(
+            Plant(
+                id = 1,
+                name = "Test",
+                type = "Test",
+                waterFreq = 1,
+                soilFreq = 1
+            )
+        )
     }
 
     @After
