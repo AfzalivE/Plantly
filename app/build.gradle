@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 28
@@ -10,22 +11,45 @@ android {
         applicationId "com.spacebitlabs.plantly"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 1
+        versionCode 5
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
         resValue 'string', 'images_file_path', "Android/data/" + applicationId + ".debug" + "/files/Pictures"
+
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
     }
+
+    signingConfigs {
+        release {
+            Properties keyProps = new Properties()
+            File keyProperties = file('../keystore.properties')
+            if (keyProperties.exists()) {
+                keyProps.load(new FileInputStream(keyProperties))
+
+                storeFile file(keyProps['store'])
+                keyAlias keyProps['alias']
+                storePassword keyProps['storePass']
+                keyPassword keyProps['pass']
+            }
+        }
+    }
+
     buildTypes {
+        debug {
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-DEBUG'
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }
@@ -78,6 +102,10 @@ dependencies {
     // debug libs
     implementation "com.jakewharton.timber:timber:4.7.1"
     debugImplementation "com.amitshekhar.android:debug-db:1.0.4"
+
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.8@aar') {
+        transitive = true
+    }
 
     // test libs
     testImplementation "junit:junit:4.12"

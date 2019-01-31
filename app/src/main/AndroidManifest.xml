@@ -9,7 +9,7 @@
         android:required="false" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".PlantlyApp"
@@ -46,7 +46,9 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <service android:name=".reminder.ReminderService" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="f9f5d73a46f0207de0184841792dba38ce6e1afa" />
 
     </application>
 
