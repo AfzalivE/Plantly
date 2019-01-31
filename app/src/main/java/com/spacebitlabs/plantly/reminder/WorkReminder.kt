@@ -6,9 +6,9 @@ import com.spacebitlabs.plantly.data.Prefs
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class WorkReminder(private val prefs: Prefs) {
+open class WorkReminder(private val prefs: Prefs) {
 
-    fun cancelDailyReminder() {
+    open fun cancelDailyReminder() {
         val workReminderId = prefs.getWorkReminderId()
         if (workReminderId.isNotEmpty()) {
             val workReminderUuid = UUID.fromString(workReminderId)
@@ -16,7 +16,7 @@ class WorkReminder(private val prefs: Prefs) {
         }
     }
 
-    fun scheduleDailyReminder() {
+    open fun scheduleDailyReminder() {
         val workReminder = PeriodicWorkRequestBuilder<WaterPlantReminder>(1, TimeUnit.DAYS).build()
         prefs.setWorkReminderId(workReminder.id)
         WorkManager.getInstance().enqueue(workReminder)

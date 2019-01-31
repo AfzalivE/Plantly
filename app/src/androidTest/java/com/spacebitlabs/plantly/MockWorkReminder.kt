@@ -1,4 +1,14 @@
 package com.spacebitlabs.plantly
 
-class MockWorkReminder {
+import com.spacebitlabs.plantly.reminder.WorkReminder
+
+class MockWorkReminder: WorkReminder(Injection.get().providePrefs()) {
+
+    override fun scheduleDailyReminder() {
+
+    }
+
+    override fun cancelDailyReminder() {
+
+    }
 }

@@ -8,11 +8,14 @@ import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.Navigation
+import androidx.work.WorkerParameters
 import com.spacebitlabs.plantly.R
 import com.spacebitlabs.plantly.data.entities.Plant
 import com.spacebitlabs.plantly.data.entities.PlantWithPhotos
 import com.spacebitlabs.plantly.millisFreqToDays
+import com.spacebitlabs.plantly.reminder.WaterPlantReminder
 import com.spacebitlabs.plantly.toBundle
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_plant_detail.*
@@ -100,6 +103,8 @@ class PlantDetailFragment : Fragment() {
     private fun setupClicks() {
         water_img.setOnClickListener {
             viewModel.waterPlant()
+            WaterPlantReminder.notifyUser()
+            Toast.makeText(context, "Watered", Toast.LENGTH_SHORT).show()
         }
     }
 

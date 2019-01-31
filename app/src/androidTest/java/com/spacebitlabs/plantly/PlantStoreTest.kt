@@ -1,15 +1,14 @@
 package com.spacebitlabs.plantly
 
 import android.arch.persistence.room.Room
+import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
-import androidx.sqlite.room.Room
-import androidx.test.InstrumentationRegistry
-import androidx.test.runner.AndroidJUnit4
 import com.spacebitlabs.plantly.data.EntryType
 import com.spacebitlabs.plantly.data.PlantDatabase
 import com.spacebitlabs.plantly.data.entities.Entry
 import com.spacebitlabs.plantly.data.entities.Plant
 import com.spacebitlabs.plantly.data.source.UserPlantsStore
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.Matchers
 import org.junit.After
 import org.junit.Assert
@@ -31,7 +30,7 @@ class PlantStoreTest {
         val context = InstrumentationRegistry.getTargetContext()
 
         db = Room.inMemoryDatabaseBuilder(context, PlantDatabase::class.java).build()
-        store = UserPlantsStore(db)
+        store = UserPlantsStore(db, MockWorkReminder())
     }
 
     @After
@@ -48,13 +47,23 @@ class PlantStoreTest {
      */
     @Test
     fun createPlant() {
-        store.addPlant(Plant(name = "Test"))
+        runBlocking {
+            store.addPlant(
+                Plant(
+                    id = 1,
+                    name = "Test",
+                    type = "Test",
+                    waterFreq = 1,
+                    soilFreq = 1
+                )
+            )
 
-        val plant = store.getAllPlants()[0]
-        val entries = store.getEntries(plant)
+            val plant = store.getAllPlants()[0]
+            val entries = store.getEntries(plant.id)
 
-        val expectedEntry = Entry(id = 1, type = EntryType.BIRTH, time = OffsetDateTime.now(), plantId = 1)
+            val expectedEntry = Entry(id = 1, type = EntryType.BIRTH, time = OffsetDateTime.now(), plantId = 1)
 
-        Assert.assertThat(entries[0], Matchers.equalTo(expectedEntry))
+            Assert.assertThat(entries[0], Matchers.equalTo(expectedEntry))
+        }
     }
 }

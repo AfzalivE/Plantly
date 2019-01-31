@@ -38,13 +38,19 @@ class PlantsAdapter : RecyclerView.Adapter<PlantHolder>() {
 
     class PlantHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         lateinit var plant: Plant
+        private val name = itemView.name
+        private val image = itemView.image
+
+        init {
+            itemView.setOnClickListener(this)
+        }
 
         override fun onClick(view: View?) {
             view?.let { PlantDetailFragment.show(it, plant) }
         }
 
-        fun bind(plant: Plant) = with(itemView) {
-            this@PlantHolder.plant = plant
+        fun bind(plant: Plant) {
+            this.plant = plant
             name.text = plant.name
             if (plant.coverPhoto.filePath.isEmpty()) {
                 image.setImageResource(R.drawable.sample_plant)
@@ -55,8 +61,6 @@ class PlantsAdapter : RecyclerView.Adapter<PlantHolder>() {
                     .centerCrop()
                     .into(image)
             }
-
-            itemView.setOnClickListener(this@PlantHolder)
         }
     }
 }
