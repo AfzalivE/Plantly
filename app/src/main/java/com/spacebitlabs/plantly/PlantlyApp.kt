@@ -15,6 +15,7 @@ class PlantlyApp : Application() {
 
         Injection.init(this)
         AndroidThreeTen.init(this)
+        PhotoPicker.init(BuildConfig.APPLICATION_ID)
 
         if (BuildConfig.DEBUG) {
             Picasso.get().isLoggingEnabled = true
