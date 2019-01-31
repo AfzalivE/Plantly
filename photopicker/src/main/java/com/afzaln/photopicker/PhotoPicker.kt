@@ -12,7 +12,7 @@ import java.util.*
 class PhotoPicker(val context: Context, private val imageView: ImageView?, val file: File, private inline val onSave: (String) -> Unit) {
 
     fun takePicture() {
-        val photoUri = FileProvider.getUriForFile(context, "com.spacebitlabs.photopicker.fileprovider", file)
+        val photoUri = FileProvider.getUriForFile(context, AUTHORITIES, file)
         HiddenActivity.resultCallback = {
             when (it) {
                 Activity.RESULT_OK -> {
@@ -96,7 +96,17 @@ class PhotoPicker(val context: Context, private val imageView: ImageView?, val f
     }
 
     companion object {
+
+        var AUTHORITIES = ""
+
+        fun init(applicationId: String) {
+            AUTHORITIES = "$applicationId.fileprovider"
+        }
+
         fun with(context: Context): Builder {
+            if (AUTHORITIES.isEmpty()) {
+                throw IllegalStateException("Call init with the authority string")
+            }
             return Builder(context)
         }
     }
