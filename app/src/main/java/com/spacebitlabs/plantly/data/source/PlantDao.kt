@@ -1,7 +1,7 @@
 package com.spacebitlabs.plantly.data.source
 
-import android.arch.persistence.room.*
-import android.arch.persistence.room.OnConflictStrategy.REPLACE
+import androidx.room.*
+import androidx.room.OnConflictStrategy.REPLACE
 import com.spacebitlabs.plantly.data.entities.Plant
 
 @Dao

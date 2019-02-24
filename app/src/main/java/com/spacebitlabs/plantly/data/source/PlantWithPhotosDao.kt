@@ -1,8 +1,8 @@
 package com.spacebitlabs.plantly.data.source
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Query
-import android.arch.persistence.room.Transaction
+import androidx.room.Dao
+import androidx.room.Query
+import androidx.room.Transaction
 import com.spacebitlabs.plantly.data.entities.PlantWithPhotos
 import io.reactivex.Flowable
 

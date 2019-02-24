@@ -3,8 +3,8 @@ package com.afzaln.photopicker
 import android.app.Activity
 import android.content.Context
 import android.os.Environment
-import android.support.v4.content.FileProvider
 import android.widget.ImageView
+import androidx.core.content.FileProvider
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*

@@ -1,6 +1,6 @@
 package com.spacebitlabs.plantly.plants
 
-import android.support.design.widget.AppBarLayout
+import com.google.android.material.appbar.AppBarLayout
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.widget.TextView

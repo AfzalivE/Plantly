@@ -1,15 +1,15 @@
 package com.spacebitlabs.plantly.plants
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.design.widget.AppBarLayout
-import android.support.design.widget.CoordinatorLayout
-import android.support.transition.TransitionManager
-import android.support.v4.app.Fragment
-import android.support.v4.view.ViewCompat
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
+import com.google.android.material.appbar.AppBarLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.transition.TransitionManager
+import androidx.fragment.app.Fragment
+import androidx.core.view.ViewCompat
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_plants.*
 import kotlinx.android.synthetic.main.layout_appbar.*
 
 
-class PlantsFragment : Fragment() {
+class PlantsFragment : androidx.fragment.app.Fragment() {
 
     private val plantAdapter = PlantsAdapter()
     private val todayAdapter = TodayAdapter()
@@ -42,10 +42,10 @@ class PlantsFragment : Fragment() {
             render(state)
         })
 
-        plant_list.layoutManager = GridLayoutManager(activity, 2)
+        plant_list.layoutManager = androidx.recyclerview.widget.GridLayoutManager(activity, 2)
         plant_list.adapter = plantAdapter
 
-        today_list.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        today_list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
         today_list.adapter = todayAdapter
 
         add_plant.setOnClickListener(Navigation.createNavigateOnClickListener(com.spacebitlabs.plantly.R.id.to_add_plants_action))
@@ -123,7 +123,7 @@ class PlantsFragment : Fragment() {
     private fun lockAppBar() {
         appbar.setExpanded(false)
         ViewCompat.setNestedScrollingEnabled(plant_list, false)
-        val params = appbar.layoutParams as CoordinatorLayout.LayoutParams
+        val params = appbar.layoutParams as androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams
         if (params.behavior == null) {
             params.behavior = AppBarLayout.Behavior()
         }
@@ -139,7 +139,7 @@ class PlantsFragment : Fragment() {
     private fun unlockAppBar() {
         appbar.setExpanded(true)
         ViewCompat.setNestedScrollingEnabled(plant_list, true)
-        val params = appbar.layoutParams as CoordinatorLayout.LayoutParams
+        val params = appbar.layoutParams as androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams
         if (params.behavior == null) {
             params.behavior = AppBarLayout.Behavior()
         }

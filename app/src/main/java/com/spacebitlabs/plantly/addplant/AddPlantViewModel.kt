@@ -1,7 +1,7 @@
 package com.spacebitlabs.plantly.addplant
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.spacebitlabs.plantly.Injection
 import com.spacebitlabs.plantly.data.entities.Plant
 import com.spacebitlabs.plantly.data.entities.SimplePhoto

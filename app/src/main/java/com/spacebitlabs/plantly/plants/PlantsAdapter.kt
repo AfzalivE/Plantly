@@ -1,7 +1,7 @@
 package com.spacebitlabs.plantly.plants
 
-import android.support.v7.util.DiffUtil
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.spacebitlabs.plantly.R
@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.plants_list_item.view.*
 /**
  * Adapter for plant list
  */
-class PlantsAdapter : RecyclerView.Adapter<PlantHolder>() {
+class PlantsAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<PlantHolder>() {
 
     private val plantList: ArrayList<Plant> = ArrayList()
 
@@ -36,7 +36,7 @@ class PlantsAdapter : RecyclerView.Adapter<PlantHolder>() {
         diffResult.dispatchUpdatesTo(this)
     }
 
-    class PlantHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    class PlantHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView), View.OnClickListener {
         lateinit var plant: Plant
         private val name = itemView.name
         private val image = itemView.image

@@ -1,12 +1,12 @@
 package com.spacebitlabs.plantly.test
 
 import android.os.Bundle
-import android.support.constraint.ConstraintSet
-import android.support.transition.ChangeBounds
-import android.support.transition.Fade
-import android.support.transition.TransitionManager
-import android.support.transition.TransitionSet
-import android.support.v7.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.transition.ChangeBounds
+import androidx.transition.Fade
+import androidx.transition.TransitionManager
+import androidx.transition.TransitionSet
+import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import com.spacebitlabs.plantly.R
 import com.spacebitlabs.plantly.dpToPixels

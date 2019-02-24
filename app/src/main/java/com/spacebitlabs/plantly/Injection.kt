@@ -3,7 +3,7 @@
 package com.spacebitlabs.plantly
 
 import android.annotation.SuppressLint
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import android.content.Context
 import com.spacebitlabs.plantly.data.PlantDatabase
 import com.spacebitlabs.plantly.data.Prefs

@@ -1,7 +1,7 @@
 package com.spacebitlabs.plantly.plants
 
-import android.support.v7.util.DiffUtil
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.spacebitlabs.plantly.R
@@ -9,7 +9,7 @@ import com.spacebitlabs.plantly.data.entities.Plant
 import com.spacebitlabs.plantly.inflate
 import kotlinx.android.synthetic.main.today_list_item.view.*
 
-class TodayAdapter : RecyclerView.Adapter<TodayAdapter.TodayHolder>() {
+class TodayAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<TodayAdapter.TodayHolder>() {
     private val plantList: ArrayList<Plant> = ArrayList()
 
     override fun getItemCount(): Int = plantList.size
@@ -29,7 +29,7 @@ class TodayAdapter : RecyclerView.Adapter<TodayAdapter.TodayHolder>() {
         diffResult.dispatchUpdatesTo(this)
     }
 
-    class TodayHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class TodayHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         fun bind(plant: Plant) = with(itemView) {
             name.text = plant.name
             image.setImageResource(R.drawable.sample_plant)

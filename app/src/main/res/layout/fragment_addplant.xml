@@ -33,7 +33,7 @@
                 android:paddingTop="24dp"
                 android:paddingEnd="16dp">
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -42,15 +42,15 @@
                     app:boxCornerRadiusTopEnd="4dp"
                     app:boxCornerRadiusTopStart="4dp">
 
-                    <android.support.design.widget.TextInputEditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/type"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/type" />
 
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -59,13 +59,13 @@
                     app:boxCornerRadiusTopEnd="4dp"
                     app:boxCornerRadiusTopStart="4dp">
 
-                    <android.support.design.widget.TextInputEditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/name" />
 
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical">
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -83,16 +83,16 @@
                         app:boxCornerRadiusTopEnd="4dp"
                         app:boxCornerRadiusTopStart="4dp">
 
-                        <android.support.design.widget.TextInputEditText
+                        <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/water_freq"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/water_freq"
                             android:inputType="phone" />
 
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                    <android.support.v7.widget.AppCompatSpinner
+                    <androidx.appcompat.widget.AppCompatSpinner
                         android:id="@+id/water_freq_type"
                         android:entries="@array/time_types_plural"
                         android:layout_width="wrap_content"
@@ -106,7 +106,7 @@
                     android:orientation="horizontal"
                     android:gravity="center_vertical">
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -116,16 +116,16 @@
                         app:boxCornerRadiusTopEnd="4dp"
                         app:boxCornerRadiusTopStart="4dp">
 
-                        <android.support.design.widget.TextInputEditText
+                        <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/soil_freq"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/soil_freq"
                             android:inputType="phone" />
 
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                    <android.support.v7.widget.AppCompatSpinner
+                    <androidx.appcompat.widget.AppCompatSpinner
                         android:id="@+id/soil_freq_type"
                         android:entries="@array/time_types_plural"
                         android:layout_width="wrap_content"
@@ -139,7 +139,7 @@
 
     </ScrollView>
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -1,8 +1,8 @@
 package com.spacebitlabs.plantly.plants
 
 import android.content.Context
-import android.support.design.widget.AppBarLayout
-import android.support.design.widget.CoordinatorLayout
+import com.google.android.material.appbar.AppBarLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
@@ -12,18 +12,18 @@ import kotlinx.android.synthetic.main.today_list_item.view.*
 
 @Suppress("unused")
 class ToolbarBehavior(context: Context, attrs: AttributeSet) :
-    CoordinatorLayout.Behavior<LinearLayout>(context, attrs) {
+    androidx.coordinatorlayout.widget.CoordinatorLayout.Behavior<LinearLayout>(context, attrs) {
 
     private var initialised = false
     private var maxScrollValue = 0f
     private var initialImageWidth = 0f
     private var initialImageHeight = 0f
 
-    override fun layoutDependsOn(parent: CoordinatorLayout, child: LinearLayout, dependency: View): Boolean {
+    override fun layoutDependsOn(parent: androidx.coordinatorlayout.widget.CoordinatorLayout, child: LinearLayout, dependency: View): Boolean {
         return dependency is AppBarLayout
     }
 
-    override fun onDependentViewChanged(parent: CoordinatorLayout, child: LinearLayout, dependency: View): Boolean {
+    override fun onDependentViewChanged(parent: androidx.coordinatorlayout.widget.CoordinatorLayout, child: LinearLayout, dependency: View): Boolean {
         maybeInitProperties(child, dependency)
 
         var scrollValuePercentage = 1 - (maxScrollValue + dependency.y) / maxScrollValue
