@@ -3,6 +3,7 @@ package com.spacebitlabs.plantly.reminder
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -17,6 +18,7 @@ class WaterPlantReminder(context: Context, params: WorkerParameters) : Worker(
 ) {
     override fun doWork(): Result {
         Injection.get().providePrefs().saveWorkTime()
+        // TODO check actual watering times to notify the user
         notifyUser()
         return Result.success()
     }
@@ -28,8 +30,10 @@ class WaterPlantReminder(context: Context, params: WorkerParameters) : Worker(
         fun notifyUser() {
             val context = Injection.get().provideContext()
 
+
             val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_sprout_outline)
+                .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher))
                 .setContentTitle("Plantly Reminder")
                 .setContentText("Water your plants!")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)

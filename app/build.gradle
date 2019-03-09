@@ -88,13 +88,13 @@ dependencies {
     // UI libs
     implementation "com.makeramen:roundedimageview:2.3.0"
     implementation "com.cesarferreira.colorize:colorize:0.2.2"
-    implementation "de.hdodenhof:circleimageview:2.2.0"
+    implementation "de.hdodenhof:circleimageview:3.0.0"
     implementation "com.squareup.picasso:picasso:2.71828"
     implementation project(":photopicker")
 
     // debug libs
     implementation "com.jakewharton.timber:timber:4.7.1"
-    debugImplementation "com.amitshekhar.android:debug-db:1.0.4"
+    debugImplementation "com.amitshekhar.android:debug-db:1.0.6"
 
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.8@aar') {
         transitive = true
