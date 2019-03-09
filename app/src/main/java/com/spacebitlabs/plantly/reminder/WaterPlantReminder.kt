@@ -11,8 +11,8 @@ import androidx.work.WorkerParameters
 import com.spacebitlabs.plantly.Injection
 import com.spacebitlabs.plantly.R
 
-class WaterPlantReminder(params: WorkerParameters) : Worker(
-    Injection.get().provideContext(),
+class WaterPlantReminder(context: Context, params: WorkerParameters) : Worker(
+    context,
     params
 ) {
     override fun doWork(): Result {
@@ -22,8 +22,8 @@ class WaterPlantReminder(params: WorkerParameters) : Worker(
     }
 
     companion object {
-        const val CHANNEL_ID = "default"
-        const val REMINDER_NOTIFICATION_ID = 1345
+        private const val CHANNEL_ID = "default"
+        private const val REMINDER_NOTIFICATION_ID = 1345
 
         fun notifyUser() {
             val context = Injection.get().provideContext()

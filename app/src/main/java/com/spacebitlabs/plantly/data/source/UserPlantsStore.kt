@@ -14,8 +14,6 @@ import kotlin.concurrent.thread
  * Store for the user's plants
  */
 class UserPlantsStore(private val database: PlantDatabase, private val workReminder: WorkReminder) {
-    val plants: ArrayList<Plant> = ArrayList()
-
     init {
 
     }
