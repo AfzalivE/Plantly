@@ -1,13 +1,14 @@
 package com.spacebitlabs.plantly
 
+import android.content.Context
 import androidx.room.Room
-import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.spacebitlabs.plantly.data.EntryType
 import com.spacebitlabs.plantly.data.PlantDatabase
 import com.spacebitlabs.plantly.data.entities.Entry
 import com.spacebitlabs.plantly.data.entities.Plant
-import com.spacebitlabs.plantly.data.source.EntryDao
+import com.spacebitlabs.plantly.data.dao.EntryDao
 import org.hamcrest.Matchers
 import org.junit.After
 import org.junit.Assert
@@ -26,7 +27,7 @@ class EntryTest {
 
     @Before
     fun createDb() {
-        val context = InstrumentationRegistry.getTargetContext()
+        val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(context, PlantDatabase::class.java).build()
         entryDao = db.entryDao()
 

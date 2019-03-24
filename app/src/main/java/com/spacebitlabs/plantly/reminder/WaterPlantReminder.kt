@@ -2,7 +2,9 @@ package com.spacebitlabs.plantly.reminder
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
 import androidx.core.app.NotificationCompat
@@ -10,7 +12,11 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.spacebitlabs.plantly.Injection
+import com.spacebitlabs.plantly.NavigationActivity
 import com.spacebitlabs.plantly.R
+import com.spacebitlabs.plantly.data.entities.Plant
+import kotlinx.coroutines.runBlocking
+import timber.log.Timber
 
 class WaterPlantReminder(context: Context, params: WorkerParameters) : Worker(
     context,
@@ -18,24 +24,50 @@ class WaterPlantReminder(context: Context, params: WorkerParameters) : Worker(
 ) {
     override fun doWork(): Result {
         Injection.get().providePrefs().saveWorkTime()
-        // TODO check actual watering times to notify the user
         notifyUser()
         return Result.success()
     }
 
     companion object {
         private const val CHANNEL_ID = "default"
-        private const val REMINDER_NOTIFICATION_ID = 1345
+        private const val REMINDER_NOTIFICATION_ID = 21
+        private const val REMINDER_REQUEST_CODE = 11
+
 
         fun notifyUser() {
+            runBlocking {
+                // check actual watering times to notify the user
+                val plantsToWater = Injection.get().providePlantStore().getPlantsToWaterToday()
+                notifyUserForPlants(plantsToWater)
+            }
+        }
+
+        private fun notifyUserForPlants(plants: List<Plant>) {
             val context = Injection.get().provideContext()
 
+            Timber.d("Got ${plants.size} to water")
+
+            val textWithPlants = if (plants.size > 2) {
+                "Several plants need watering today!"
+            } else {
+                plants.joinToString(separator = " and ", postfix = " need watering today")
+            }
+
+            val contentIntent = PendingIntent.getActivity(
+                context,
+                REMINDER_REQUEST_CODE,
+                Intent(context, NavigationActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+                },
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
 
             val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_sprout_outline)
                 .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher))
                 .setContentTitle("Plantly Reminder")
-                .setContentText("Water your plants!")
+                .setContentText(textWithPlants)
+                .setContentIntent(contentIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
             createNotificationChannel(context)

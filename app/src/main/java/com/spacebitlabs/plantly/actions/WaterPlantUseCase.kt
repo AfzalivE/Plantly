@@ -10,7 +10,7 @@ class WaterPlantUseCase {
         Injection.get().providePlantStore()
     }
 
-    fun waterPlant(plantId: Long) {
+    suspend fun waterPlant(plantId: Long) {
         userPlantsStore.addEntry(Entry(type = EntryType.WATER, plantId = plantId))
     }
 }

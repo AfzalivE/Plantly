@@ -1,10 +1,9 @@
-package com.spacebitlabs.plantly.data.source
+package com.spacebitlabs.plantly.data.dao
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import com.spacebitlabs.plantly.data.entities.PlantWithPhotos
-import io.reactivex.Flowable
 
 @Dao
 interface PlantWithPhotosDao {

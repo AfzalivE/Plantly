@@ -3,11 +3,11 @@
 package com.spacebitlabs.plantly
 
 import android.annotation.SuppressLint
-import androidx.room.Room
 import android.content.Context
+import androidx.room.Room
 import com.spacebitlabs.plantly.data.PlantDatabase
 import com.spacebitlabs.plantly.data.Prefs
-import com.spacebitlabs.plantly.data.source.UserPlantsStore
+import com.spacebitlabs.plantly.data.UserPlantsStore
 import com.spacebitlabs.plantly.reminder.WorkReminder
 
 /**
@@ -38,7 +38,7 @@ class Injection private constructor(private val appContext: Context) {
     fun provideDatabase(): PlantDatabase = database
 
     fun providePlantStore() = userPlantsStore.also {
-//        loadMockData()
+//        it.loadMockSeedData()
     }
 
     fun providePrefs() = prefs

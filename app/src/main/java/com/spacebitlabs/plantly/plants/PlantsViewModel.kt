@@ -43,10 +43,12 @@ class PlantsViewModel : ViewModel() {
             val plants = userPlantsStore.getAllPlants()
             Timber.d("Got ${plants.size} plants")
 
+            val todaysPlants = userPlantsStore.getPlantsToWaterToday()
+
             if (plants.isEmpty()) {
                 plantListState.value = PlantListViewState.Empty
             } else {
-                plantListState.value = PlantListViewState.PlantsFound(plants, listOf())
+                plantListState.value = PlantListViewState.PlantsFound(plants, todaysPlants)
             }
         }
     }

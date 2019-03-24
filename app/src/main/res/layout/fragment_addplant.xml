@@ -2,6 +2,7 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EEEEEE">
@@ -17,13 +18,28 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/cover_photo"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="196dp"
-                android:contentDescription="@string/photo_of_the_plant"
-                android:scaleType="centerCrop"
-                android:src="@drawable/sample_plant" />
+                android:layout_height="196dp">
+
+                <ImageView
+                    android:id="@+id/cover_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="196dp"
+                    android:contentDescription="@string/photo_of_the_plant"
+                    android:scaleType="centerCrop"
+                    tools:src="@drawable/sample_plant" />
+
+                <ImageView
+                    android:id="@+id/add_cover_photo"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/gray_filled_circle"
+                    android:contentDescription="@string/photo_of_the_plant"
+                    android:src="@drawable/ic_camera" />
+
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

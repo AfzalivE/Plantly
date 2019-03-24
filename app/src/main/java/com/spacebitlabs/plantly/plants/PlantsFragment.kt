@@ -1,25 +1,28 @@
 package com.spacebitlabs.plantly.plants
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import com.google.android.material.appbar.AppBarLayout
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.transition.TransitionManager
-import androidx.fragment.app.Fragment
-import androidx.core.view.ViewCompat
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.ViewCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.TransitionManager
+import com.google.android.material.appbar.AppBarLayout
+import com.spacebitlabs.plantly.R
+import com.spacebitlabs.plantly.R.layout
 import com.spacebitlabs.plantly.data.entities.Plant
+import com.spacebitlabs.plantly.reminder.WaterPlantReminder
 import kotlinx.android.synthetic.main.fragment_plants.*
 import kotlinx.android.synthetic.main.layout_appbar.*
 
 
-class PlantsFragment : androidx.fragment.app.Fragment() {
+class PlantsFragment : Fragment() {
 
     private val plantAdapter = PlantsAdapter()
     private val todayAdapter = TodayAdapter()
@@ -30,7 +33,7 @@ class PlantsFragment : androidx.fragment.app.Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? =
-        inflater.inflate(com.spacebitlabs.plantly.R.layout.fragment_plants, container, false)
+        inflater.inflate(layout.fragment_plants, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,13 +45,17 @@ class PlantsFragment : androidx.fragment.app.Fragment() {
             render(state)
         })
 
-        plant_list.layoutManager = androidx.recyclerview.widget.GridLayoutManager(activity, 2)
+        plant_list.layoutManager = GridLayoutManager(activity, 2)
         plant_list.adapter = plantAdapter
 
-        today_list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
+        today_list.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         today_list.adapter = todayAdapter
 
-        add_plant.setOnClickListener(Navigation.createNavigateOnClickListener(com.spacebitlabs.plantly.R.id.to_add_plants_action))
+        add_plant.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.to_add_plants_action))
+        add_plant.setOnLongClickListener {
+            WaterPlantReminder.notifyUser()
+            return@setOnLongClickListener true
+        }
 
         val offsetChangeListener = OffsetChangeListener()
         appbar.addOnOffsetChangedListener(offsetChangeListener)
@@ -123,7 +130,7 @@ class PlantsFragment : androidx.fragment.app.Fragment() {
     private fun lockAppBar() {
         appbar.setExpanded(false)
         ViewCompat.setNestedScrollingEnabled(plant_list, false)
-        val params = appbar.layoutParams as androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams
+        val params = appbar.layoutParams as CoordinatorLayout.LayoutParams
         if (params.behavior == null) {
             params.behavior = AppBarLayout.Behavior()
         }
@@ -139,7 +146,7 @@ class PlantsFragment : androidx.fragment.app.Fragment() {
     private fun unlockAppBar() {
         appbar.setExpanded(true)
         ViewCompat.setNestedScrollingEnabled(plant_list, true)
-        val params = appbar.layoutParams as androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams
+        val params = appbar.layoutParams as CoordinatorLayout.LayoutParams
         if (params.behavior == null) {
             params.behavior = AppBarLayout.Behavior()
         }

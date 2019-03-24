@@ -1,13 +1,14 @@
 package com.spacebitlabs.plantly
 
+import android.content.Context
 import androidx.room.Room
-import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.spacebitlabs.plantly.data.EntryType
 import com.spacebitlabs.plantly.data.PlantDatabase
 import com.spacebitlabs.plantly.data.entities.Entry
 import com.spacebitlabs.plantly.data.entities.Plant
-import com.spacebitlabs.plantly.data.source.UserPlantsStore
+import com.spacebitlabs.plantly.data.UserPlantsStore
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.Matchers
 import org.junit.After
@@ -27,7 +28,7 @@ class PlantStoreTest {
 
     @Before
     fun createDb() {
-        val context = InstrumentationRegistry.getTargetContext()
+        val context = ApplicationProvider.getApplicationContext<Context>()
 
         db = Room.inMemoryDatabaseBuilder(context, PlantDatabase::class.java).build()
         store = UserPlantsStore(db, MockWorkReminder())

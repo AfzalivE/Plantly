@@ -3,12 +3,12 @@ package com.spacebitlabs.plantly.data
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.spacebitlabs.plantly.data.dao.EntryDao
+import com.spacebitlabs.plantly.data.dao.PlantDao
+import com.spacebitlabs.plantly.data.dao.PlantWithPhotosDao
 import com.spacebitlabs.plantly.data.entities.Entry
 import com.spacebitlabs.plantly.data.entities.Photo
 import com.spacebitlabs.plantly.data.entities.Plant
-import com.spacebitlabs.plantly.data.source.EntryDao
-import com.spacebitlabs.plantly.data.source.PlantDao
-import com.spacebitlabs.plantly.data.source.PlantWithPhotosDao
 
 /**
  * Created by afzal_najam on 2018-02-20.

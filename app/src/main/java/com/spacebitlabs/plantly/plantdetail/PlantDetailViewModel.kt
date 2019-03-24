@@ -41,7 +41,9 @@ class PlantDetailViewModel : ViewModel() {
     val plantDetailViewState: MutableLiveData<PlantDetailViewState> = MutableLiveData()
 
     fun waterPlant() {
-        waterPlantUseCase.waterPlant(plantId)
+        viewModelScope.launch {
+            waterPlantUseCase.waterPlant(plantId)
+        }
     }
 
     // TODO take this out to a use case class

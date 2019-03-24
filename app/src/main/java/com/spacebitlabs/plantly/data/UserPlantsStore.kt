@@ -1,14 +1,16 @@
-package com.spacebitlabs.plantly.data.source
+package com.spacebitlabs.plantly.data
 
-import com.spacebitlabs.plantly.data.EntryType
-import com.spacebitlabs.plantly.data.PlantDatabase
 import com.spacebitlabs.plantly.data.entities.Entry
 import com.spacebitlabs.plantly.data.entities.Plant
 import com.spacebitlabs.plantly.data.entities.PlantWithPhotos
+import com.spacebitlabs.plantly.millisFreqToDays
 import com.spacebitlabs.plantly.reminder.WorkReminder
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlin.concurrent.thread
+import org.threeten.bp.OffsetDateTime
+import org.threeten.bp.temporal.ChronoField
 
 /**
  * Store for the user's plants
@@ -18,11 +20,27 @@ class UserPlantsStore(private val database: PlantDatabase, private val workRemin
 
     }
 
-    internal fun loadMockData() {
-        thread {
-            if (database.plantDao().count() == 0) {
-                database.plantDao().deleteAll()
-                database.plantDao().insertAll(mockPlants)
+    fun loadMockSeedData() {
+        GlobalScope.launch {
+            withContext(IO) {
+                if (database.plantDao().count() == 0) {
+                    database.plantDao().deleteAll()
+                    for (plant in mockPlants) {
+                        addPlant(plant)
+                    }
+                }
+
+                database.plantDao().getAll().forEach {
+                    if (database.entryDao().count() == 0) {
+                        database.entryDao().insert(
+                            Entry(
+                                type = EntryType.WATER,
+                                plantId = it.id,
+                                time = OffsetDateTime.now().minusDays(10)
+                            )
+                        )
+                    }
+                }
             }
         }
     }
@@ -84,8 +102,8 @@ class UserPlantsStore(private val database: PlantDatabase, private val workRemin
         }
     }
 
-    fun addEntry(event: Entry) {
-        thread {
+    suspend fun addEntry(event: Entry) {
+        return withContext(IO) {
             database.entryDao().insert(event)
         }
     }
@@ -96,8 +114,46 @@ class UserPlantsStore(private val database: PlantDatabase, private val workRemin
         }
     }
 
-    fun getEntriesByType(plant: Plant, type: EntryType): List<Entry> {
-        return database.entryDao().getEventsByType(plant.id, type)
+    suspend fun getEntriesOfType(plant: Plant, type: EntryType): List<Entry> {
+        return withContext(IO) {
+            database.entryDao().getEventsOfType(plant.id, type)
+        }
+    }
+
+    suspend fun getLastEntryOfType(plant: Plant, type: EntryType): Entry? {
+        return withContext(IO) {
+            database.entryDao().getLastEventOfType(plant.id, type)
+        }
+    }
+
+    suspend fun getPlantsToWaterToday(): List<Plant> {
+        return getAllPlants().map {
+            // TODO optimize getting the last watering entry, don't get all of them
+            val lastWaterEntry = getLastEntryOfType(it, EntryType.WATER)
+            if (lastWaterEntry != null) {
+                Pair(it, lastWaterEntry)
+            } else {
+                // if this plant has never been watered, compare with birth entry.
+                // if birth entry doesn't exist, we have a problem
+                val birthEntry = getLastEntryOfType(it, EntryType.BIRTH)
+                Pair(it, birthEntry!!)
+            }
+        }.filter {
+            val (plant, entry) = it
+
+            val waterFreqDays = plant.waterFreq.millisFreqToDays().toLong()
+            val lastWaterDate = entry.time
+            val endOfDay = OffsetDateTime.now().apply {
+                with(ChronoField.HOUR_OF_DAY, 23)
+                with(ChronoField.MINUTE_OF_HOUR, 59)
+                with(ChronoField.SECOND_OF_MINUTE, 59)
+            }
+
+            return@filter lastWaterDate.plusDays(waterFreqDays).isBefore(endOfDay)
+        }.map {
+            return@map it.first
+        }
+            .toList()
     }
 
     companion object {

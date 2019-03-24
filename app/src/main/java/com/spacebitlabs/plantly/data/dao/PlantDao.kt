@@ -1,4 +1,4 @@
-package com.spacebitlabs.plantly.data.source
+package com.spacebitlabs.plantly.data.dao
 
 import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE

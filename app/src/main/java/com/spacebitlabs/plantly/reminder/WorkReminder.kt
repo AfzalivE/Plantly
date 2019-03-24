@@ -18,8 +18,14 @@ open class WorkReminder(private val prefs: Prefs) {
     }
 
     open fun scheduleDailyReminder() {
+        if (prefs.getWorkReminderId().isNotEmpty()) {
+            val workInfoListenable = WorkManager.getInstance().getWorkInfoById(UUID.fromString(prefs.getWorkReminderId()))
+            // if work already exists, don't schedule another reminder
+            if (workInfoListenable.get() != null) return
+        }
+
         val workReminder = PeriodicWorkRequestBuilder<WaterPlantReminder>(1, TimeUnit.DAYS).build()
-        Timber.d("Running scheduled work reminder")
+        Timber.d("Scheduling work reminder")
         prefs.setWorkReminderId(workReminder.id)
         WorkManager.getInstance().enqueue(workReminder)
     }
