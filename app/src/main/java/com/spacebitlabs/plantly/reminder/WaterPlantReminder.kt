@@ -50,7 +50,7 @@ class WaterPlantReminder(context: Context, params: WorkerParameters) : Worker(
             val textWithPlants = if (plants.size > 2) {
                 "Several plants need watering today!"
             } else {
-                plants.joinToString(separator = " and ", postfix = " need watering today")
+                plants.joinToString(separator = " and ", postfix = " need watering today", transform = Plant::name)
             }
 
             val contentIntent = PendingIntent.getActivity(
