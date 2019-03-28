@@ -52,4 +52,9 @@
         <item quantity="one">Fertilized %d time</item>
         <item quantity="other">Fertilized %d times</item>
     </plurals>
+
+    <plurals name="need_watering_today">
+        <item quantity="one">need watering today!</item>
+        <item quantity="other">needs watering today!</item>
+    </plurals>
 </resources>

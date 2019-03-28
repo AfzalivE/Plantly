@@ -47,10 +47,11 @@ class WaterPlantReminder(context: Context, params: WorkerParameters) : Worker(
 
             Timber.d("Got ${plants.size} to water")
 
+            val quantityText = context.resources.getQuantityText(R.plurals.need_watering_today, plants.size)
             val textWithPlants = if (plants.size > 2) {
-                "Several plants need watering today!"
+                "${plants.size} plants $quantityText"
             } else {
-                plants.joinToString(separator = " and ", postfix = " need watering today", transform = Plant::name)
+                plants.joinToString(separator = " and ", postfix = " $quantityText", transform = Plant::name)
             }
 
             val contentIntent = PendingIntent.getActivity(
