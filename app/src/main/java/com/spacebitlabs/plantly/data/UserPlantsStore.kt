@@ -80,6 +80,17 @@ class UserPlantsStore(private val database: PlantDatabase, private val workRemin
         }
     }
 
+    suspend fun deletePlants(plantIdList: List<Long>) {
+        return withContext(IO) {
+            database.plantDao().deleteWithIds(plantIdList)
+            database.entryDao().deleteWithPlantId(plantIdList)
+
+            if (database.plantDao().count() == 0) {
+                workReminder.cancelDailyReminder()
+            }
+        }
+    }
+
     /**
      * Used for changing core plant properties
      * like name

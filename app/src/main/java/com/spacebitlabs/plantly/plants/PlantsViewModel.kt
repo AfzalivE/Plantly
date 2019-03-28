@@ -53,6 +53,13 @@ class PlantsViewModel : ViewModel() {
         }
     }
 
+    fun deletePlants(plantIdList: List<Long>) {
+        viewModelScope.launch {
+            userPlantsStore.deletePlants(plantIdList)
+            loadUserPlants()
+        }
+    }
+
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()

@@ -25,6 +25,9 @@ interface EntryDao {
     @Delete
     fun delete(entry: Entry)
 
+    @Query("DELETE FROM entry where plantId in (:plantIdList)")
+    fun deleteWithPlantId(plantIdList: List<Long>)
+
     // Delete all entries related to a plant
     @Query("DELETE FROM entry where plantId LIKE :plantId")
     fun deleteAll(plantId: Long)

@@ -26,6 +26,9 @@ interface PlantDao {
     @Delete
     fun delete(plant: Plant)
 
+    @Query("DELETE FROM plant WHERE id in (:plantIdList)")
+    fun deleteWithIds(plantIdList: List<Long>)
+
     @Query("DELETE FROM plant")
     fun deleteAll()
 

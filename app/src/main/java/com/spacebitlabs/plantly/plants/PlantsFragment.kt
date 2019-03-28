@@ -1,5 +1,6 @@
 package com.spacebitlabs.plantly.plants
 
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import androidx.recyclerview.selection.*
+import androidx.recyclerview.selection.SelectionTracker.SelectionObserver
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
@@ -27,6 +30,7 @@ class PlantsFragment : Fragment() {
     private val plantAdapter = PlantsAdapter()
     private val todayAdapter = TodayAdapter()
     private var model: PlantsViewModel? = null
+    private var selectionTracker: SelectionTracker<Long>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +38,28 @@ class PlantsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? =
         inflater.inflate(layout.fragment_plants, container, false)
+
+    private val plantSelectionObserver = object : SelectionObserver<Long>() {
+        override fun onSelectionChanged() {
+            switchFabIcon(selectionTracker?.hasSelection() == true, selectionTracker?.selection)
+        }
+    }
+
+    private fun switchFabIcon(showDeleteIcon: Boolean, selection: Selection<Long>?) {
+        val icon = if (showDeleteIcon) {
+            add_plant.setOnClickListener {
+                model?.deletePlants(selection?.toList() ?: emptyList())
+            }
+            R.drawable.plus_to_bin
+        } else {
+            add_plant.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.to_add_plants_action))
+            R.drawable.bin_to_plus
+        }
+
+        // TODO check if already showing the bin icon and don't animate again
+        add_plant.setImageResource(icon)
+        (add_plant.drawable as AnimatedVectorDrawable).start()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,6 +76,20 @@ class PlantsFragment : Fragment() {
 
         today_list.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         today_list.adapter = todayAdapter
+
+        selectionTracker = SelectionTracker.Builder<Long>(
+            "plantSelectionId",
+            plant_list,
+            StableIdKeyProvider(plant_list),
+            PlantItemDetailsLookup(plant_list),
+            StorageStrategy.createLongStorage()
+        ).withSelectionPredicate(
+            SelectionPredicates.createSelectAnything()
+        ).build()
+
+        selectionTracker?.addObserver(plantSelectionObserver)
+
+        plantAdapter.tracker = selectionTracker
 
         add_plant.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.to_add_plants_action))
         add_plant.setOnLongClickListener {
