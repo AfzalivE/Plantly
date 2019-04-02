@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import com.afzaln.photopicker.PhotoPicker
 import com.spacebitlabs.plantly.R
 import com.spacebitlabs.plantly.data.entities.Plant
 import com.spacebitlabs.plantly.data.entities.PlantWithPhotos
@@ -26,13 +27,12 @@ class PlantDetailFragment : androidx.fragment.app.Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_plant_detail, container, false)
 
-    private val viewModel: PlantDetailViewModel
-        get() {
-            return ViewModelProviders.of(this).get(PlantDetailViewModel::class.java)
-        }
+    private lateinit var viewModel: PlantDetailViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel = ViewModelProviders.of(this).get(PlantDetailViewModel::class.java)
 
         val plantId = arguments?.let {
             PlantDetailFragmentArgs.fromBundle(it).plantId
@@ -43,6 +43,18 @@ class PlantDetailFragment : androidx.fragment.app.Fragment() {
         })
 
         viewModel.getPlantDetail(plantId)
+
+        photos_button.setOnClickListener {
+            context ?: return@setOnClickListener
+
+            PhotoPicker.with(context!!)
+                .addToGallery()
+                .onSave { filePath: String ->
+                    Timber.d("Saved photo at $filePath")
+
+                }
+                .takePicture()
+        }
     }
 
     private fun render(state: PlantDetailViewState?) {

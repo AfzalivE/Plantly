@@ -3,6 +3,7 @@ package com.spacebitlabs.plantly.plantdetail
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.spacebitlabs.plantly.Injection
+import com.spacebitlabs.plantly.actions.AddPlantPhotoUseCase
 import com.spacebitlabs.plantly.actions.WaterPlantUseCase
 import com.spacebitlabs.plantly.data.EntryType
 import com.spacebitlabs.plantly.millisFreqToDays
@@ -37,12 +38,19 @@ class PlantDetailViewModel : ViewModel() {
     }
 
     private val waterPlantUseCase = WaterPlantUseCase()
+    private val addPlantPhotoUseCase = AddPlantPhotoUseCase()
 
     val plantDetailViewState: MutableLiveData<PlantDetailViewState> = MutableLiveData()
 
     fun waterPlant() {
         viewModelScope.launch {
             waterPlantUseCase.waterPlant(plantId)
+        }
+    }
+
+    fun addPlantPhoto() {
+        viewModelScope.launch {
+            addPlantPhotoUseCase.addPhoto()
         }
     }
 

@@ -38,7 +38,7 @@ class Injection private constructor(private val appContext: Context) {
     fun provideDatabase(): PlantDatabase = database
 
     fun providePlantStore() = userPlantsStore.also {
-//        it.loadMockSeedData()
+        it.loadMockSeedData()
     }
 
     fun providePrefs() = prefs

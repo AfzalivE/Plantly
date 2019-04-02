@@ -2,6 +2,8 @@ package com.afzaln.photopicker
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Environment
 import android.widget.ImageView
 import androidx.core.content.FileProvider
@@ -9,7 +11,13 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-class PhotoPicker(val context: Context, private val imageView: ImageView?, val file: File, private inline val onSave: (String) -> Unit) {
+class PhotoPicker(
+    val context: Context,
+    private val imageView: ImageView?,
+    val file: File,
+    private val addToGallery: Boolean,
+    private inline val onSave: (String) -> Unit
+) {
 
     fun takePicture() {
         val photoUri = FileProvider.getUriForFile(context, AUTHORITIES, file)
@@ -18,12 +26,24 @@ class PhotoPicker(val context: Context, private val imageView: ImageView?, val f
                 Activity.RESULT_OK -> {
                     PhotoHandler.setPic(imageView, file.absolutePath)
                     onSave.invoke(file.absolutePath)
+                    if (addToGallery) {
+                        addPhotoToGallery(file.absolutePath)
+                    }
                 }
             }
+            // Potential for memory leak
             HiddenActivity.resultCallback = null
         }
 
         HiddenActivity.takePicture(context, file.absolutePath, photoUri)
+    }
+
+    private fun addPhotoToGallery(currentPhotoPath: String) {
+        val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+        val file = File(currentPhotoPath)
+        val contentUri = Uri.fromFile(file)
+        mediaScanIntent.data = contentUri
+        context.sendBroadcast(mediaScanIntent)
     }
 
     fun showPhotos() {
@@ -38,6 +58,7 @@ class PhotoPicker(val context: Context, private val imageView: ImageView?, val f
         private var imageView: ImageView? = null
         private var file: File
         private var onSave: (String) -> Unit = {}
+        private var addToGallery: Boolean = false
 
         init {
             // Create an image file name
@@ -53,6 +74,11 @@ class PhotoPicker(val context: Context, private val imageView: ImageView?, val f
 
         fun intoImageView(imageView: ImageView): Builder {
             this.imageView = imageView
+            return this
+        }
+
+        fun addToGallery(): Builder {
+            addToGallery = true
             return this
         }
 
@@ -86,7 +112,7 @@ class PhotoPicker(val context: Context, private val imageView: ImageView?, val f
 
 
         private fun build(): PhotoPicker {
-            return PhotoPicker(context, imageView, file, onSave)
+            return PhotoPicker(context, imageView, file, addToGallery, onSave)
         }
 
         fun onSave(onSave: (String) -> Unit): Builder {

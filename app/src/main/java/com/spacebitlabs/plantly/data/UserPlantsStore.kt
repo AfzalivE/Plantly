@@ -30,13 +30,13 @@ class UserPlantsStore(private val database: PlantDatabase, private val workRemin
                     }
                 }
 
-                database.plantDao().getAll().forEach {
+                database.plantDao().getAll().take(3).forEach {
                     if (database.entryDao().count() == 0) {
                         database.entryDao().insert(
                             Entry(
                                 type = EntryType.WATER,
                                 plantId = it.id,
-                                time = OffsetDateTime.now().minusDays(10)
+                                time = OffsetDateTime.now()
                             )
                         )
                     }
