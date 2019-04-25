@@ -52,6 +52,10 @@ android {
             signingConfig signingConfigs.release
         }
     }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
 }
 
 dependencies {
@@ -63,13 +67,13 @@ dependencies {
     // support libs
     implementation "androidx.appcompat:appcompat:$versions.androidx"
     implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha4'
     implementation "androidx.vectordrawable:vectordrawable:1.0.1"
     implementation 'androidx.cardview:cardview:1.0.0'
 
     // architecture libs
     implementation "androidx.lifecycle:lifecycle-extensions:$versions.androidxArch"
-    kapt "androidx.lifecycle:lifecycle-compiler:$versions.androidxArch"
+    kapt "androidx.lifecycle:lifecycle-common-java8:$versions.androidxArch"
     implementation "io.reactivex.rxjava2:rxjava:2.2.2"
     implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
     implementation "io.reactivex.rxjava2:rxkotlin:2.3.0"

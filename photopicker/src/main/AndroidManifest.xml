@@ -3,7 +3,8 @@
     package="com.afzaln.photopicker">
 
     <application>
-        <activity android:name=".HiddenActivity" />
+        <activity android:name=".HiddenCameraResultActivity" />
+        <activity android:name=".HiddenPhotoResultActivity" />
     </application>
 
 </manifest>

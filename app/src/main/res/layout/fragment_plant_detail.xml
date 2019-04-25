@@ -102,27 +102,22 @@
                 android:layout_marginTop="24dp"
                 android:textColor="@color/c_black"
                 android:textSize="16sp"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/water_count"
                 tools:text="28 Photos" />
 
-            <View
-                android:id="@+id/photos_placeholder"
-                android:layout_width="match_parent"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/photos_list"
+                android:layout_width="wrap_content"
                 android:layout_height="96dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="20dp"
-                android:background="@color/light_green"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/photo_list_item"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/photos_count" />
-
-            <Button
-                android:id="@+id/photos_button"
-                android:layout_width="24dp"
-                android:layout_height="96dp"
-                app:layout_constraintStart_toEndOf="@id/photos_placeholder"
-                app:layout_constraintTop_toTopOf="@id/photos_placeholder" />
 
             <TextView
                 android:id="@+id/next_watering_lbl"
@@ -134,7 +129,7 @@
                 android:textColor="@color/c_black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/photos_placeholder" />
+                app:layout_constraintTop_toBottomOf="@id/photos_list" />
 
             <TextView
                 android:id="@+id/next_watering_date"

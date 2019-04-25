@@ -14,14 +14,14 @@
         <KeyFrameSet>
             <KeyAttribute
                 app:framePosition="60"
-                app:target="@id/cover_photo">
+                app:motionTarget="@id/cover_photo">
                 <CustomAttribute
                     app:attributeName="imageAlpha"
                     app:customIntegerValue="255" />
             </KeyAttribute>
             <KeyAttribute
                 app:framePosition="90"
-                app:target="@id/cover_photo">
+                app:motionTarget="@id/cover_photo">
                 <CustomAttribute
                     app:attributeName="imageAlpha"
                     app:customIntegerValue="0" />
@@ -30,12 +30,12 @@
                 app:framePosition="50"
                 app:keyPositionType="pathRelative"
                 app:percentX="0.7"
-                app:target="@id/title" />
+                app:motionTarget="@id/title" />
             <KeyPosition
                 app:framePosition="80"
                 app:keyPositionType="pathRelative"
                 app:percentX="0.9"
-                app:target="@id/cover_photo" />
+                app:motionTarget="@id/cover_photo" />
         </KeyFrameSet>
 
     </Transition>

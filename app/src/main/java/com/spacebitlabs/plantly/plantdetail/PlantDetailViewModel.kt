@@ -48,9 +48,10 @@ class PlantDetailViewModel : ViewModel() {
         }
     }
 
-    fun addPlantPhoto() {
+    fun addPlantPhoto(filePath: String) {
         viewModelScope.launch {
-            addPlantPhotoUseCase.addPhoto()
+            addPlantPhotoUseCase.addPhoto(plantId, filePath)
+            getPlantDetail(plantId)
         }
     }
 

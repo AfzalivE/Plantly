@@ -1,6 +1,7 @@
 package com.spacebitlabs.plantly.data
 
 import com.spacebitlabs.plantly.data.entities.Entry
+import com.spacebitlabs.plantly.data.entities.Photo
 import com.spacebitlabs.plantly.data.entities.Plant
 import com.spacebitlabs.plantly.data.entities.PlantWithPhotos
 import com.spacebitlabs.plantly.millisFreqToDays
@@ -16,34 +17,6 @@ import org.threeten.bp.temporal.ChronoField
  * Store for the user's plants
  */
 class UserPlantsStore(private val database: PlantDatabase, private val workReminder: WorkReminder) {
-    init {
-
-    }
-
-    fun loadMockSeedData() {
-        GlobalScope.launch {
-            withContext(IO) {
-                if (database.plantDao().count() == 0) {
-                    database.plantDao().deleteAll()
-                    for (plant in mockPlants) {
-                        addPlant(plant)
-                    }
-                }
-
-                database.plantDao().getAll().take(3).forEach {
-                    if (database.entryDao().count() == 0) {
-                        database.entryDao().insert(
-                            Entry(
-                                type = EntryType.WATER,
-                                plantId = it.id,
-                                time = OffsetDateTime.now()
-                            )
-                        )
-                    }
-                }
-            }
-        }
-    }
 
     suspend fun getAllPlants(): List<Plant> {
         return withContext(IO) {
@@ -73,6 +46,7 @@ class UserPlantsStore(private val database: PlantDatabase, private val workRemin
         return withContext(IO) {
             database.plantDao().delete(plant)
             database.entryDao().deleteAll(plant.id)
+            database.photoDao().deleteAll(plant.id)
 
             if (database.plantDao().count() == 0) {
                 workReminder.cancelDailyReminder()
@@ -113,30 +87,6 @@ class UserPlantsStore(private val database: PlantDatabase, private val workRemin
         }
     }
 
-    suspend fun addEntry(event: Entry) {
-        return withContext(IO) {
-            database.entryDao().insert(event)
-        }
-    }
-
-    suspend fun getEntries(plantId: Long): List<Entry> {
-        return withContext(IO) {
-            database.entryDao().getEvents(plantId)
-        }
-    }
-
-    suspend fun getEntriesOfType(plant: Plant, type: EntryType): List<Entry> {
-        return withContext(IO) {
-            database.entryDao().getEventsOfType(plant.id, type)
-        }
-    }
-
-    suspend fun getLastEntryOfType(plant: Plant, type: EntryType): Entry? {
-        return withContext(IO) {
-            database.entryDao().getLastEventOfType(plant.id, type)
-        }
-    }
-
     suspend fun getPlantsToWaterToday(): List<Plant> {
         return getAllPlants().map {
             // TODO optimize getting the last watering entry, don't get all of them
@@ -165,6 +115,67 @@ class UserPlantsStore(private val database: PlantDatabase, private val workRemin
             return@map it.first
         }
             .toList()
+    }
+
+    suspend fun addEntry(event: Entry) {
+        return withContext(IO) {
+            database.entryDao().insert(event)
+        }
+    }
+
+    suspend fun getEntries(plantId: Long): List<Entry> {
+        return withContext(IO) {
+            database.entryDao().getEvents(plantId)
+        }
+    }
+
+    suspend fun getEntriesOfType(plant: Plant, type: EntryType): List<Entry> {
+        return withContext(IO) {
+            database.entryDao().getEventsOfType(plant.id, type)
+        }
+    }
+
+    suspend fun getLastEntryOfType(plant: Plant, type: EntryType): Entry? {
+        return withContext(IO) {
+            database.entryDao().getLastEventOfType(plant.id, type)
+        }
+    }
+
+    suspend fun addPhoto(photo: Photo): Long {
+        return withContext(IO) {
+            database.photoDao().insert(photo)
+        }
+    }
+
+    suspend fun deletePhoto(photo: Photo) {
+        withContext(IO) {
+            database.photoDao().delete(photo)
+        }
+    }
+
+    fun loadMockSeedData() {
+        GlobalScope.launch {
+            withContext(IO) {
+                if (database.plantDao().count() == 0) {
+                    database.plantDao().deleteAll()
+                    for (plant in mockPlants) {
+                        addPlant(plant)
+                    }
+                }
+
+                database.plantDao().getAll().take(3).forEach {
+                    if (database.entryDao().count() == 0) {
+                        database.entryDao().insert(
+                            Entry(
+                                type = EntryType.WATER,
+                                plantId = it.id,
+                                time = OffsetDateTime.now()
+                            )
+                        )
+                    }
+                }
+            }
+        }
     }
 
     companion object {

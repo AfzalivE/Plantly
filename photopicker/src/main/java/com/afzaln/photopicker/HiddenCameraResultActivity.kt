@@ -7,7 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 
-class HiddenActivity : Activity() {
+class HiddenCameraResultActivity : Activity() {
 
     private lateinit var photoPath: String
     private lateinit var photoUri: Uri
@@ -19,7 +19,7 @@ class HiddenActivity : Activity() {
         var resultCallback: ((Int) -> Unit)? = null
 
         fun takePicture(context: Context, photoPath: String, photoUri: Uri) {
-            val intent = Intent(context, HiddenActivity::class.java).apply {
+            val intent = Intent(context, HiddenCameraResultActivity::class.java).apply {
                     putExtra(EXTRA_URI, photoUri)
                     putExtra(EXTRA_PATH, photoPath)
                 }

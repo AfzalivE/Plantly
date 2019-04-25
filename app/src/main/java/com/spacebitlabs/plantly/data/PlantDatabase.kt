@@ -4,6 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.spacebitlabs.plantly.data.dao.EntryDao
+import com.spacebitlabs.plantly.data.dao.PhotoDao
 import com.spacebitlabs.plantly.data.dao.PlantDao
 import com.spacebitlabs.plantly.data.dao.PlantWithPhotosDao
 import com.spacebitlabs.plantly.data.entities.Entry
@@ -18,5 +19,6 @@ import com.spacebitlabs.plantly.data.entities.Plant
 abstract class PlantDatabase : RoomDatabase() {
     abstract fun plantDao(): PlantDao
     abstract fun entryDao(): EntryDao
+    abstract fun photoDao(): PhotoDao
     abstract fun plantWithPhotosDao(): PlantWithPhotosDao
 }

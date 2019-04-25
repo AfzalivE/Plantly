@@ -21,7 +21,7 @@ class PhotoPicker(
 
     fun takePicture() {
         val photoUri = FileProvider.getUriForFile(context, AUTHORITIES, file)
-        HiddenActivity.resultCallback = {
+        HiddenCameraResultActivity.resultCallback = {
             when (it) {
                 Activity.RESULT_OK -> {
                     PhotoHandler.setPic(imageView, file.absolutePath)
@@ -32,10 +32,10 @@ class PhotoPicker(
                 }
             }
             // Potential for memory leak
-            HiddenActivity.resultCallback = null
+            HiddenCameraResultActivity.resultCallback = null
         }
 
-        HiddenActivity.takePicture(context, file.absolutePath, photoUri)
+        HiddenCameraResultActivity.takePicture(context, file.absolutePath, photoUri)
     }
 
     private fun addPhotoToGallery(currentPhotoPath: String) {
@@ -47,7 +47,15 @@ class PhotoPicker(
     }
 
     fun showPhotos() {
+        HiddenPhotoResultActivity.resultCallback = { resultCode: Int, fileUri: String ->
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    onSave.invoke(fileUri)
+                }
+            }
+        }
 
+        HiddenPhotoResultActivity.showPhotos(context)
     }
 
     fun showDialog() {

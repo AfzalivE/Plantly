@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.afzaln.photopicker.PhotoPicker
 import com.spacebitlabs.plantly.R
 import com.spacebitlabs.plantly.data.entities.Plant
@@ -22,12 +24,26 @@ import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import timber.log.Timber
 
-class PlantDetailFragment : androidx.fragment.app.Fragment() {
+class PlantDetailFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_plant_detail, container, false)
 
     private lateinit var viewModel: PlantDetailViewModel
+
+    private val addPhotoClickListener: () -> Unit = {
+        context?.let {
+            PhotoPicker.with(context!!)
+                .addToGallery()
+                .onSave { filePath: String ->
+                    Timber.d("Saved photo at $filePath")
+                    viewModel.addPlantPhoto(filePath)
+                }
+                .showPhotos()
+        }
+    }
+
+    private val photosAdapter = PhotosAdapter(addPhotoClickListener)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,19 +58,10 @@ class PlantDetailFragment : androidx.fragment.app.Fragment() {
             render(state)
         })
 
+        photos_list.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        photos_list.adapter = photosAdapter
+
         viewModel.getPlantDetail(plantId)
-
-        photos_button.setOnClickListener {
-            context ?: return@setOnClickListener
-
-            PhotoPicker.with(context!!)
-                .addToGallery()
-                .onSave { filePath: String ->
-                    Timber.d("Saved photo at $filePath")
-
-                }
-                .takePicture()
-        }
     }
 
     private fun render(state: PlantDetailViewState?) {
@@ -96,6 +103,7 @@ class PlantDetailFragment : androidx.fragment.app.Fragment() {
 
         plantWithPhotos.photos.let {
             photos_count.text = resources.getQuantityString(R.plurals.photos, it.size, it.size)
+            photosAdapter.setPhotoList(it)
         }
 
         birthday_txt.text = LocalDate.from(birthday).format(DateTimeFormatter.ofPattern("EEE, d MMM yyyy"))
