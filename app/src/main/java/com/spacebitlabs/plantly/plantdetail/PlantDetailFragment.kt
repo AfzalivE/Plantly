@@ -111,8 +111,11 @@ class PlantDetailFragment : Fragment() {
         fertilize_count.text = resources.getQuantityString(R.plurals.fertilized, soilCount, soilCount)
         // TODO change from "today/yesterday/1 hour ago" to "1 day or 1 hour"
         age.text = DateUtils.getRelativeTimeSpanString(birthday.toInstant().toEpochMilli())
+        //        ChronoUnit.DAYS.between(LocalDate.now(), birthday)
 
         next_watering_date.text = DateUtils.getRelativeTimeSpanString(nextWatering.toInstant().toEpochMilli())
+
+        //         ChronoUnit.DAYS.between(LocalDate.now(), nextWatering)
 
         setupClicks()
     }
