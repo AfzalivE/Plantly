@@ -191,7 +191,7 @@ class UserPlantsStore(private val database: PlantDatabase, private val workRemin
             Plant("Drogo", "Drogo", 3.days.inMilliseconds.longValue, 10.days.inMilliseconds.longValue),
             Plant("Cro", "Cro", 3.days.inMilliseconds.longValue, 10.days.inMilliseconds.longValue),
             Plant("Krypton", "Krypton", 3.days.inMilliseconds.longValue, 10.days.inMilliseconds.longValue),
-            Plant("Xenon", "Xenon", 3.days.inMilliseconds.longValue, 10.days.inMilliseconds.longValue),
+            Plant("Xenon", "Boi Fernando", 3.days.inMilliseconds.longValue, 10.days.inMilliseconds.longValue),
             Plant("Argon", "Argon", 3.days.inMilliseconds.longValue, 10.days.inMilliseconds.longValue)
         )
     }

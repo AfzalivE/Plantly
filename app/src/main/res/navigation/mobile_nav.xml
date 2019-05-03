@@ -7,8 +7,7 @@
 
     <fragment
         android:id="@+id/plants"
-        android:name="com.spacebitlabs.plantly.plants.PlantsFragment"
-        android:label="PlantsFragment" >
+        android:name="com.spacebitlabs.plantly.plants.PlantsFragment">
         <action
             android:id="@+id/to_add_plants_action"
             app:destination="@id/add_plant"
@@ -30,13 +29,11 @@
     </fragment>
     <fragment
         android:id="@+id/add_plant"
-        android:name="com.spacebitlabs.plantly.addplant.AddPlantFragment"
-        android:label="AddPlantFragment" />
+        android:name="com.spacebitlabs.plantly.addplant.AddPlantFragment" />
     <fragment
         android:id="@+id/plant_detail"
         android:name="com.spacebitlabs.plantly.plantdetail.PlantDetailFragment"
-        android:label="fragment_plant_detail"
-        tools:layout="@layout/fragment_plant_detail" >
+        tools:layout="@layout/fragment_plant_detail">
         <argument
             android:name="plant_id"
             android:defaultValue="0L" />
