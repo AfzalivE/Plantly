@@ -45,6 +45,7 @@ class PlantDetailViewModel : ViewModel() {
     fun waterPlant() {
         viewModelScope.launch {
             waterPlantUseCase.waterPlant(plantId)
+            getPlantDetail(plantId)
         }
     }
 
