@@ -86,6 +86,7 @@ dependencies {
     implementation 'androidx.room:room-rxjava2:2.0.0'
     kapt 'androidx.room:room-compiler:2.0.0'
     implementation "com.jakewharton.threetenabp:threetenabp:1.1.0"
+    implementation project(path: ':amountformats-android')
     implementation "com.github.kizitonwose.time:time:1.0.2"
     implementation "com.github.kizitonwose.time:time-android:1.0.2"
 

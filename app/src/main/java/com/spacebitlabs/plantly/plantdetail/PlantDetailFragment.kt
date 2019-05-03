@@ -21,8 +21,11 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_plant_detail.*
 import org.threeten.bp.LocalDate
 import org.threeten.bp.OffsetDateTime
+import org.threeten.bp.Period
 import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.extra.AmountFormats
 import timber.log.Timber
+import java.util.*
 
 class PlantDetailFragment : Fragment() {
 
@@ -95,10 +98,10 @@ class PlantDetailFragment : Fragment() {
 
             title.text = it.name
 //            type.text = it.type
-            val waterFreqDays = it.waterFreq.millisFreqToDays()
-            val soilFreqDays = it.soilFreq.millisFreqToDays()
-            water_freq.text = resources.getQuantityString(R.plurals.days, waterFreqDays, waterFreqDays)
-            soil_freq.text = resources.getQuantityString(R.plurals.days, soilFreqDays, soilFreqDays)
+            val waterFreqDuration = Period.of(0, 0, it.waterFreq.millisFreqToDays())
+            water_freq.text = AmountFormats.wordBased(waterFreqDuration, Locale.getDefault())
+            val soilFreqDuration = Period.of(0, 0, it.soilFreq.millisFreqToDays())
+            soil_freq.text = AmountFormats.wordBased(soilFreqDuration, Locale.getDefault())
         }
 
         plantWithPhotos.photos.let {
@@ -110,12 +113,11 @@ class PlantDetailFragment : Fragment() {
         water_count.text = resources.getQuantityString(R.plurals.watered, waterCount, waterCount)
         fertilize_count.text = resources.getQuantityString(R.plurals.fertilized, soilCount, soilCount)
         // TODO change from "today/yesterday/1 hour ago" to "1 day or 1 hour"
-        age.text = DateUtils.getRelativeTimeSpanString(birthday.toInstant().toEpochMilli())
-        //        ChronoUnit.DAYS.between(LocalDate.now(), birthday)
+
+        val ageDuration = Period.between(birthday.toLocalDate(), LocalDate.now())
+        age.text = AmountFormats.wordBased(ageDuration, Locale.getDefault())
 
         next_watering_date.text = DateUtils.getRelativeTimeSpanString(nextWatering.toInstant().toEpochMilli())
-
-        //         ChronoUnit.DAYS.between(LocalDate.now(), nextWatering)
 
         setupClicks()
     }

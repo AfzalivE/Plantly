@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Plantly.iml" filepath="$PROJECT_DIR$/Plantly.iml" />
+      <module fileurl="file://$PROJECT_DIR$/amountformats-android/amountformats-android.iml" filepath="$PROJECT_DIR$/amountformats-android/amountformats-android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/photopicker/photopicker.iml" filepath="$PROJECT_DIR$/photopicker/photopicker.iml" />
     </modules>

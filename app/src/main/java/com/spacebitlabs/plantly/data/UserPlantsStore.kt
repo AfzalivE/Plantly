@@ -1,5 +1,6 @@
 package com.spacebitlabs.plantly.data
 
+import com.kizitonwose.time.days
 import com.spacebitlabs.plantly.data.entities.Entry
 import com.spacebitlabs.plantly.data.entities.Photo
 import com.spacebitlabs.plantly.data.entities.Plant
@@ -187,11 +188,11 @@ class UserPlantsStore(private val database: PlantDatabase, private val workRemin
 //            Plant("Xenon", "Xenon", 3, 10),
 //            Plant("Argon", "Argon", 3, 10),
 //            Plant("Sansa", "Sansa", 3, 10),
-            Plant("Drogo", "Drogo", 3, 10),
-            Plant("Cro", "Cro", 3, 10),
-            Plant("Krypton", "Krypton", 3, 10),
-            Plant("Xenon", "Xenon", 3, 10),
-            Plant("Argon", "Argon", 3, 10)
+            Plant("Drogo", "Drogo", 3.days.inMilliseconds.longValue, 10.days.inMilliseconds.longValue),
+            Plant("Cro", "Cro", 3.days.inMilliseconds.longValue, 10.days.inMilliseconds.longValue),
+            Plant("Krypton", "Krypton", 3.days.inMilliseconds.longValue, 10.days.inMilliseconds.longValue),
+            Plant("Xenon", "Xenon", 3.days.inMilliseconds.longValue, 10.days.inMilliseconds.longValue),
+            Plant("Argon", "Argon", 3.days.inMilliseconds.longValue, 10.days.inMilliseconds.longValue)
         )
     }
 }
