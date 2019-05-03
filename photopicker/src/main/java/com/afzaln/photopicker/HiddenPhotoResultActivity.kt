@@ -29,6 +29,7 @@ class HiddenPhotoResultActivity : Activity() {
             if (data != null) {
                 resultCallback?.invoke(resultCode, data.data.toString())
             }
+            // TODO save photo in the app's local folder
         }
 
         finish()
