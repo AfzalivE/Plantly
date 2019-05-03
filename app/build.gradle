@@ -11,7 +11,7 @@ android {
         applicationId "com.spacebitlabs.plantly"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 7
+        versionCode 8
         versionName "1.0-alpha1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -67,7 +67,7 @@ dependencies {
     // support libs
     implementation "androidx.appcompat:appcompat:$versions.androidx"
     implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha4'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha5'
     implementation "androidx.vectordrawable:vectordrawable:1.0.1"
     implementation 'androidx.cardview:cardview:1.0.0'
 
@@ -86,9 +86,9 @@ dependencies {
     implementation 'androidx.room:room-rxjava2:2.0.0'
     kapt 'androidx.room:room-compiler:2.0.0'
     implementation "com.jakewharton.threetenabp:threetenabp:1.1.0"
-    implementation project(path: ':amountformats-android')
     implementation "com.github.kizitonwose.time:time:1.0.2"
     implementation "com.github.kizitonwose.time:time-android:1.0.2"
+    implementation project(path: ':amountformats-android')
 
     // UI libs
     implementation "com.makeramen:roundedimageview:2.3.0"

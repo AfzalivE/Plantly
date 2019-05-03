@@ -87,20 +87,20 @@ class PlantDetailFragment : Fragment() {
         nextWatering: OffsetDateTime
     ) {
         Timber.d("Rendering plantWithPhotos detail")
-        plantWithPhotos.plant.let {
-            if (it.coverPhoto.filePath != "") {
+        plantWithPhotos.plant.let { plant ->
+            if (plant.coverPhoto.filePath != "") {
                 Picasso.get()
-                    .load("file://${it.coverPhoto.filePath}")
+                    .load("file://${plant.coverPhoto.filePath}")
                     .fit()
                     .centerCrop()
                     .into(cover_photo)
             }
 
-            title.text = it.name
+            title.text = plant.name
 //            type.text = it.type
-            val waterFreqDuration = Period.of(0, 0, it.waterFreq.millisFreqToDays())
+            val waterFreqDuration = Period.of(0, 0, plant.waterFreq.millisFreqToDays())
             water_freq.text = AmountFormats.wordBased(waterFreqDuration, Locale.getDefault())
-            val soilFreqDuration = Period.of(0, 0, it.soilFreq.millisFreqToDays())
+            val soilFreqDuration = Period.of(0, 0, plant.soilFreq.millisFreqToDays())
             soil_freq.text = AmountFormats.wordBased(soilFreqDuration, Locale.getDefault())
         }
 
