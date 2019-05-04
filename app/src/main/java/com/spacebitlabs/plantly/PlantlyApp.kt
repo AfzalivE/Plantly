@@ -13,6 +13,7 @@ import timber.log.Timber
 /**
  * App-wide initializations
  */
+@OpenForTesting
 class PlantlyApp : Application() {
 
     override fun onCreate() {

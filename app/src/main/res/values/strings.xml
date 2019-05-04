@@ -24,8 +24,8 @@
     <string name="channel_description">Miscellaneous</string>
 
     <plurals name="plants_need_watering">
-        <item quantity="one">%s needs watering today</item>
-        <item quantity="other">%s need watering today</item>
+        <item quantity="one">needs watering today</item>
+        <item quantity="other">need watering today</item>
     </plurals>
 
     <plurals name="weeks">

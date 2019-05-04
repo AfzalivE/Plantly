@@ -27,7 +27,9 @@ class HiddenPhotoResultActivity : Activity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_SHOW_PHOTOS) {
             if (data != null) {
-                resultCallback?.invoke(resultCode, data.data.toString())
+                data.data?.let {
+                    resultCallback?.invoke(resultCode, it.toString())
+                }
             }
             // TODO save photo in the app's local folder
         }

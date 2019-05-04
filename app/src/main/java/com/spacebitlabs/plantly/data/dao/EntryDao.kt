@@ -13,7 +13,7 @@ interface EntryDao {
     @Query("SELECT * FROM entry WHERE plantId LIKE :plantId AND type LIKE :type ORDER BY datetime(time)")
     fun getEventsOfType(plantId: Long, type: EntryType): List<Entry>
 
-    @Query("SELECT * FROM entry WHERE plantId LIKE :plantId AND type LIKE :type ORDER BY datetime(time) LIMIT 1")
+    @Query("SELECT * FROM entry WHERE plantId LIKE :plantId AND type LIKE :type ORDER BY datetime(time) DESC LIMIT 1")
     fun getLastEventOfType(plantId: Long, type: EntryType): Entry?
 
     @Insert(onConflict = REPLACE)

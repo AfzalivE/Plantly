@@ -1,3 +1,3 @@
 package com.spacebitlabs.plantly.data.entities
 
-class SimplePhoto(val filePath: String)
+data class SimplePhoto(val filePath: String)

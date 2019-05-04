@@ -56,6 +56,9 @@
             android:name="io.fabric.ApiKey"
             android:value="f9f5d73a46f0207de0184841792dba38ce6e1afa" />
 
+        <uses-library android:name="android.test.runner"
+            android:required="false" />
+
     </application>
 
 </manifest>

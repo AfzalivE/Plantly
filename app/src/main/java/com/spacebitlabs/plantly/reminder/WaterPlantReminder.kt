@@ -38,7 +38,9 @@ class WaterPlantReminder(context: Context, params: WorkerParameters) : Worker(
             runBlocking {
                 // check actual watering times to notify the user
                 val plantsToWater = Injection.get().providePlantStore().getPlantsToWaterToday()
-                notifyUserForPlants(plantsToWater)
+                if (plantsToWater.isNotEmpty()) {
+                    notifyUserForPlants(plantsToWater)
+                }
             }
         }
 
@@ -47,7 +49,7 @@ class WaterPlantReminder(context: Context, params: WorkerParameters) : Worker(
 
             Timber.d("Got ${plants.size} to water")
 
-            val quantityText = context.resources.getQuantityText(R.plurals.need_watering_today, plants.size)
+            val quantityText = context.resources.getQuantityText(R.plurals.plants_need_watering, plants.size)
             val textWithPlants = if (plants.size > 2) {
                 "${plants.size} plants $quantityText"
             } else {

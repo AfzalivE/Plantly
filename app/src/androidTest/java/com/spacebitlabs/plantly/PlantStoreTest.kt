@@ -3,12 +3,12 @@ package com.spacebitlabs.plantly
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.runner.AndroidJUnit4
 import com.spacebitlabs.plantly.data.EntryType
 import com.spacebitlabs.plantly.data.PlantDatabase
+import com.spacebitlabs.plantly.data.UserPlantsStore
 import com.spacebitlabs.plantly.data.entities.Entry
 import com.spacebitlabs.plantly.data.entities.Plant
-import com.spacebitlabs.plantly.data.UserPlantsStore
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.Matchers
 import org.junit.After
@@ -49,6 +49,8 @@ class PlantStoreTest {
     @Test
     fun createPlant() {
         runBlocking {
+            val time = OffsetDateTime.now()
+
             store.addPlant(
                 Plant(
                     id = 1,
@@ -56,13 +58,13 @@ class PlantStoreTest {
                     type = "Test",
                     waterFreq = 1,
                     soilFreq = 1
-                )
+                ), time
             )
 
             val plant = store.getAllPlants()[0]
             val entries = store.getEntries(plant.id)
 
-            val expectedEntry = Entry(id = 1, type = EntryType.BIRTH, time = OffsetDateTime.now(), plantId = 1)
+            val expectedEntry = Entry(id = 1, type = EntryType.BIRTH, time = time, plantId = 1)
 
             Assert.assertThat(entries[0], Matchers.equalTo(expectedEntry))
         }

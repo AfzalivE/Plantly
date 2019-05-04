@@ -28,10 +28,10 @@ class UserPlantsStore(private val database: PlantDatabase, private val workRemin
     /**
      * Used for creating a new plant
      */
-    suspend fun addPlant(plant: Plant): Long {
+    suspend fun addPlant(plant: Plant, time: OffsetDateTime = OffsetDateTime.now()): Long {
         return withContext(IO) {
             val plantId = database.plantDao().insert(plant)
-            database.entryDao().insert(Entry(type = EntryType.BIRTH, plantId = plantId))
+            database.entryDao().insert(Entry(type = EntryType.BIRTH, plantId = plantId, time = time))
 
             if (database.plantDao().count() == 1) {
                 workReminder.scheduleDailyReminder()
@@ -88,7 +88,9 @@ class UserPlantsStore(private val database: PlantDatabase, private val workRemin
         }
     }
 
-    suspend fun getPlantsToWaterToday(): List<Plant> {
+    suspend fun getPlantsToWaterToday() = getPlantsToWaterOn(OffsetDateTime.now())
+
+    suspend fun getPlantsToWaterOn(date: OffsetDateTime): List<Plant> {
         return getAllPlants().map {
             // TODO optimize getting the last watering entry, don't get all of them
             val lastWaterEntry = getLastEntryOfType(it, EntryType.WATER)
@@ -105,7 +107,7 @@ class UserPlantsStore(private val database: PlantDatabase, private val workRemin
 
             val waterFreqDays = plant.waterFreq.millisFreqToDays().toLong()
             val lastWaterDate = entry.time
-            val endOfDay = OffsetDateTime.now().apply {
+            val endOfDay = date.apply {
                 with(ChronoField.HOUR_OF_DAY, 23)
                 with(ChronoField.MINUTE_OF_HOUR, 59)
                 with(ChronoField.SECOND_OF_MINUTE, 59)
