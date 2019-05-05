@@ -21,10 +21,10 @@ class PhotoPicker(
 
     fun takePicture() {
         val photoUri = FileProvider.getUriForFile(context, AUTHORITIES, file)
-        HiddenCameraResultActivity.resultCallback = {
-            when (it) {
+        HiddenCameraResultActivity.resultCallback = { resultCode ->
+            when (resultCode) {
                 Activity.RESULT_OK -> {
-                    PhotoHandler.setPic(imageView, file.absolutePath)
+                    imageView?.setScaledImageBitmap(file.absolutePath)
                     onSave.invoke(file.absolutePath)
                     if (addToGallery) {
                         addPhotoToGallery(file.absolutePath)
@@ -38,6 +38,22 @@ class PhotoPicker(
         HiddenCameraResultActivity.takePicture(context, file.absolutePath, photoUri)
     }
 
+    fun showPhotos() {
+        HiddenPhotoResultActivity.resultCallback = { resultCode: Int, fileUri: String ->
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    imageView?.setScaledImageBitmap(fileUri)
+                    onSave.invoke(fileUri)
+                }
+            }
+
+            // Potential for memory leak
+            HiddenPhotoResultActivity.resultCallback = null
+        }
+
+        HiddenPhotoResultActivity.showPhotos(context)
+    }
+
     private fun addPhotoToGallery(currentPhotoPath: String) {
         val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
         val file = File(currentPhotoPath)
@@ -46,19 +62,7 @@ class PhotoPicker(
         context.sendBroadcast(mediaScanIntent)
     }
 
-    fun showPhotos() {
-        HiddenPhotoResultActivity.resultCallback = { resultCode: Int, fileUri: String ->
-            when (resultCode) {
-                Activity.RESULT_OK -> {
-                    onSave.invoke(fileUri)
-                }
-            }
-        }
-
-        HiddenPhotoResultActivity.showPhotos(context)
-    }
-
-    fun showDialog() {
+    private fun showDialog() {
 
     }
 
@@ -70,7 +74,8 @@ class PhotoPicker(
 
         init {
             // Create an image file name
-            val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+            file = context.createOutputFile()
+            val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
             val imageFileName = "JPEG_" + timeStamp + "_"
             val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
             file = File.createTempFile(

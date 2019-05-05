@@ -20,9 +20,9 @@ class HiddenCameraResultActivity : Activity() {
 
         fun takePicture(context: Context, photoPath: String, photoUri: Uri) {
             val intent = Intent(context, HiddenCameraResultActivity::class.java).apply {
-                    putExtra(EXTRA_URI, photoUri)
-                    putExtra(EXTRA_PATH, photoPath)
-                }
+                putExtra(EXTRA_URI, photoUri)
+                putExtra(EXTRA_PATH, photoPath)
+            }
             context.startActivity(intent)
         }
 

@@ -23,15 +23,15 @@ class HiddenPhotoResultActivity : Activity() {
         startPhotosActivity()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intentData)
         if (requestCode == REQUEST_SHOW_PHOTOS) {
-            if (data != null) {
-                data.data?.let {
-                    resultCallback?.invoke(resultCode, it.toString())
+            if (intentData != null) {
+                intentData.data?.let { data ->
+                    val filename = saveImage(data, contentResolver, createOutputFile())
+                    resultCallback?.invoke(resultCode, filename)
                 }
             }
-            // TODO save photo in the app's local folder
         }
 
         finish()
