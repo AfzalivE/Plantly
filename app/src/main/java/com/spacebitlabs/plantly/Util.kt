@@ -4,11 +4,12 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.os.Bundle
-import androidx.annotation.LayoutRes
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.AutoCompleteTextView
+import androidx.annotation.LayoutRes
 import com.kizitonwose.time.days
 import com.kizitonwose.time.milliseconds
 
@@ -44,4 +45,9 @@ fun String.wordsFreqInMillis(type: String): Long {
 fun Activity.hideKeyboard() {
     val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow((currentFocus ?: return).windowToken, 0)
+}
+
+fun AutoCompleteTextView.selectItem(text: String, position: Int = 0) {
+    this.setText(text, false)
+    this.listSelection = position
 }

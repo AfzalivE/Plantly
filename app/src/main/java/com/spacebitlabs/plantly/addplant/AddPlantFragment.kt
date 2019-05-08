@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -24,7 +25,7 @@ import kotlinx.android.synthetic.main.fragment_addplant.*
 class AddPlantFragment : androidx.fragment.app.Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_addplant, container, false)
+        inflater.inflate(com.spacebitlabs.plantly.R.layout.fragment_addplant, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,6 +34,23 @@ class AddPlantFragment : androidx.fragment.app.Fragment() {
         model.addPlantViewState.observe(this, Observer { state ->
             state?.let { render(it) }
         })
+
+        val waterTimeTypesAdapter = ArrayAdapter<CharSequence>(
+            context,
+            R.layout.time_types_popup_item,
+            resources.getStringArray(R.array.time_types_plural)
+        )
+
+        val soilTimeTypesAdapter = ArrayAdapter<CharSequence>(
+            context,
+            R.layout.time_types_popup_item,
+            resources.getStringArray(R.array.time_types_plural)
+        )
+
+        water_freq_type.setAdapter(waterTimeTypesAdapter)
+        water_freq_type.setText(getString(R.string.days), false)
+        soil_freq_type.setAdapter(soilTimeTypesAdapter)
+        soil_freq_type.setText(getString(R.string.days), false)
 
         renderEmpty()
 
@@ -62,8 +80,8 @@ class AddPlantFragment : androidx.fragment.app.Fragment() {
 
             if (!isValid) return@setOnClickListener
 
-            val waterFreq = water_freq.text.toString().wordsFreqInMillis(water_freq_type.selectedItem.toString())
-            val soilFreq = soil_freq.text.toString().wordsFreqInMillis(soil_freq_type.selectedItem.toString())
+            val waterFreq = water_freq.text.toString().wordsFreqInMillis(water_freq_type.text.toString())
+            val soilFreq = soil_freq.text.toString().wordsFreqInMillis(soil_freq_type.text.toString())
 
             // construct a plant from input
             val plant = Plant(type.text.toString(), name.text.toString(), waterFreq, soilFreq)
@@ -95,7 +113,7 @@ class AddPlantFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun renderPlantSaved() {
-        Toast.makeText(activity, R.string.plant_saved, Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, com.spacebitlabs.plantly.R.string.plant_saved, Toast.LENGTH_SHORT).show()
         // TODO nav close fragment
         findNavController().navigateUp()
     }

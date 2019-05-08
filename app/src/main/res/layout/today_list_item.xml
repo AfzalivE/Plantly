@@ -15,12 +15,14 @@
         android:scaleType="centerCrop"
         android:src="@drawable/sample_plant" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/name"
         android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#FFF"
+        android:singleLine="true"
+        android:ellipsize="marquee"
         android:text="Argon" />
 
 </LinearLayout>
