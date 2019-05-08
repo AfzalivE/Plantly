@@ -123,7 +123,7 @@ class PlantDetailFragment : Fragment() {
     }
 
     private fun setupClicks() {
-        water_img.setOnClickListener {
+        water_btn.setOnClickListener {
             viewModel.waterPlant()
             Toast.makeText(context, "Watered", Toast.LENGTH_SHORT).show()
         }
