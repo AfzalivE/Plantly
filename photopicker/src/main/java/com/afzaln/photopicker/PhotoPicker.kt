@@ -7,6 +7,9 @@ import android.net.Uri
 import android.os.Environment
 import android.widget.ImageView
 import androidx.core.content.FileProvider
+import androidx.fragment.app.FragmentManager
+import com.afzaln.photopicker.OperationPickerDialogFragment.Companion.SHOW_PHOTOS
+import com.afzaln.photopicker.OperationPickerDialogFragment.Companion.TAKE_PHOTO
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -16,11 +19,12 @@ class PhotoPicker(
     private val imageView: ImageView?,
     val file: File,
     private val addToGallery: Boolean,
-    private inline val onSave: (String) -> Unit
+    private inline val onSave: (String) -> Unit,
+    val authorities: String
 ) {
 
     fun takePicture() {
-        val photoUri = FileProvider.getUriForFile(context, AUTHORITIES, file)
+        val photoUri = FileProvider.getUriForFile(context, authorities, file)
         HiddenCameraResultActivity.resultCallback = { resultCode ->
             when (resultCode) {
                 Activity.RESULT_OK -> {
@@ -62,11 +66,17 @@ class PhotoPicker(
         context.sendBroadcast(mediaScanIntent)
     }
 
-    private fun showDialog() {
-
-    }
+    private fun showDialog(fragmentManager: FragmentManager) = OperationPickerDialogFragment()
+        .addListener { option ->
+            when (option) {
+                SHOW_PHOTOS -> showPhotos()
+                TAKE_PHOTO  -> takePicture()
+            }
+        }
+        .show(fragmentManager, OPERATION_PICKER_FRAGMENT_TAG)
 
     class Builder(val context: Context) {
+        private val authorities = "${context.packageName}.fileprovider"
         private var imageView: ImageView? = null
         private var file: File
         private var onSave: (String) -> Unit = {}
@@ -119,13 +129,13 @@ class PhotoPicker(
          * choose whether to select a photo
          * or take a new one
          */
-        fun showDialog() {
-            build().showDialog()
+        fun showDialog(fragmentManager: FragmentManager) {
+            build().showDialog(fragmentManager)
         }
 
 
         private fun build(): PhotoPicker {
-            return PhotoPicker(context, imageView, file, addToGallery, onSave)
+            return PhotoPicker(context, imageView, file, addToGallery, onSave, authorities)
         }
 
         fun onSave(onSave: (String) -> Unit): Builder {
@@ -136,17 +146,8 @@ class PhotoPicker(
 
     companion object {
 
-        var AUTHORITIES = ""
+        const val OPERATION_PICKER_FRAGMENT_TAG = "operationPickerTag"
 
-        fun init(applicationId: String) {
-            AUTHORITIES = "$applicationId.fileprovider"
-        }
-
-        fun with(context: Context): Builder {
-            if (AUTHORITIES.isEmpty()) {
-                throw IllegalStateException("Call init with the authority string")
-            }
-            return Builder(context)
-        }
+        fun with(context: Context): Builder = Builder(context)
     }
 }

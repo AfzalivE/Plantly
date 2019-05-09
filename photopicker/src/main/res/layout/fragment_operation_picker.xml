@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textSize="16sp"
+        android:gravity="center_vertical"
+        android:text="@string/add_photo" />
+
+    <TextView
+        android:id="@+id/show_photos"
+        style="@style/Widget.AppCompat.ListView"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textSize="16sp"
+        android:drawableStart="@drawable/ic_gallery"
+        android:gravity="center_vertical"
+        android:drawablePadding="16dp"
+        android:text="@string/show_photos" />
+
+    <TextView
+        android:id="@+id/take_photo"
+        style="@style/Widget.AppCompat.ListView"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textSize="16sp"
+        android:drawableStart="@drawable/ic_camera"
+        android:drawablePadding="16dp"
+        android:gravity="center_vertical"
+        android:text="@string/take_photos" />
+
+</LinearLayout>
