@@ -6,8 +6,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Environment
 import android.widget.ImageView
+import androidx.annotation.StringRes
 import androidx.core.content.FileProvider
 import androidx.fragment.app.FragmentManager
+import com.afzaln.photopicker.OperationPickerDialogFragment.Companion.DEFAULT_TITLE
 import com.afzaln.photopicker.OperationPickerDialogFragment.Companion.SHOW_PHOTOS
 import com.afzaln.photopicker.OperationPickerDialogFragment.Companion.TAKE_PHOTO
 import java.io.File
@@ -66,14 +68,17 @@ class PhotoPicker(
         context.sendBroadcast(mediaScanIntent)
     }
 
-    private fun showDialog(fragmentManager: FragmentManager) = OperationPickerDialogFragment()
-        .addListener { option ->
-            when (option) {
-                SHOW_PHOTOS -> showPhotos()
-                TAKE_PHOTO  -> takePicture()
+    private fun showDialog(fragmentManager: FragmentManager, @StringRes title: Int = DEFAULT_TITLE) {
+        OperationPickerDialogFragment()
+            .setTitle(title)
+            .addListener { option ->
+                when (option) {
+                    SHOW_PHOTOS -> showPhotos()
+                    TAKE_PHOTO  -> takePicture()
+                }
             }
-        }
-        .show(fragmentManager, OPERATION_PICKER_FRAGMENT_TAG)
+            .show(fragmentManager, OPERATION_PICKER_FRAGMENT_TAG)
+    }
 
     class Builder(val context: Context) {
         private val authorities = "${context.packageName}.fileprovider"
@@ -129,8 +134,8 @@ class PhotoPicker(
          * choose whether to select a photo
          * or take a new one
          */
-        fun showDialog(fragmentManager: FragmentManager) {
-            build().showDialog(fragmentManager)
+        fun showDialog(fragmentManager: FragmentManager, @StringRes title: Int = DEFAULT_TITLE) {
+            build().showDialog(fragmentManager, title)
         }
 
 
