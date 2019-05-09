@@ -42,7 +42,7 @@ class PlantDetailFragment : Fragment() {
                     Timber.d("Saved photo at $filePath")
                     viewModel.addPlantPhoto(filePath)
                 }
-                .showPhotos()
+                .showDialog(childFragmentManager)
         }
     }
 

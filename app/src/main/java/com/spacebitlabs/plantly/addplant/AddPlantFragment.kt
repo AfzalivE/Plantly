@@ -1,7 +1,5 @@
 package com.spacebitlabs.plantly.addplant
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +23,7 @@ import kotlinx.android.synthetic.main.fragment_addplant.*
 class AddPlantFragment : androidx.fragment.app.Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(com.spacebitlabs.plantly.R.layout.fragment_addplant, container, false)
+        inflater.inflate(R.layout.fragment_addplant, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -98,7 +96,7 @@ class AddPlantFragment : androidx.fragment.app.Fragment() {
                     // TODO clean this somehow?
                     model.addPlantCoverImage(filePath)
                 }
-                .takePicture()
+                .showDialog(childFragmentManager, R.string.add_cover_photo)
         }
     }
 
@@ -113,7 +111,7 @@ class AddPlantFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun renderPlantSaved() {
-        Toast.makeText(activity, com.spacebitlabs.plantly.R.string.plant_saved, Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, R.string.plant_saved, Toast.LENGTH_SHORT).show()
         // TODO nav close fragment
         findNavController().navigateUp()
     }
@@ -134,11 +132,5 @@ class AddPlantFragment : androidx.fragment.app.Fragment() {
 
     private fun renderSuggestions(state: AddPlantViewState.SuggestionsFound) {
 
-    }
-
-    companion object {
-        fun show(context: Context) {
-            context.startActivity(Intent(context, AddPlantFragment::class.java))
-        }
     }
 }

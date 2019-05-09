@@ -24,6 +24,7 @@
     <string name="channel_description">Miscellaneous</string>
     <string name="water_plant">Water plant</string>
     <string name="fertilize_plant">Fertilize plant</string>
+    <string name="add_cover_photo">Add cover photo</string>
 
     <plurals name="plants_need_watering">
         <item quantity="one">needs watering today</item>
