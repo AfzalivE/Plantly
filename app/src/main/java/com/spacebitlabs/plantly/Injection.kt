@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.room.Room
 import com.spacebitlabs.plantly.data.PlantDatabase
+import com.spacebitlabs.plantly.data.PlantDatabase.Companion.MIGRATION_4_5
 import com.spacebitlabs.plantly.data.Prefs
 import com.spacebitlabs.plantly.data.UserPlantsStore
 import com.spacebitlabs.plantly.reminder.WorkReminder
@@ -17,6 +18,7 @@ class Injection private constructor(private val appContext: Context) {
 
     private val database: PlantDatabase by lazy {
         Room.databaseBuilder(provideContext(), PlantDatabase::class.java, DATABASE_FILE_NAME)
+            .addMigrations(MIGRATION_4_5)
             .fallbackToDestructiveMigration()
             .build()
     }
