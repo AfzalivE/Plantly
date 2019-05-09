@@ -35,7 +35,7 @@ fun Long.millisFreqToDays(): Int {
 private const val DAYS_IN_WEEK = 7
 
 fun String.wordsFreqInMillis(type: String): Long {
-    val freqInt = this.toInt()
+    val freqInt = this.trim().toInt()
     return when (type.toLowerCase()) {
         "week", "weeks" -> (freqInt * DAYS_IN_WEEK)
         else            -> freqInt // day case

@@ -69,10 +69,16 @@ class AddPlantFragment : androidx.fragment.app.Fragment() {
             if (water_freq.text.isNullOrEmpty()) {
                 water_freq.error = "Water frequency is required"
                 isValid = false
+            } else if (water_freq.text.toString().toIntOrNull() == null) {
+                water_freq.error = "Water frequency is not a valid number"
+                isValid = false
             }
 
             if (soil_freq.text.isNullOrEmpty()) {
                 soil_freq.error = "Soil frequency is required"
+                isValid = false
+            } else if (soil_freq.text.toString().toIntOrNull() == null) {
+                soil_freq.error = "Soil frequency is not a valid number"
                 isValid = false
             }
 
