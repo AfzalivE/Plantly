@@ -25,6 +25,13 @@
     <string name="water_plant">Water plant</string>
     <string name="fertilize_plant">Fertilize plant</string>
     <string name="add_cover_photo">Add cover photo</string>
+    <string name="no_plants_to_water">No plants to water today!</string>
+    <string name="good_morning">Good Morning</string>
+
+    <plurals name="plants_to_water">
+        <item quantity="one">plant to water today</item>
+        <item quantity="other">plants to water today</item>
+    </plurals>
 
     <plurals name="plants_need_watering">
         <item quantity="one">needs watering today</item>

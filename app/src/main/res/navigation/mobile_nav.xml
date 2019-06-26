@@ -26,6 +26,9 @@
                 android:name="plant_id"
                 android:defaultValue="0L" />
         </action>
+        <action
+            android:id="@+id/to_settings_action"
+            app:destination="@id/settings" />
     </fragment>
     <fragment
         android:id="@+id/add_plant"
@@ -38,4 +41,7 @@
             android:name="plant_id"
             android:defaultValue="0L" />
     </fragment>
+    <fragment
+        android:id="@+id/settings"
+        android:name="com.spacebitlabs.plantly.settings.SettingsFragment" />
 </navigation>

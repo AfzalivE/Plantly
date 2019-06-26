@@ -29,7 +29,6 @@ fun ImageView.setScaledImageBitmap(photoPath: String) {
     // Decode the image file into a Bitmap sized to fill the View
     bmOptions.inJustDecodeBounds = false
     bmOptions.inSampleSize = scaleFactor
-    bmOptions.inPurgeable = true
 
     val bitmap = BitmapFactory.decodeFile(photoPath, bmOptions)
     setImageBitmap(bitmap)

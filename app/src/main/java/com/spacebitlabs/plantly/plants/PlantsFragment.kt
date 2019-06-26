@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.selection.*
 import androidx.recyclerview.selection.SelectionTracker.SelectionObserver
 import androidx.recyclerview.widget.GridLayoutManager
@@ -21,6 +22,7 @@ import com.spacebitlabs.plantly.R
 import com.spacebitlabs.plantly.R.layout
 import com.spacebitlabs.plantly.data.entities.Plant
 import com.spacebitlabs.plantly.reminder.WaterPlantReminder
+import com.spacebitlabs.plantly.settings.SettingsFragment
 import kotlinx.android.synthetic.main.fragment_plants.*
 import kotlinx.android.synthetic.main.layout_appbar.*
 
@@ -99,6 +101,15 @@ class PlantsFragment : Fragment() {
 
         val offsetChangeListener = OffsetChangeListener()
         appbar.addOnOffsetChangedListener(offsetChangeListener)
+
+        toolbar.inflateMenu(R.menu.menu_plant_list)
+        toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.action_settings -> SettingsFragment.show(findNavController())
+            }
+
+            return@setOnMenuItemClickListener  true
+        }
     }
 
     override fun onResume() {
@@ -156,14 +167,14 @@ class PlantsFragment : Fragment() {
     }
 
     private fun renderEmptyToday() {
-        today_title.text = "Good Morning"
-        today_subtitle.text = "No plants to water today!"
+        today_title.text = getString(R.string.good_morning)
+        today_subtitle.text = getString(R.string.no_plants_to_water)
     }
 
     private fun renderToday(todayPlants: List<Plant>) {
         // TODO get actual list of plants to water today
-        today_title.text = "Good Morning"
-        today_subtitle.text = "${todayPlants.size} plants to water today"
+        today_title.text = getString(R.string.good_morning)
+        today_subtitle.text = todayPlants.size.toString() + resources.getQuantityText(R.plurals.plants_to_water, todayPlants.size)
         todayAdapter.setPlantList(todayPlants)
     }
 
