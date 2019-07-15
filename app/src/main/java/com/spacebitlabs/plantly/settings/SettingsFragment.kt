@@ -2,7 +2,6 @@ package com.spacebitlabs.plantly.settings
 
 import android.Manifest
 import android.os.Bundle
-import androidx.core.app.ActivityCompat
 import androidx.core.content.PermissionChecker
 import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import androidx.lifecycle.ViewModelProviders
@@ -53,13 +52,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
-    private fun requestPermission(permissions: Array<String>, requestCode: Int) {
-        activity ?: return
-        ActivityCompat.requestPermissions(activity!!, permissions, requestCode)
-    }
-
     private fun hasPermissions(permissions: Array<String>): Boolean {
-        context ?: return true
+        context ?: return false
 
         // true if all specified permissions are granted, otherwise false
         return permissions.all { permission ->
