@@ -1,6 +1,8 @@
 package com.spacebitlabs.plantly.data
 
+import android.content.Context
 import com.kizitonwose.time.days
+import com.spacebitlabs.plantly.Injection
 import com.spacebitlabs.plantly.data.entities.Entry
 import com.spacebitlabs.plantly.data.entities.Photo
 import com.spacebitlabs.plantly.data.entities.Plant
@@ -17,7 +19,10 @@ import org.threeten.bp.temporal.ChronoField
 /**
  * Store for the user's plants
  */
-class UserPlantsStore(private val database: PlantDatabase, private val workReminder: WorkReminder) {
+class UserPlantsStore(
+    private val appContext: Context,
+    private val database: PlantDatabase,
+    private val workReminder: WorkReminder) {
 
     suspend fun getAllPlants(): List<Plant> {
         return withContext(IO) {
@@ -153,6 +158,32 @@ class UserPlantsStore(private val database: PlantDatabase, private val workRemin
     suspend fun deletePhoto(photo: Photo) {
         withContext(IO) {
             database.photoDao().delete(photo)
+        }
+    }
+
+    suspend fun backup() {
+        withContext(IO) {
+
+            val dbFile = appContext.getDatabasePath(Injection.DATABASE_FILE_NAME).path
+            val dbFileList = listOf(dbFile, "$dbFile-shm", "$dbFile-wal")
+//            https://github.com/googlesamples/android-architecture-components/issues/340
+
+//            for (filePath in dbFileList) {
+//                val inStream = File(filePath).inputStream()
+//                val outStream = FileOutputStream(toPath)
+//
+//                inStream.use { input ->
+//                    outStream.use { output ->
+//                        input.copyTo(output)
+//                    }
+//                }
+//            }
+        }
+    }
+
+    suspend fun restore() {
+        withContext(IO) {
+
         }
     }
 

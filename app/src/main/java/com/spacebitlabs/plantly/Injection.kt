@@ -24,7 +24,7 @@ class Injection private constructor(private val appContext: Context) {
     }
 
     private val userPlantsStore: UserPlantsStore by lazy {
-        UserPlantsStore(provideDatabase(), provideWorkReminder())
+        UserPlantsStore(provideContext(), provideDatabase(), provideWorkReminder())
     }
 
     private val prefs: Prefs by lazy {
@@ -48,7 +48,7 @@ class Injection private constructor(private val appContext: Context) {
     fun provideWorkReminder() = workReminder
 
     companion object {
-        private const val DATABASE_FILE_NAME: String = "plant_db"
+        const val DATABASE_FILE_NAME: String = "plant_db"
 
         @SuppressLint("StaticFieldLeak", "Keeping app context is safe here")
         @Volatile
