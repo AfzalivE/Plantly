@@ -13,21 +13,21 @@ class SettingsViewModel : ViewModel() {
 
     private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    private val userPlantsStore by lazy {
-        Injection.get().providePlantStore()
+    private val backupManager by lazy {
+        Injection.get().provideBackupManager()
     }
 
     fun backup() {
         viewModelScope.launch {
             // TODO show progress bar
-            userPlantsStore.backup()
+            backupManager.backup()
         }
     }
 
     fun restore() {
         viewModelScope.launch {
             // TODO show progress bar
-            userPlantsStore.restore()
+            backupManager.restore()
         }
     }
 

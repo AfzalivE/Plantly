@@ -7,6 +7,7 @@ import android.content.Context
 import androidx.room.Room
 import com.spacebitlabs.plantly.data.PlantDatabase
 import com.spacebitlabs.plantly.data.PlantDatabase.Companion.MIGRATION_4_5
+import com.spacebitlabs.plantly.data.PlantsBackupManager
 import com.spacebitlabs.plantly.data.Prefs
 import com.spacebitlabs.plantly.data.UserPlantsStore
 import com.spacebitlabs.plantly.reminder.WorkReminder
@@ -24,7 +25,11 @@ class Injection private constructor(private val appContext: Context) {
     }
 
     private val userPlantsStore: UserPlantsStore by lazy {
-        UserPlantsStore(provideContext(), provideDatabase(), provideWorkReminder())
+        UserPlantsStore(provideDatabase(), provideWorkReminder())
+    }
+
+    private val backupManager: PlantsBackupManager by lazy {
+        PlantsBackupManager(provideContext())
     }
 
     private val prefs: Prefs by lazy {
@@ -40,8 +45,10 @@ class Injection private constructor(private val appContext: Context) {
     fun provideDatabase(): PlantDatabase = database
 
     fun providePlantStore() = userPlantsStore.also {
-        it.loadMockSeedData()
+//        it.loadMockSeedData()
     }
+
+    fun provideBackupManager() = backupManager
 
     fun providePrefs() = prefs
 

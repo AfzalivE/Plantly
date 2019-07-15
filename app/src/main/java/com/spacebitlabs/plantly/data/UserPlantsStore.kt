@@ -1,9 +1,6 @@
 package com.spacebitlabs.plantly.data
 
-import android.content.Context
-import android.os.Environment
 import com.kizitonwose.time.days
-import com.spacebitlabs.plantly.Injection
 import com.spacebitlabs.plantly.data.entities.Entry
 import com.spacebitlabs.plantly.data.entities.Photo
 import com.spacebitlabs.plantly.data.entities.Plant
@@ -16,8 +13,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.temporal.ChronoField
-import java.io.File
-import java.io.FileOutputStream
 
 
 
@@ -25,9 +20,9 @@ import java.io.FileOutputStream
  * Store for the user's plants
  */
 class UserPlantsStore(
-    private val appContext: Context,
     private val database: PlantDatabase,
-    private val workReminder: WorkReminder) {
+    private val workReminder: WorkReminder
+) {
 
     suspend fun getAllPlants(): List<Plant> {
         return withContext(IO) {
@@ -163,67 +158,6 @@ class UserPlantsStore(
     suspend fun deletePhoto(photo: Photo) {
         withContext(IO) {
             database.photoDao().delete(photo)
-        }
-    }
-
-
-    /**
-     * https://github.com/googlesamples/android-architecture-components/issues/340#issuecomment-451084063
-     */
-    suspend fun backup() {
-        withContext(IO) {
-
-            val dbFile = appContext.getDatabasePath(Injection.DATABASE_FILE_NAME).path
-            val dbFilePathList = listOf(dbFile, "$dbFile-shm", "$dbFile-wal")
-
-            if (Environment.getExternalStorageState() != Environment.MEDIA_MOUNTED) {
-                return@withContext
-            }
-
-            val toPath = File(Environment.getExternalStorageDirectory(), "plantly_backup")
-            toPath.mkdir()
-
-            for (filePath in dbFilePathList) {
-                val inStream = File(filePath).inputStream()
-                val fileName = filePath.split(File.separator).last()
-                val outStream = FileOutputStream(toPath.toString() + File.separator + fileName)
-
-                inStream.use { input ->
-                    outStream.use { output ->
-                        input.copyTo(output)
-                    }
-                }
-            }
-        }
-    }
-
-    suspend fun restore() {
-        withContext(IO) {
-            val dbFileName = Injection.DATABASE_FILE_NAME
-            val backupPath = File(Environment.getExternalStorageDirectory(), "plantly_backup")
-            val backupFilePathList = listOf(
-                "$backupPath${File.separator}$dbFileName",
-                "$backupPath${File.separator}$dbFileName-shm",
-                "$backupPath${File.separator}$dbFileName-wal"
-            )
-
-            val dbDirectory = appContext.getDatabasePath(dbFileName).parent
-
-            if (Environment.getExternalStorageState() != Environment.MEDIA_MOUNTED) {
-                return@withContext
-            }
-
-            for (filePath in backupFilePathList) {
-                val inStream = File(filePath).inputStream()
-                val fileName = filePath.split(File.separator).last()
-                val outStream = FileOutputStream(dbDirectory.toString() + File.separator + fileName)
-
-                inStream.use { input ->
-                    outStream.use { output ->
-                        input.copyTo(output)
-                    }
-                }
-            }
         }
     }
 
