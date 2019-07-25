@@ -3,6 +3,7 @@ package com.spacebitlabs.plantly.reminder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.spacebitlabs.plantly.data.Prefs
+import org.threeten.bp.OffsetDateTime
 import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -24,10 +25,25 @@ open class WorkReminder(private val prefs: Prefs) {
             if (workInfoListenable.get() != null) return
         }
 
-        // TODO schedule reminder for a sane time
-        val workReminder = PeriodicWorkRequestBuilder<WaterPlantReminder>(1, TimeUnit.DAYS).
+        val initialDelay = getInitialDelay(OffsetDateTime.now())
+
+        val workReminder = PeriodicWorkRequestBuilder<WaterPlantReminder>(1, TimeUnit.DAYS)
+            .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
+            .build()
         Timber.d("Scheduling work reminder")
         prefs.setWorkReminderId(workReminder.id)
         WorkManager.getInstance().enqueue(workReminder)
+    }
+
+    fun getInitialDelay(now: OffsetDateTime): Long {
+        val isAfter11Am = now.isAfter(now.withHour(11))
+
+        return if (isAfter11Am) {
+            val nextMorning = now.plusDays(1).withHour(11).withMinute(0).withSecond(0)
+            nextMorning.toInstant().toEpochMilli() - now.toInstant().toEpochMilli()
+        } else {
+            val thisMorning = now.withHour(11).withMinute(0).withSecond(0)
+            thisMorning.toInstant().toEpochMilli() - now.toInstant().toEpochMilli()
+        }
     }
 }
