@@ -1,5 +1,6 @@
 package com.spacebitlabs.plantly.data
 
+import androidx.room.withTransaction
 import com.kizitonwose.time.days
 import com.spacebitlabs.plantly.data.entities.Entry
 import com.spacebitlabs.plantly.data.entities.Photo
@@ -7,17 +8,17 @@ import com.spacebitlabs.plantly.data.entities.Plant
 import com.spacebitlabs.plantly.data.entities.PlantWithPhotos
 import com.spacebitlabs.plantly.millisFreqToDays
 import com.spacebitlabs.plantly.reminder.WorkReminder
-import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.temporal.ChronoField
 
 
-
 /**
  * Store for the user's plants
+ *
+ * We use database.withTransaction because of this post:
+ * https://medium.com/androiddevelopers/threading-models-in-coroutines-and-android-sqlite-api-6cab11f7eb90
  */
 class UserPlantsStore(
     private val database: PlantDatabase,
@@ -25,7 +26,7 @@ class UserPlantsStore(
 ) {
 
     suspend fun getAllPlants(): List<Plant> {
-        return withContext(IO) {
+        return database.withTransaction {
             database.plantDao().getAll()
         }
     }
@@ -34,14 +35,14 @@ class UserPlantsStore(
      * Used for creating a new plant
      */
     suspend fun addPlant(plant: Plant, time: OffsetDateTime = OffsetDateTime.now()): Long {
-        return withContext(IO) {
+        return database.withTransaction {
             val plantId = database.plantDao().insert(plant)
             database.entryDao().insert(Entry(type = EntryType.BIRTH, plantId = plantId, time = time))
 
             if (database.plantDao().count() == 1) {
                 workReminder.scheduleDailyReminder()
             }
-            return@withContext plantId
+            return@withTransaction plantId
         }
     }
 
@@ -49,7 +50,7 @@ class UserPlantsStore(
      * Used for creating a new plant
      */
     suspend fun deletePlant(plant: Plant) {
-        return withContext(IO) {
+        return database.withTransaction {
             database.plantDao().delete(plant)
             database.entryDao().deleteAll(plant.id)
             database.photoDao().deleteAll(plant.id)
@@ -61,7 +62,7 @@ class UserPlantsStore(
     }
 
     suspend fun deletePlants(plantIdList: List<Long>) {
-        return withContext(IO) {
+        return database.withTransaction {
             database.plantDao().deleteWithIds(plantIdList)
             database.entryDao().deleteWithPlantId(plantIdList)
 
@@ -82,13 +83,13 @@ class UserPlantsStore(
     }
 
     suspend fun getPlant(id: Long): Plant {
-        return withContext(IO) {
+        return database.withTransaction {
             database.plantDao().getById(id)
         }
     }
 
     suspend fun getPlantWithPhotos(id: Long): PlantWithPhotos {
-        return withContext(IO) {
+        return database.withTransaction {
             database.plantWithPhotosDao().getById(id)
         }
     }
@@ -126,44 +127,44 @@ class UserPlantsStore(
     }
 
     suspend fun addEntry(event: Entry) {
-        return withContext(IO) {
+        return database.withTransaction {
             database.entryDao().insert(event)
         }
     }
 
     suspend fun getEntries(plantId: Long): List<Entry> {
-        return withContext(IO) {
+        return database.withTransaction {
             database.entryDao().getEvents(plantId)
         }
     }
 
     suspend fun getEntriesOfType(plant: Plant, type: EntryType): List<Entry> {
-        return withContext(IO) {
+        return database.withTransaction {
             database.entryDao().getEventsOfType(plant.id, type)
         }
     }
 
     suspend fun getLastEntryOfType(plant: Plant, type: EntryType): Entry? {
-        return withContext(IO) {
+        return database.withTransaction {
             database.entryDao().getLastEventOfType(plant.id, type)
         }
     }
 
     suspend fun addPhoto(photo: Photo): Long {
-        return withContext(IO) {
+        return database.withTransaction {
             database.photoDao().insert(photo)
         }
     }
 
     suspend fun deletePhoto(photo: Photo) {
-        withContext(IO) {
+        return database.withTransaction {
             database.photoDao().delete(photo)
         }
     }
 
     fun loadMockSeedData() {
         GlobalScope.launch {
-            withContext(IO) {
+            database.withTransaction {
                 if (database.plantDao().count() == 0) {
                     database.plantDao().deleteAll()
                     for (plant in mockPlants) {

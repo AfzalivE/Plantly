@@ -172,9 +172,8 @@ class PlantsFragment : Fragment() {
     }
 
     private fun renderToday(todayPlants: List<Plant>) {
-        // TODO get actual list of plants to water today
         today_title.text = getString(R.string.good_morning)
-        today_subtitle.text = todayPlants.size.toString() + resources.getQuantityText(R.plurals.plants_to_water, todayPlants.size)
+        today_subtitle.text = "${todayPlants.size} ${resources.getQuantityText(R.plurals.plants_to_water, todayPlants.size)}"
         todayAdapter.setPlantList(todayPlants)
     }
 
