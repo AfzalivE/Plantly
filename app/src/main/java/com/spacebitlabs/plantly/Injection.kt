@@ -29,7 +29,7 @@ class Injection private constructor(private val appContext: Context) {
     }
 
     private val backupManager: PlantsBackupManager by lazy {
-        PlantsBackupManager(provideContext())
+        PlantsBackupManager(provideContext(), provideWorkReminder())
     }
 
     private val prefs: Prefs by lazy {

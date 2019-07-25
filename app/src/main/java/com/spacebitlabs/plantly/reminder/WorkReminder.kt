@@ -24,7 +24,8 @@ open class WorkReminder(private val prefs: Prefs) {
             if (workInfoListenable.get() != null) return
         }
 
-        val workReminder = PeriodicWorkRequestBuilder<WaterPlantReminder>(1, TimeUnit.DAYS).build()
+        // TODO schedule reminder for a sane time
+        val workReminder = PeriodicWorkRequestBuilder<WaterPlantReminder>(1, TimeUnit.DAYS).
         Timber.d("Scheduling work reminder")
         prefs.setWorkReminderId(workReminder.id)
         WorkManager.getInstance().enqueue(workReminder)

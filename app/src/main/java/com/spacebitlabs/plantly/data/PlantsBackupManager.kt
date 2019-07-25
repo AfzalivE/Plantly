@@ -3,20 +3,22 @@ package com.spacebitlabs.plantly.data
 import android.content.Context
 import android.os.Environment
 import com.spacebitlabs.plantly.Injection
+import com.spacebitlabs.plantly.reminder.WorkReminder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.io.File
-import java.io.FileOutputStream
 
-class PlantsBackupManager(private val appContext: Context) {
+class PlantsBackupManager(
+    private val appContext: Context,
+    private val workReminder: WorkReminder
+) {
 
     /**
      * https://github.com/googlesamples/android-architecture-components/issues/340#issuecomment-451084063
-     * TODO backup photos
      */
     suspend fun backup() {
         withContext(Dispatchers.IO) {
-
             val dbFile = appContext.getDatabasePath(Injection.DATABASE_FILE_NAME).path
             val dbFilePathList = listOf(dbFile, "$dbFile-shm", "$dbFile-wal")
 
@@ -28,21 +30,26 @@ class PlantsBackupManager(private val appContext: Context) {
             toPath.mkdir()
 
             for (filePath in dbFilePathList) {
-                val inStream = File(filePath).inputStream()
+                val inFile = File(filePath)
                 val fileName = filePath.split(File.separator).last()
-                val outStream = FileOutputStream(toPath.toString() + File.separator + fileName)
+                val outFile = File(toPath, fileName)
 
-                inStream.use { input ->
-                    outStream.use { output ->
-                        input.copyTo(output)
-                    }
-                }
+                inFile.copyTo(outFile)
+            }
+
+            val pictures = appContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+            pictures ?: return@withContext
+
+            for (picture in pictures.listFiles()) {
+                val picturesDir = File(toPath, "pictures")
+                val destFile = File(picturesDir, picture.name)
+                picture.copyTo(destFile, true)
             }
         }
     }
 
     /**
-     * TODO restore photos + workmanager reminders
+     *
      */
     suspend fun restore() {
         withContext(Dispatchers.IO) {
@@ -61,16 +68,24 @@ class PlantsBackupManager(private val appContext: Context) {
             }
 
             for (filePath in backupFilePathList) {
-                val inStream = File(filePath).inputStream()
+                val inFile = File(filePath)
                 val fileName = filePath.split(File.separator).last()
-                val outStream = FileOutputStream(dbDirectory.toString() + File.separator + fileName)
+                val outFile = File(dbDirectory, fileName)
 
-                inStream.use { input ->
-                    outStream.use { output ->
-                        input.copyTo(output)
-                    }
-                }
+                inFile.copyTo(outFile, true)
             }
+
+            val picturesDir = File(backupPath, "pictures")
+            val pictureList = picturesDir.listFiles { _, name -> name.contains(".jpg") }
+            val toPath = appContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+
+            for (picture in pictureList) {
+                Timber.d(picture.name)
+                val destFile = File(toPath, picture.name)
+                picture.copyTo(destFile, true)
+            }
+
+            workReminder.scheduleDailyReminder()
         }
     }
 }
