@@ -18,7 +18,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 11
-        versionName "1.0-alpha4"
+        versionName "1.0-alpha5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -57,6 +57,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            ext.betaDistributionGroupAliases="all"
         }
     }
     compileOptions {
@@ -99,10 +100,10 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:$versions.work"
 
     // data libs
-    implementation 'androidx.room:room-runtime:2.1.0'
-    implementation 'androidx.room:room-ktx:2.1.0'
-    implementation 'androidx.room:room-rxjava2:2.1.0'
-    kapt 'androidx.room:room-compiler:2.1.0'
+    implementation "androidx.room:room-runtime:$versions.room"
+    implementation "androidx.room:room-ktx:$versions.room"
+    implementation "androidx.room:room-rxjava2:$versions.room"
+    kapt "androidx.room:room-compiler:$versions.room"
     implementation "com.jakewharton.threetenabp:threetenabp:1.1.0"
     implementation "com.github.kizitonwose.time:time:1.0.2"
     implementation "com.github.kizitonwose.time:time-android:1.0.2"
@@ -130,10 +131,11 @@ dependencies {
     testImplementation "junit:junit:4.12"
     testImplementation "androidx.test:core:1.2.0"
 	testImplementation 'androidx.arch.core:core-testing:2.0.1'
-    testImplementation 'androidx.room:room-testing:2.1.0'
+    testImplementation "androidx.room:room-testing:$versions.room"
     testImplementation "androidx.test.ext:truth:1.2.0"
     testImplementation "androidx.test.espresso:espresso-intents:3.2.0"
     testImplementation "androidx.test.espresso:espresso-core:3.2.0"
+    testImplementation "io.mockk:mockk:1.9.3.kotlin12"
     testImplementation "org.robolectric:robolectric:4.2.1"
 
     androidTestImplementation "androidx.test:core:1.2.0"

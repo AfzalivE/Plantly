@@ -12,7 +12,7 @@ buildscript {
             navigation      : '2.0.0',
             work            : '2.1.0',
             timber          : '4.7.1',
-            room            : "1.1.1",
+            room            : "2.1.0",
     ]
 
     repositories {
@@ -22,7 +22,7 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.0-rc01'
+        classpath 'com.android.tools.build:gradle:3.5.0-rc03'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
         classpath "org.jetbrains.kotlin:kotlin-allopen:$versions.kotlin"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$versions.navigation"
