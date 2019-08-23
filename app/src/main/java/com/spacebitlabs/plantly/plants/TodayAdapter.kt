@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.spacebitlabs.plantly.R
 import com.spacebitlabs.plantly.data.entities.Plant
 import com.spacebitlabs.plantly.inflate
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.today_list_item.view.*
 
 class TodayAdapter : RecyclerView.Adapter<TodayAdapter.TodayHolder>() {
@@ -32,7 +33,15 @@ class TodayAdapter : RecyclerView.Adapter<TodayAdapter.TodayHolder>() {
     class TodayHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(plant: Plant) = with(itemView) {
             name.text = plant.name
-            image.setImageResource(R.drawable.sample_plant)
+            if (plant.coverPhoto.filePath.isEmpty()) {
+                image.setImageResource(R.drawable.sample_plant)
+            } else {
+                Picasso.get()
+                    .load("file://${plant.coverPhoto.filePath}")
+                    .fit()
+                    .centerCrop()
+                    .into(image)
+            }
         }
     }
 }
