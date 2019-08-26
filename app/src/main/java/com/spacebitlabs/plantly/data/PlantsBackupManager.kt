@@ -6,8 +6,13 @@ import com.spacebitlabs.plantly.Injection
 import com.spacebitlabs.plantly.reminder.WorkReminder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
 import timber.log.Timber
-import java.io.File
+import java.io.*
+import java.util.zip.ZipEntry
+import java.util.zip.ZipInputStream
+import java.util.zip.ZipOutputStream
 
 class PlantsBackupManager(
     private val appContext: Context,
@@ -19,32 +24,26 @@ class PlantsBackupManager(
      */
     suspend fun backup() {
         withContext(Dispatchers.IO) {
+            // get database files
             val dbFile = appContext.getDatabasePath(Injection.DATABASE_FILE_NAME).path
-            val dbFilePathList = listOf(dbFile, "$dbFile-shm", "$dbFile-wal")
+            val dbFilePaths = listOf(dbFile, "$dbFile-shm", "$dbFile-wal")
 
             if (Environment.getExternalStorageState() != Environment.MEDIA_MOUNTED) {
                 return@withContext
             }
 
-            val toPath = File(Environment.getExternalStorageDirectory(), "plantly_backup")
-            toPath.mkdir()
+            // get pictures files
+            val picturesDir = appContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+            val srcPicPaths = if (picturesDir == null) emptyList() else picturesDir.listFiles().map { it.path }
+            val srcFiles = dbFilePaths + srcPicPaths
 
-            for (filePath in dbFilePathList) {
-                val inFile = File(filePath)
-                val fileName = filePath.split(File.separator).last()
-                val outFile = File(toPath, fileName)
+            val destPath = File(Environment.getExternalStorageDirectory(), "plantly_backup")
+            destPath.mkdir()
 
-                inFile.copyTo(outFile)
-            }
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")
+            val zipFile = File(destPath, "plantly_backup_${LocalDateTime.now().format(formatter)}.zip")
 
-            val pictures = appContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-            pictures ?: return@withContext
-
-            for (picture in pictures.listFiles()) {
-                val picturesDir = File(toPath, "pictures")
-                val destFile = File(picturesDir, picture.name)
-                picture.copyTo(destFile, true)
-            }
+            addFilesToZip(zipFile, srcFiles)
         }
     }
 
@@ -53,12 +52,20 @@ class PlantsBackupManager(
      */
     suspend fun restore() {
         withContext(Dispatchers.IO) {
+            val backupDir = File(Environment.getExternalStorageDirectory(), "plantly_backup")
+            val backupFile = backupDir.listFiles(FileFilter {
+                it.name.endsWith(".zip")
+            }).last()
+
+            val tempDestDir = File(Environment.getExternalStorageDirectory(), "plantly_backup_extracted")
+
+            extractFromZip(backupFile, tempDestDir)
+
             val dbFileName = Injection.DATABASE_FILE_NAME
-            val backupPath = File(Environment.getExternalStorageDirectory(), "plantly_backup")
             val backupFilePathList = listOf(
-                "$backupPath${File.separator}$dbFileName",
-                "$backupPath${File.separator}$dbFileName-shm",
-                "$backupPath${File.separator}$dbFileName-wal"
+                "$tempDestDir${File.separator}$dbFileName",
+                "$tempDestDir${File.separator}$dbFileName-shm",
+                "$tempDestDir${File.separator}$dbFileName-wal"
             )
 
             val dbDirectory = appContext.getDatabasePath(dbFileName).parent
@@ -75,7 +82,7 @@ class PlantsBackupManager(
                 inFile.copyTo(outFile, true)
             }
 
-            val picturesDir = File(backupPath, "pictures")
+            val picturesDir = File(tempDestDir, "pictures")
             val pictureList = picturesDir.listFiles { _, name -> name.contains(".jpg") }
             val toPath = appContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
 
@@ -85,7 +92,70 @@ class PlantsBackupManager(
                 picture.copyTo(destFile, true)
             }
 
+            tempDestDir.deleteRecursively()
+
             workReminder.scheduleDailyReminder()
         }
     }
+
+    private fun extractFromZip(zipFile: File, destDir: File) {
+        ZipInputStream(FileInputStream(zipFile)).use { zipInputStream ->
+            var zipEntry = zipInputStream.nextEntry
+            while (zipEntry != null) {
+                val fileNameParts = zipEntry.name.split(File.separator)
+                val fileName = fileNameParts.last()
+                val folderPath = fileNameParts.take(fileNameParts.size - 1).joinToString(File.separator)
+                val folderPathInDestDir = arrayOf(destDir.path, folderPath).joinToString(File.separator)
+
+                val newFolder = File(folderPathInDestDir)
+                newFolder.mkdirs()
+
+                val newFile = File(folderPathInDestDir, fileName)
+
+                FileOutputStream(newFile).use { fileOutputStream ->
+                    zipInputStream.copyTo(fileOutputStream, 1024)
+                }
+                zipEntry = zipInputStream.nextEntry
+            }
+        }
+    }
+
+    /**
+     * Add files to zip
+     *
+     * If their extension is jpg, save them
+     * in the pictures folder inside the zip
+     */
+    private fun addFilesToZip(zipFile: File, fileList: List<String>) {
+        ZipOutputStream(BufferedOutputStream(FileOutputStream(zipFile.path))).use { out ->
+            for (filePath in fileList) {
+                FileInputStream(filePath).use { inFile ->
+                    BufferedInputStream(inFile).use { inFileStream ->
+                        val destFileName = filePath.split(File.separator).last()
+                        val destFilePath = if (!destFileName.endsWith("jpg")) destFileName else arrayOf("pictures", destFileName).joinToString(File.separator)
+                        val entry = ZipEntry(destFilePath)
+                        out.putNextEntry(entry)
+                        inFileStream.copyTo(out, 1024)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun addFolderToZip(srcFolder: File, folderInZip: String = "", zipOutputStream: ZipOutputStream) {
+        for (file in srcFolder.listFiles()) {
+            if (file.isDirectory) {
+                addFolderToZip(file, arrayOf(folderInZip, file, file.name).joinToString(File.separator), zipOutputStream)
+            } else {
+                FileInputStream(file.path).use { inFile ->
+                    BufferedInputStream(inFile).use { inFileStream ->
+                        val entry = ZipEntry(file.path)
+                        zipOutputStream.putNextEntry(entry)
+                        inFileStream.copyTo(zipOutputStream, 1024)
+                    }
+                }
+            }
+        }
+    }
+
 }
