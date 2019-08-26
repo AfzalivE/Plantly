@@ -12,6 +12,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.temporal.ChronoField
+import java.io.File
 
 
 /**
@@ -90,7 +91,10 @@ class UserPlantsStore(
 
     suspend fun getPlantWithPhotos(id: Long): PlantWithPhotos {
         return database.withTransaction {
-            database.plantWithPhotosDao().getById(id)
+            val plant = database.plantWithPhotosDao().getById(id)
+            val filteredPhotos = plant.photos.filter { File(it.simplePhoto.filePath).exists() }
+            plant.photos = filteredPhotos
+            return@withTransaction plant
         }
     }
 
