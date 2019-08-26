@@ -1,6 +1,7 @@
 package com.spacebitlabs.plantly.data
 
 import android.content.Context
+import android.net.Uri
 import android.os.Environment
 import com.spacebitlabs.plantly.Injection
 import com.spacebitlabs.plantly.reminder.WorkReminder
@@ -50,16 +51,11 @@ class PlantsBackupManager(
     /**
      *
      */
-    suspend fun restore() {
+    suspend fun restore(fileUri: Uri) {
         withContext(Dispatchers.IO) {
-            val backupDir = File(Environment.getExternalStorageDirectory(), "plantly_backup")
-            val backupFile = backupDir.listFiles(FileFilter {
-                it.name.endsWith(".zip")
-            }).last()
-
             val tempDestDir = File(Environment.getExternalStorageDirectory(), "plantly_backup_extracted")
 
-            extractFromZip(backupFile, tempDestDir)
+            extractFromZip(fileUri, tempDestDir)
 
             val dbFileName = Injection.DATABASE_FILE_NAME
             val backupFilePathList = listOf(
@@ -98,8 +94,9 @@ class PlantsBackupManager(
         }
     }
 
-    private fun extractFromZip(zipFile: File, destDir: File) {
-        ZipInputStream(FileInputStream(zipFile)).use { zipInputStream ->
+    private fun extractFromZip(fileUri: Uri, destDir: File) {
+        val zipFileStream = appContext.contentResolver.openInputStream(fileUri)
+        ZipInputStream(zipFileStream).use { zipInputStream ->
             var zipEntry = zipInputStream.nextEntry
             while (zipEntry != null) {
                 val fileNameParts = zipEntry.name.split(File.separator)
@@ -157,5 +154,4 @@ class PlantsBackupManager(
             }
         }
     }
-
 }

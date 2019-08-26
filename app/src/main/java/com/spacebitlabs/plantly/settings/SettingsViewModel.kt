@@ -1,5 +1,6 @@
 package com.spacebitlabs.plantly.settings
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import com.spacebitlabs.plantly.Injection
 import kotlinx.coroutines.CoroutineScope
@@ -24,10 +25,10 @@ class SettingsViewModel : ViewModel() {
         }
     }
 
-    fun restore() {
+    fun restore(fileUri: Uri) {
         viewModelScope.launch {
             // TODO show progress bar
-            backupManager.restore()
+            backupManager.restore(fileUri)
         }
     }
 
