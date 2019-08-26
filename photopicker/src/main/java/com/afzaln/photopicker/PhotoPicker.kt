@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Environment
 import android.widget.ImageView
 import androidx.annotation.StringRes
 import androidx.core.content.FileProvider
@@ -13,19 +12,17 @@ import com.afzaln.photopicker.OperationPickerDialogFragment.Companion.DEFAULT_TI
 import com.afzaln.photopicker.OperationPickerDialogFragment.Companion.SHOW_PHOTOS
 import com.afzaln.photopicker.OperationPickerDialogFragment.Companion.TAKE_PHOTO
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
 
 class PhotoPicker(
     val context: Context,
     private val imageView: ImageView?,
-    val file: File,
     private val addToGallery: Boolean,
     private inline val onSave: (String) -> Unit,
-    val authorities: String
+    private val authorities: String
 ) {
 
     fun takePicture() {
+        val file = context.createOutputFile()
         val photoUri = FileProvider.getUriForFile(context, authorities, file)
         HiddenCameraResultActivity.resultCallback = { resultCode ->
             when (resultCode) {
@@ -35,6 +32,9 @@ class PhotoPicker(
                     if (addToGallery) {
                         addPhotoToGallery(file.absolutePath)
                     }
+                }
+                else -> {
+                    file.delete()
                 }
             }
             // Potential for memory leak
@@ -83,22 +83,8 @@ class PhotoPicker(
     class Builder(val context: Context) {
         private val authorities = "${context.packageName}.fileprovider"
         private var imageView: ImageView? = null
-        private var file: File
         private var onSave: (String) -> Unit = {}
         private var addToGallery: Boolean = false
-
-        init {
-            // Create an image file name
-            file = context.createOutputFile()
-            val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
-            val imageFileName = "JPEG_" + timeStamp + "_"
-            val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-            file = File.createTempFile(
-                imageFileName,
-                ".jpg",
-                storageDir
-            )
-        }
 
         fun intoImageView(imageView: ImageView): Builder {
             this.imageView = imageView
@@ -107,11 +93,6 @@ class PhotoPicker(
 
         fun addToGallery(): Builder {
             addToGallery = true
-            return this
-        }
-
-        fun toFile(file: File): Builder {
-            this.file = file
             return this
         }
 
@@ -140,7 +121,7 @@ class PhotoPicker(
 
 
         private fun build(): PhotoPicker {
-            return PhotoPicker(context, imageView, file, addToGallery, onSave, authorities)
+            return PhotoPicker(context, imageView, addToGallery, onSave, authorities)
         }
 
         fun onSave(onSave: (String) -> Unit): Builder {
