@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -20,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_addplant.*
 /**
  * Allows user to lookup and add a plant
  */
-class AddPlantFragment : androidx.fragment.app.Fragment() {
+class AddPlantFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_addplant, container, false)

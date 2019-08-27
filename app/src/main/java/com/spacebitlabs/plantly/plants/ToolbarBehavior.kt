@@ -1,33 +1,34 @@
 package com.spacebitlabs.plantly.plants
 
 import android.content.Context
-import com.google.android.material.appbar.AppBarLayout
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.fragment_plants.view.*
 import kotlinx.android.synthetic.main.today_list_item.view.*
+import kotlin.math.min
 
 @Suppress("unused")
 class ToolbarBehavior(context: Context, attrs: AttributeSet) :
-    androidx.coordinatorlayout.widget.CoordinatorLayout.Behavior<LinearLayout>(context, attrs) {
+    CoordinatorLayout.Behavior<LinearLayout>(context, attrs) {
 
     private var initialised = false
     private var maxScrollValue = 0f
     private var initialImageWidth = 0f
     private var initialImageHeight = 0f
 
-    override fun layoutDependsOn(parent: androidx.coordinatorlayout.widget.CoordinatorLayout, child: LinearLayout, dependency: View): Boolean {
+    override fun layoutDependsOn(parent: CoordinatorLayout, child: LinearLayout, dependency: View): Boolean {
         return dependency is AppBarLayout
     }
 
-    override fun onDependentViewChanged(parent: androidx.coordinatorlayout.widget.CoordinatorLayout, child: LinearLayout, dependency: View): Boolean {
+    override fun onDependentViewChanged(parent: CoordinatorLayout, child: LinearLayout, dependency: View): Boolean {
         maybeInitProperties(child, dependency)
 
         var scrollValuePercentage = 1 - (maxScrollValue + dependency.y) / maxScrollValue
-        scrollValuePercentage = Math.min(1.5f * scrollValuePercentage, 1f) // speed up the animations relative to the movement
+        scrollValuePercentage = min(1.5f * scrollValuePercentage, 1f) // speed up the animations relative to the movement
 
 //        Timber.d("maxScrollValue: %s", scrollValuePercentage);
 //        Timber.d("InitialY: %s", initialY);

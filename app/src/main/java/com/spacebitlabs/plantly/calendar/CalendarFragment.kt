@@ -1,11 +1,11 @@
 package com.spacebitlabs.plantly.calendar
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import com.spacebitlabs.plantly.R
 import com.spacebitlabs.plantly.plants.PlantsViewModel
 
@@ -17,7 +17,7 @@ import com.spacebitlabs.plantly.plants.PlantsViewModel
  * Yellow for make-up job
  * Blue for an upcoming job
  */
-class CalendarFragment : androidx.fragment.app.Fragment() {
+class CalendarFragment : Fragment() {
 
     private lateinit var model: PlantsViewModel
 
