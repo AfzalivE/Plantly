@@ -18,7 +18,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 11
-        versionName "1.0-alpha8"
+        versionName "1.0-alpha9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -58,7 +58,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
             ext.betaDistributionGroupAliases="all"
-            ext.betaDistributionReleaseNotes="Added UI for backup and restore"
+            ext.betaDistributionReleaseNotes="Allow deleting a plant"
         }
     }
     compileOptions {
