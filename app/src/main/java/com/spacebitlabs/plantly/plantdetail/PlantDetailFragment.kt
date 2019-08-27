@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afzaln.photopicker.PhotoPicker
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.spacebitlabs.plantly.R
 import com.spacebitlabs.plantly.data.entities.Plant
 import com.spacebitlabs.plantly.data.entities.PlantWithPhotos
@@ -35,11 +36,12 @@ class PlantDetailFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_plant_detail, container, false)
 
+    private var plantWithPhotos: PlantWithPhotos? = null
     private lateinit var viewModel: PlantDetailViewModel
 
     private val addPhotoClickListener: () -> Unit = {
         context?.let {
-            PhotoPicker.with(context!!)
+            PhotoPicker.with(it)
                 .addToGallery()
                 .onSave { filePath: String ->
                     Timber.d("Saved photo at $filePath")
@@ -81,7 +83,18 @@ class PlantDetailFragment : Fragment() {
         popup.inflate(R.menu.plant_detail_actions)
         popup.setOnMenuItemClickListener {
             when(it.itemId) {
-                R.id.menu_delete -> viewModel.deletePlant()
+                R.id.menu_delete -> {
+                    val plantName = plantWithPhotos?.plant?.name ?: "plant"
+                    MaterialAlertDialogBuilder(context!!)
+                        .setTitle(getString(R.string.delete_plant_title, plantName))
+                        .setMessage(getString(R.string.delete_plant_message, plantName))
+                        .setPositiveButton(android.R.string.yes) { _, _ ->
+                            viewModel.deletePlant()
+                        }
+                        .setNegativeButton(android.R.string.no) { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                }
             }
             true
         }
@@ -111,9 +124,12 @@ class PlantDetailFragment : Fragment() {
         soilCount: Int,
         nextWatering: OffsetDateTime
     ) {
+        this.plantWithPhotos = plantWithPhotos
         Timber.d("Rendering plantWithPhotos detail")
         plantWithPhotos.plant.let {
-            if (it.coverPhoto.filePath != "") {
+            if (it.coverPhoto.filePath.isEmpty()) {
+                cover_photo.setImageResource(R.drawable.sample_plant)
+            } else {
                 Picasso.get()
                     .load("file://${it.coverPhoto.filePath}")
                     .fit()

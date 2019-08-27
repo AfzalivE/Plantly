@@ -31,6 +31,8 @@
     <string name="restore_complete_message">We successfully restored data from your backup. Plantly will restart to update the database now.</string>
     <string name="backup_complete">Backup complete</string>
     <string name="action_delete">Delete</string>
+    <string name="delete_plant_title">Delete %s?</string>
+    <string name="delete_plant_message">Do you want to delete %s? No take-backsies.</string>
 
     <plurals name="plants_to_water">
         <item quantity="one">plant to water today</item>
