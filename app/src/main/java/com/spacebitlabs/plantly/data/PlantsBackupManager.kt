@@ -7,8 +7,6 @@ import com.spacebitlabs.plantly.Injection
 import com.spacebitlabs.plantly.reminder.WorkReminder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.format.DateTimeFormatter
 import timber.log.Timber
 import java.io.*
 import java.util.zip.ZipEntry
@@ -23,7 +21,7 @@ class PlantsBackupManager(
     /**
      * https://github.com/googlesamples/android-architecture-components/issues/340#issuecomment-451084063
      */
-    suspend fun backup() {
+    suspend fun backup(fileUri: Uri) {
         withContext(Dispatchers.IO) {
             // get database files
             val dbFile = appContext.getDatabasePath(Injection.DATABASE_FILE_NAME).path
@@ -38,13 +36,7 @@ class PlantsBackupManager(
             val srcPicPaths = if (picturesDir == null) emptyList() else picturesDir.listFiles().map { it.path }
             val srcFiles = dbFilePaths + srcPicPaths
 
-            val destPath = File(Environment.getExternalStorageDirectory(), "plantly_backup")
-            destPath.mkdir()
-
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")
-            val zipFile = File(destPath, "plantly_backup_${LocalDateTime.now().format(formatter)}.zip")
-
-            addFilesToZip(zipFile, srcFiles)
+            addFilesToZip(fileUri, srcFiles)
         }
     }
 
@@ -123,8 +115,10 @@ class PlantsBackupManager(
      * If their extension is jpg, save them
      * in the pictures folder inside the zip
      */
-    private fun addFilesToZip(zipFile: File, fileList: List<String>) {
-        ZipOutputStream(BufferedOutputStream(FileOutputStream(zipFile.path))).use { out ->
+    private fun addFilesToZip(zipFileUri: Uri, fileList: List<String>) {
+        val zipFileStream = appContext.contentResolver.openOutputStream(zipFileUri)
+
+        ZipOutputStream(BufferedOutputStream(zipFileStream)).use { out ->
             for (filePath in fileList) {
                 FileInputStream(filePath).use { inFile ->
                     BufferedInputStream(inFile).use { inFileStream ->

@@ -10,6 +10,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.min
 
 fun ImageView.setScaledImageBitmap(photoPath: String) {
     // Get the dimensions of the View
@@ -24,7 +25,7 @@ fun ImageView.setScaledImageBitmap(photoPath: String) {
     val photoH = bmOptions.outHeight
 
     // Determine how much to scale down the image
-    val scaleFactor = Math.min(photoW / targetW, photoH / targetH)
+    val scaleFactor = min(photoW / targetW, photoH / targetH)
 
     // Decode the image file into a Bitmap sized to fill the View
     bmOptions.inJustDecodeBounds = false

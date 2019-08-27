@@ -3,13 +3,21 @@ package com.spacebitlabs.plantly.settings
 import android.Manifest
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.core.content.PermissionChecker
 import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.jakewharton.processphoenix.ProcessPhoenix
 import com.spacebitlabs.plantly.R
+import com.spacebitlabs.plantly.settings.SettingsViewState.BackupCompleteViewState
+import com.spacebitlabs.plantly.settings.SettingsViewState.RestoreCompleteViewState
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
@@ -19,10 +27,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
         addPreferencesFromResource(R.xml.app_preferences)
         model = ViewModelProviders.of(this).get(SettingsViewModel::class.java)
 
+        model?.settingsViewState?.observe(this, Observer {
+            it?.let { state ->
+                render(state)
+            }
+        })
+
         val backupPref = findPreference<Preference>("backup")
         backupPref?.setOnPreferenceClickListener {
             runWithPermissions(STORAGE_PERMISSIONS, EXTERNAL_STORAGE_PERMISSION_BACKUP) {
-                model?.backup()
+                showBackupFilePicker()
             }
             return@setOnPreferenceClickListener true
         }
@@ -36,10 +50,28 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
+    private fun render(viewState: SettingsViewState) {
+        when (viewState) {
+            is BackupCompleteViewState  -> {
+                Toast.makeText(context, R.string.backup_complete, Toast.LENGTH_SHORT).show()
+            }
+            is RestoreCompleteViewState -> {
+                context ?: return
+                MaterialAlertDialogBuilder(context)
+                    .setTitle(R.string.restore_complete)
+                    .setMessage(R.string.restore_complete_message)
+                    .setPositiveButton(android.R.string.ok) { _, _ ->
+                        ProcessPhoenix.triggerRebirth(context)
+                    }
+                    .show()
+            }
+        }
+    }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (hasPermissions(STORAGE_PERMISSIONS)) {
             when (requestCode) {
-                EXTERNAL_STORAGE_PERMISSION_BACKUP -> model?.backup()
+                EXTERNAL_STORAGE_PERMISSION_BACKUP  -> showBackupFilePicker()
                 EXTERNAL_STORAGE_PERMISSION_RESTORE -> showRestoreFilePicker()
             }
         }
@@ -47,13 +79,30 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
         super.onActivityResult(requestCode, resultCode, intentData)
-        if (requestCode == REQUEST_RESTORE_FILE_PICKER) {
-            if (intentData != null) {
+        when (requestCode) {
+            REQUEST_RESTORE_FILE_PICKER -> if (intentData != null) {
                 intentData.data?.let { data ->
                     model?.restore(data)
                 }
             }
+            REQUEST_BACKUP_FILE_PICKER  -> if (intentData != null) {
+                intentData.data?.let { data ->
+                    model?.backup(data)
+                }
+            }
         }
+    }
+
+    private fun showBackupFilePicker() {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")
+        val fileName = "plantly_backup_${LocalDateTime.now().format(formatter)}.zip"
+
+        val showFilePickerIntent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+            type = "*/*"
+            putExtra(Intent.EXTRA_TITLE, fileName)
+        }
+
+        startActivityForResult(showFilePickerIntent, REQUEST_BACKUP_FILE_PICKER)
     }
 
     private fun showRestoreFilePicker() {

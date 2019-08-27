@@ -27,6 +27,9 @@
     <string name="add_cover_photo">Add cover photo</string>
     <string name="no_plants_to_water">No plants to water today!</string>
     <string name="good_morning">Good Morning</string>
+    <string name="restore_complete">Restore complete</string>
+    <string name="restore_complete_message">We successfully restored data from your backup. Plantly will restart to update the database now.</string>
+    <string name="backup_complete">Backup complete</string>
 
     <plurals name="plants_to_water">
         <item quantity="one">plant to water today</item>

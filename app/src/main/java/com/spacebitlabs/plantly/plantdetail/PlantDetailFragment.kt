@@ -112,7 +112,6 @@ class PlantDetailFragment : Fragment() {
         birthday_txt.text = LocalDate.from(birthday).format(DateTimeFormatter.ofPattern("EEE, d MMM yyyy"))
         water_count.text = resources.getQuantityString(R.plurals.watered, waterCount, waterCount)
         fertilize_count.text = resources.getQuantityString(R.plurals.fertilized, soilCount, soilCount)
-        // TODO change from "today/yesterday/1 hour ago" to "1 day or 1 hour"
 
         val ageDuration = Period.between(birthday.toLocalDate(), LocalDate.now())
         age.text = AmountFormats.wordBased(ageDuration, Locale.getDefault())

@@ -1,27 +1,27 @@
 package com.spacebitlabs.plantly.settings
 
 import android.net.Uri
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.spacebitlabs.plantly.Injection
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class SettingsViewModel : ViewModel() {
 
     private val viewModelJob = Job()
-
     private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     private val backupManager by lazy {
         Injection.get().provideBackupManager()
     }
 
-    fun backup() {
+    val settingsViewState: MutableLiveData<SettingsViewState> = MutableLiveData()
+
+    fun backup(fileUri: Uri) {
         viewModelScope.launch {
             // TODO show progress bar
-            backupManager.backup()
+            backupManager.backup(fileUri)
+            settingsViewState.postValue(SettingsViewState.BackupCompleteViewState)
         }
     }
 
@@ -29,11 +29,17 @@ class SettingsViewModel : ViewModel() {
         viewModelScope.launch {
             // TODO show progress bar
             backupManager.restore(fileUri)
+            settingsViewState.postValue(SettingsViewState.RestoreCompleteViewState)
         }
     }
 
     override fun onCleared() {
         super.onCleared()
-
+        viewModelScope.cancel()
     }
+}
+
+sealed class SettingsViewState {
+    object BackupCompleteViewState : SettingsViewState()
+    object RestoreCompleteViewState : SettingsViewState()
 }
