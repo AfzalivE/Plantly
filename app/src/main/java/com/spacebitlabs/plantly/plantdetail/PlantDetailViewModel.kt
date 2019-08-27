@@ -91,6 +91,13 @@ class PlantDetailViewModel : ViewModel() {
         }
     }
 
+    fun deletePlant() {
+        viewModelScope.launch {
+            userPlantsStore.deletePlant(plantId)
+            plantDetailViewState.value = PlantDetailViewState.PlantDeleted
+        }
+    }
+
     override fun onCleared() {
         super.onCleared()
         viewModelScope.cancel()

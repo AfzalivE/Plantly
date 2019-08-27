@@ -50,11 +50,12 @@ class UserPlantsStore(
     /**
      * Used for creating a new plant
      */
-    suspend fun deletePlant(plant: Plant) {
+    suspend fun deletePlant(plantId: Long) {
         return database.withTransaction {
+            val plant = database.plantDao().getById(plantId)
             database.plantDao().delete(plant)
-            database.entryDao().deleteAll(plant.id)
-            database.photoDao().deleteAll(plant.id)
+            database.entryDao().deleteAll(plantId)
+            database.photoDao().deleteAll(plantId)
 
             if (database.plantDao().count() == 0) {
                 workReminder.cancelDailyReminder()

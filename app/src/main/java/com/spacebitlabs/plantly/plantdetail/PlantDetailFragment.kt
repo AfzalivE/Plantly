@@ -3,9 +3,11 @@ package com.spacebitlabs.plantly.plantdetail
 import android.os.Bundle
 import android.text.format.DateUtils
 import android.view.LayoutInflater
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -16,6 +18,8 @@ import com.spacebitlabs.plantly.R
 import com.spacebitlabs.plantly.data.entities.Plant
 import com.spacebitlabs.plantly.data.entities.PlantWithPhotos
 import com.spacebitlabs.plantly.millisFreqToDays
+import com.spacebitlabs.plantly.plantdetail.PlantDetailViewState.PlantDeleted
+import com.spacebitlabs.plantly.plantdetail.PlantDetailViewState.PlantDetailLoaded
 import com.spacebitlabs.plantly.toBundle
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_plant_detail.*
@@ -64,18 +68,41 @@ class PlantDetailFragment : Fragment() {
         photos_list.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         photos_list.adapter = photosAdapter
 
+        more_menu.setOnClickListener {
+            showPopupMenu(it)
+        }
+
         viewModel.getPlantDetail(plantId)
+    }
+
+    private fun showPopupMenu(view: View) {
+        context ?: return
+
+        val popup = PopupMenu(context!!, view)
+        val inflater: MenuInflater = popup.menuInflater
+        inflater.inflate(R.menu.plant_detail_actions, popup.menu)
+        popup.setOnMenuItemClickListener {
+            when(it.itemId) {
+                R.id.menu_delete -> viewModel.deletePlant()
+            }
+            true
+        }
+        popup.show()
     }
 
     private fun render(state: PlantDetailViewState?) {
         when (state) {
-            is PlantDetailViewState.PlantDetailLoaded -> renderPlantDetail(
+            is PlantDetailLoaded -> renderPlantDetail(
                 state.plant,
                 state.birthday,
                 state.waterCount,
                 state.soilCount,
                 state.nextWatering
             )
+            is PlantDeleted -> {
+                view ?: return
+                Navigation.findNavController(view!!).navigateUp()
+            }
         }
     }
 

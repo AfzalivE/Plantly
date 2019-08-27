@@ -20,6 +20,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/cover_photo" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/more_menu"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_more" />
+
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
@@ -53,8 +63,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/water_plant"
-                app:icon="@drawable/ic_water_can"
                 android:layout_marginEnd="12dp"
+                app:icon="@drawable/ic_water_can"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -65,9 +75,9 @@
                 android:id="@+id/fertilize_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:icon="@drawable/ic_water_can"
                 android:text="@string/fertilize_plant"
                 android:layout_marginStart="12dp"
+                app:icon="@drawable/ic_water_can"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/water_btn"

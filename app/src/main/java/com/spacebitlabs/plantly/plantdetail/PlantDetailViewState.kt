@@ -5,6 +5,7 @@ import com.spacebitlabs.plantly.data.entities.PlantWithPhotos
 import org.threeten.bp.OffsetDateTime
 
 sealed class PlantDetailViewState {
+    object PlantDeleted : PlantDetailViewState()
     class PlantDetailLoaded(
         val plant: PlantWithPhotos,
         val birthday: OffsetDateTime,
