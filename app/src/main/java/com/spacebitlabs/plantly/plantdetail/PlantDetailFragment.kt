@@ -3,7 +3,6 @@ package com.spacebitlabs.plantly.plantdetail
 import android.os.Bundle
 import android.text.format.DateUtils
 import android.view.LayoutInflater
-import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -79,8 +78,7 @@ class PlantDetailFragment : Fragment() {
         context ?: return
 
         val popup = PopupMenu(context!!, view)
-        val inflater: MenuInflater = popup.menuInflater
-        inflater.inflate(R.menu.plant_detail_actions, popup.menu)
+        popup.inflate(R.menu.plant_detail_actions)
         popup.setOnMenuItemClickListener {
             when(it.itemId) {
                 R.id.menu_delete -> viewModel.deletePlant()
