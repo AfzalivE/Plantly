@@ -39,8 +39,7 @@ class HiddenPhotoResultActivity : Activity() {
 
     private fun startPhotosActivity() {
         val showPhotosIntent = Intent(Intent.ACTION_GET_CONTENT).apply {
-//            addCategory(Intent.CATEGORY_APP_GALLERY)
-            type = "application/x-zip-compressed"
+            type = "image/*"
         }
 
         startActivityForResult(showPhotosIntent, REQUEST_SHOW_PHOTOS)

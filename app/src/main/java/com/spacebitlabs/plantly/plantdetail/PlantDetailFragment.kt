@@ -83,6 +83,9 @@ class PlantDetailFragment : Fragment() {
         popup.inflate(R.menu.plant_detail_actions)
         popup.setOnMenuItemClickListener {
             when(it.itemId) {
+                R.id.menu_change_cover_photo -> {
+                    showCoverFilePicker()
+                }
                 R.id.menu_delete -> {
                     val plantName = plantWithPhotos?.plant?.name ?: "plant"
                     MaterialAlertDialogBuilder(context!!)
@@ -93,12 +96,17 @@ class PlantDetailFragment : Fragment() {
                         }
                         .setNegativeButton(android.R.string.no) { dialog, _ ->
                             dialog.dismiss()
-                        }
+                        }.show()
                 }
             }
             true
         }
         popup.show()
+    }
+
+    private fun showCoverFilePicker() {
+        context ?: return
+        Toast.makeText(context, R.string.future_feature, Toast.LENGTH_SHORT).show()
     }
 
     private fun render(state: PlantDetailViewState?) {

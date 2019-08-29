@@ -43,9 +43,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         val restorePref = findPreference<Preference>("restore")
         restorePref?.setOnPreferenceClickListener {
-            runWithPermissions(STORAGE_PERMISSIONS, EXTERNAL_STORAGE_PERMISSION_RESTORE) {
-                showRestoreFilePicker()
-            }
+            context ?: return@setOnPreferenceClickListener true
+
+            MaterialAlertDialogBuilder(context)
+                .setTitle(R.string.restore_warning)
+                .setMessage(R.string.restore_warning_message)
+                .setPositiveButton(android.R.string.ok) { _, _ ->
+                    runWithPermissions(STORAGE_PERMISSIONS, EXTERNAL_STORAGE_PERMISSION_RESTORE) {
+                        showRestoreFilePicker()
+                    }
+                }
+                .show()
+
             return@setOnPreferenceClickListener true
         }
     }

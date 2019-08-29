@@ -33,6 +33,10 @@
     <string name="action_delete">Delete</string>
     <string name="delete_plant_title">Delete %s?</string>
     <string name="delete_plant_message">Do you want to delete %s? No take-backsies.</string>
+    <string name="restore_warning_message">Restoring from a backup will erase all existing plant data! This operation also requires access to external storage in order to access the backup file.</string>
+    <string name="restore_warning">Restore Warning!</string>
+    <string name="action_change_cover_photo">Change cover photo</string>
+    <string name="future_feature">This feature will be in a future release</string>
 
     <plurals name="plants_to_water">
         <item quantity="one">plant to water today</item>
