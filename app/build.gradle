@@ -132,7 +132,7 @@ dependencies {
     testImplementation "androidx.test.ext:junit:1.1.1"
     testImplementation "junit:junit:4.12"
     testImplementation "androidx.test:core:1.2.0"
-	testImplementation 'androidx.arch.core:core-testing:2.0.1'
+	testImplementation 'androidx.arch.core:core-testing:2.1.0'
     testImplementation "androidx.room:room-testing:$versions.room"
     testImplementation "androidx.test.ext:truth:1.2.0"
     testImplementation "androidx.test.espresso:espresso-intents:3.2.0"
