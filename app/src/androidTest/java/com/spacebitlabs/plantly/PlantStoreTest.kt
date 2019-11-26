@@ -31,7 +31,7 @@ class PlantStoreTest {
         val context = ApplicationProvider.getApplicationContext<Context>()
 
         db = Room.inMemoryDatabaseBuilder(context, PlantDatabase::class.java).build()
-        store = UserPlantsStore(db, MockWorkReminder())
+        store = UserPlantsStore(db, MockWorkReminder(context))
     }
 
     @After

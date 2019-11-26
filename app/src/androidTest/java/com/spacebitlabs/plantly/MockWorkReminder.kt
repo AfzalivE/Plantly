@@ -1,8 +1,9 @@
 package com.spacebitlabs.plantly
 
+import android.content.Context
 import com.spacebitlabs.plantly.reminder.WorkReminder
 
-class MockWorkReminder: WorkReminder(Injection.get().providePrefs()) {
+class MockWorkReminder(context: Context): WorkReminder(context, Injection.get().providePrefs()) {
 
     override fun scheduleDailyReminder() {
 

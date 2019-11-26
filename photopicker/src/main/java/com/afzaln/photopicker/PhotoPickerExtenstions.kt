@@ -42,7 +42,7 @@ fun saveImage(fileUri: Uri, contentResolver: ContentResolver, outputFile: File):
     val outputStream = FileOutputStream(outputFile)
     inputStream.use { input ->
         outputStream.use { output ->
-            input.copyTo(output)
+            input?.copyTo(output)
         }
     }
 

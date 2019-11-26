@@ -105,10 +105,8 @@ dependencies {
 
 // architecture libs
     implementation("androidx.lifecycle:lifecycle-extensions:${versions.androidxArch}")
+    implementation("androidx.fragment:fragment-ktx:${versions.fragment}")
     kapt("androidx.lifecycle:lifecycle-common-java8:${versions.androidxArch}")
-    implementation("io.reactivex.rxjava2:rxjava:2.2.9")
-    implementation("io.reactivex.rxjava2:rxandroid:2.1.0")
-    implementation("io.reactivex.rxjava2:rxkotlin:2.3.0")
     implementation("androidx.navigation:navigation-fragment-ktx:${versions.navigation}")
     implementation("androidx.navigation:navigation-ui-ktx:${versions.navigation}")
     implementation("androidx.work:work-runtime-ktx:${versions.work}")
@@ -116,7 +114,6 @@ dependencies {
 // data libs
     implementation("androidx.room:room-runtime:${versions.room}")
     implementation("androidx.room:room-ktx:${versions.room}")
-    implementation("androidx.room:room-rxjava2:${versions.room}")
     kapt("androidx.room:room-compiler:${versions.room}")
     implementation("com.jakewharton.threetenabp:threetenabp:1.2.1")
     implementation("com.github.kizitonwose.time:time:1.0.2")

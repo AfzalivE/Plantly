@@ -37,7 +37,7 @@ class Injection private constructor(private val appContext: Context) {
     }
 
     private val workReminder: WorkReminder by lazy {
-        WorkReminder(providePrefs())
+        WorkReminder(provideContext(), providePrefs())
     }
 
     fun provideContext(): Context = appContext

@@ -17,7 +17,6 @@ import com.spacebitlabs.plantly.hideKeyboard
 import com.spacebitlabs.plantly.wordsFreqInMillis
 import kotlinx.android.synthetic.main.fragment_addplant.*
 
-
 /**
  * Allows user to lookup and add a plant
  */
@@ -30,9 +29,11 @@ class AddPlantFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val model = ViewModelProviders.of(this).get(AddPlantViewModel::class.java)
-        model.addPlantViewState.observe(this, Observer { state ->
+        model.addPlantViewState.observe(viewLifecycleOwner, Observer { state ->
             state?.let { render(it) }
         })
+
+        val context = context ?: return
 
         val waterTimeTypesAdapter = ArrayAdapter<CharSequence>(
             context,

@@ -27,7 +27,7 @@ class UpdateReceiver : BroadcastReceiver() {
         Timber.d("Update detected: Rescheduling Work Reminders")
         receiverScope.launch {
             if (Injection.get().providePlantStore().getAllPlants().isNotEmpty()) {
-                WorkManager.getInstance().cancelAllWork()
+                WorkManager.getInstance(context).cancelAllWork()
                 Injection.get().provideWorkReminder().scheduleDailyReminder()
                 Timber.d("Update detected: Done rescheduling Work Reminders")
             }
