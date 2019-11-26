@@ -12,3 +12,4 @@
 app/fabric.properties
 keystore.properties
 /backups
+buildSrc/build/
