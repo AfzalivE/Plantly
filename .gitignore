@@ -13,3 +13,4 @@ app/fabric.properties
 keystore.properties
 /backups
 buildSrc/build/
+buildSrc/src/main/java/RealCreds.kt

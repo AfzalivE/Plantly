@@ -12,7 +12,8 @@ import com.spacebitlabs.plantly.inflate
 import com.spacebitlabs.plantly.plantdetail.PlantDetailFragment
 import com.spacebitlabs.plantly.plants.PlantsAdapter.PlantHolder
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.plants_list_item.view.*
+import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.plants_list_item.*
 
 /**
  * Adapter for plant list
@@ -46,13 +47,11 @@ class PlantsAdapter : RecyclerView.Adapter<PlantHolder>() {
         diffResult.dispatchUpdatesTo(this)
     }
 
-    class PlantHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    class PlantHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), View.OnClickListener, LayoutContainer {
         lateinit var plant: Plant
-        private val name = itemView.name
-        private val image = itemView.image
 
         init {
-            itemView.setOnClickListener(this)
+            containerView.setOnClickListener(this)
         }
 
         override fun onClick(view: View?) {
@@ -71,7 +70,7 @@ class PlantsAdapter : RecyclerView.Adapter<PlantHolder>() {
                     .centerCrop()
                     .into(image)
             }
-            itemView.isActivated = isSelected
+            containerView.isActivated = isSelected
         }
 
         fun getItemDetails(): ItemDetailsLookup.ItemDetails<Long>? {

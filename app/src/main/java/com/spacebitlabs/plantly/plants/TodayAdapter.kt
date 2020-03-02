@@ -8,7 +8,8 @@ import com.spacebitlabs.plantly.R
 import com.spacebitlabs.plantly.data.entities.Plant
 import com.spacebitlabs.plantly.inflate
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.today_list_item.view.*
+import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.today_list_item.*
 
 class TodayAdapter : RecyclerView.Adapter<TodayAdapter.TodayHolder>() {
     private val plantList: ArrayList<Plant> = ArrayList()
@@ -30,8 +31,9 @@ class TodayAdapter : RecyclerView.Adapter<TodayAdapter.TodayHolder>() {
         diffResult.dispatchUpdatesTo(this)
     }
 
-    class TodayHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(plant: Plant) = with(itemView) {
+    class TodayHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+
+        fun bind(plant: Plant) {
             name.text = plant.name
             if (plant.coverPhoto.filePath.isEmpty()) {
                 image.setImageResource(R.drawable.sample_plant)

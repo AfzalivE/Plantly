@@ -7,8 +7,9 @@ import com.spacebitlabs.plantly.R
 import com.spacebitlabs.plantly.data.entities.Photo
 import com.spacebitlabs.plantly.inflate
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.add_photo_list_item.view.*
-import kotlinx.android.synthetic.main.photo_list_item.view.*
+import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.add_photo_list_item.*
+import kotlinx.android.synthetic.main.photo_list_item.*
 
 class PhotosAdapter(private val addPhotoClickListener: () -> Unit) : RecyclerView.Adapter<PhotosAdapter.PhotoHolder>() {
     private val photoList = arrayListOf<Photo>()
@@ -42,11 +43,10 @@ class PhotosAdapter(private val addPhotoClickListener: () -> Unit) : RecyclerVie
         notifyDataSetChanged()
     }
 
-    sealed class PhotoHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    sealed class PhotoHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
         open fun bind(photo: Photo) = Unit
 
-        class PhotoItemHolder(itemView: View) : PhotoHolder(itemView) {
-            private val photoView = itemView.photo
+        class PhotoItemHolder(containerView: View) : PhotoHolder(containerView) {
 
             override fun bind(photo: Photo) {
                 val filePath = if (photo.simplePhoto.filePath.startsWith("content://")) {
@@ -56,15 +56,14 @@ class PhotosAdapter(private val addPhotoClickListener: () -> Unit) : RecyclerVie
                 }
                 Picasso.get()
                     .load(filePath)
-                    .into(photoView)
+                    .into(photo_view)
             }
         }
 
-        class AddPhotoHolder(itemView: View, private val addPhotoClickListener: () -> Unit) : PhotoHolder(itemView) {
-            private val addPhotosButton = itemView.add_photo_button
+        class AddPhotoHolder(override val containerView: View, private val addPhotoClickListener: () -> Unit) : PhotoHolder(containerView), LayoutContainer {
 
             init {
-                addPhotosButton.setOnClickListener {
+                add_photo_button.setOnClickListener {
                     addPhotoClickListener.invoke()
                 }
             }

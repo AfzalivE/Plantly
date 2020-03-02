@@ -69,7 +69,7 @@ class PlantsFragment : Fragment() {
         renderEmpty()
 
         model = ViewModelProviders.of(this).get(PlantsViewModel::class.java)
-        model?.plantListState?.observe(this, Observer { state ->
+        model?.plantListState?.observe(viewLifecycleOwner, Observer { state ->
             render(state)
         })
 

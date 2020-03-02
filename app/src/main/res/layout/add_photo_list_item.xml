@@ -7,9 +7,9 @@
 
     <ImageButton
         android:id="@+id/add_photo_button"
+        style="@style/Widget.AppTheme.BorderlessButton"
         android:layout_width="96dp"
         android:layout_height="96dp"
-        style="@style/Widget.AppTheme.BorderlessButton"
         android:src="@drawable/ic_add_photo" />
 
 </FrameLayout>

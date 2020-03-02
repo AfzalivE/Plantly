@@ -16,6 +16,7 @@ import com.spacebitlabs.plantly.NavigationActivity
 import com.spacebitlabs.plantly.R
 import com.spacebitlabs.plantly.data.entities.Plant
 import kotlinx.coroutines.runBlocking
+import org.threeten.bp.OffsetDateTime
 import timber.log.Timber
 
 class WaterPlantReminder(context: Context, params: WorkerParameters) : Worker(
@@ -24,8 +25,15 @@ class WaterPlantReminder(context: Context, params: WorkerParameters) : Worker(
 ) {
     override fun doWork(): Result {
         Injection.get().providePrefs().saveWorkTime()
+        resetIfWrongTime()
         notifyUser()
         return Result.success()
+    }
+
+    private fun resetIfWrongTime() {
+        if (OffsetDateTime.now().isAfter(OffsetDateTime.now().withHour(12)) || OffsetDateTime.now().isBefore(OffsetDateTime.now().withHour(9))) {
+            Injection.get().provideWorkReminder().resetDailyReminder()
+        }
     }
 
     companion object {

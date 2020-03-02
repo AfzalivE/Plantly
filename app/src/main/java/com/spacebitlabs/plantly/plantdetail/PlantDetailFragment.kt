@@ -62,7 +62,7 @@ class PlantDetailFragment : Fragment() {
             PlantDetailFragmentArgs.fromBundle(it).plantId
         } ?: 0
 
-        viewModel.plantDetailViewState.observe(this, Observer { state ->
+        viewModel.plantDetailViewState.observe(viewLifecycleOwner, Observer { state ->
             render(state)
         })
 

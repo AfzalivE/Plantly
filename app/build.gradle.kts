@@ -1,6 +1,4 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.io.FileInputStream
-import java.util.*
 
 plugins {
     id("com.android.application")
@@ -10,6 +8,7 @@ plugins {
     id("kotlin-allopen")
     id("androidx.navigation.safeargs")
     id("io.fabric")
+    id("com.betomorrow.appcenter")
 }
 
 allOpen {
@@ -23,11 +22,12 @@ android {
         applicationId = "com.spacebitlabs.plantly"
         minSdkVersion(21)
         targetSdkVersion(28)
-        versionCode = 11
-        versionName = "1.0-alpha9"
+        versionCode = 13
+        versionName = "1.0-beta2"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
+        buildConfigField("String", "APP_CENTER_APP_SECRET", credentials.get.appCenterAppSecret)
         resValue("string", "images_file_path", "Android/data/$applicationId.debug/files/Pictures")
 
         javaCompileOptions {
@@ -39,16 +39,10 @@ android {
 
     signingConfigs {
         create("release") {
-            val keyProps = Properties()
-            val keyProperties = file("../keystore.properties")
-            if (keyProperties.exists()) {
-                keyProps.load(FileInputStream(keyProperties))
-
-                storeFile = file(keyProps["store"]!!)
-                keyAlias = keyProps["alias"] as String?
-                storePassword = keyProps["storePass"] as String?
-                keyPassword = keyProps["pass"] as String?
-            }
+            storeFile = file(credentials.get.store)
+            keyAlias = credentials.get.alias
+            storePassword = credentials.get.storePass
+            keyPassword = credentials.get.pass
         }
     }
 
@@ -88,6 +82,10 @@ android {
     useLibrary("android.test.mock")
 }
 
+androidExtensions {
+    isExperimental = true
+}
+
 dependencies {
     implementation(fileTree("libs") { include("*.jar") })
 
@@ -99,7 +97,7 @@ dependencies {
 // support libs
     implementation("androidx.appcompat:appcompat:${versions.androidx}")
     implementation("com.google.android.material:material:${versions.material}")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.0-beta3")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.0-beta4")
     implementation("androidx.vectordrawable:vectordrawable:1.1.0")
     implementation("androidx.cardview:cardview:1.0.0")
 
@@ -130,12 +128,15 @@ dependencies {
     implementation("androidx.preference:preference-ktx:1.1.0")
 
 // debug libs
-    implementation("com.jakewharton.timber:timber:4.7.1")
+    implementation("com.jakewharton.timber:timber:${versions.timber}")
     debugImplementation("com.amitshekhar.android:debug-db:1.0.6")
 
     implementation("com.crashlytics.sdk.android:crashlytics:2.10.1@aar") {
         isTransitive = true
     }
+    implementation("com.microsoft.appcenter:appcenter-analytics:${versions.appCenterSdk}")
+    implementation("com.microsoft.appcenter:appcenter-crashes:${versions.appCenterSdk}")
+
 
 // test libs
     testImplementation("androidx.test.ext:junit:1.1.1")
@@ -156,4 +157,16 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.2.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.2.0")
     androidTestImplementation("androidx.test.ext:truth:1.2.0")
+}
+
+appcenter {
+    apiToken = credentials.get.appCenterToken
+    ownerName = credentials.get.appCenterOwnerName
+    distributionGroups = credentials.get.appCenterCollaborators
+    notifyTesters = true
+    apps {
+        create("release") {
+            appName = "Plantly"
+        }
+    }
 }

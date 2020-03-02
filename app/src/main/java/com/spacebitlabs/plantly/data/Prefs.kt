@@ -14,18 +14,16 @@ open class Prefs(private val appContext: Context) {
         const val WORK_TIME = "work_time"
     }
 
-    private fun getSharedPrefs(): SharedPreferences {
-        return appContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-    }
+    private fun getSharedPrefs(): SharedPreferences = appContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
     fun setWorkReminderId(id: UUID) {
         getSharedPrefs().edit().putString(WORK_REMINDER_ID, id.toString()).apply()
     }
 
-    fun getWorkReminderId(): String = getSharedPrefs().getString(WORK_REMINDER_ID, "")!!
+    val workReminderId: String
+        get() = getSharedPrefs().getString(WORK_REMINDER_ID, "")!!
 
     fun saveWorkTime() {
         getSharedPrefs().edit().putString(WORK_TIME, OffsetDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME).toString()).apply()
     }
-
 }

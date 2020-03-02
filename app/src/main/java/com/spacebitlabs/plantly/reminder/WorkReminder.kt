@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
 open class WorkReminder(private val context: Context, private val prefs: Prefs) {
 
     open fun cancelDailyReminder() {
-        val workReminderId = prefs.getWorkReminderId()
+        val workReminderId = prefs.workReminderId
         if (workReminderId.isNotEmpty()) {
             val workReminderUuid = UUID.fromString(workReminderId)
             WorkManager.getInstance(context).cancelWorkById(workReminderUuid)
@@ -20,15 +20,15 @@ open class WorkReminder(private val context: Context, private val prefs: Prefs) 
     }
 
     open fun scheduleDailyReminder() {
-        if (prefs.getWorkReminderId().isNotEmpty()) {
-            val workInfoListenable = WorkManager.getInstance(context).getWorkInfoById(UUID.fromString(prefs.getWorkReminderId()))
+        if (prefs.workReminderId.isNotEmpty()) {
+            val workInfoListenable = WorkManager.getInstance(context).getWorkInfoById(UUID.fromString(prefs.workReminderId))
             // if work already exists, don't schedule another reminder
             if (workInfoListenable.get() != null) return
         }
 
         val initialDelay = getInitialDelay(OffsetDateTime.now())
 
-        val workReminder = PeriodicWorkRequestBuilder<WaterPlantReminder>(1, TimeUnit.DAYS)
+        val workReminder = PeriodicWorkRequestBuilder<WaterPlantReminder>(24, TimeUnit.HOURS)
             .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
             .build()
         Timber.d("Scheduling work reminder")
@@ -46,5 +46,10 @@ open class WorkReminder(private val context: Context, private val prefs: Prefs) 
             val thisMorning = now.withHour(11).withMinute(0).withSecond(0)
             thisMorning.toInstant().toEpochMilli() - now.toInstant().toEpochMilli()
         }
+    }
+
+    fun resetDailyReminder() {
+        cancelDailyReminder()
+        scheduleDailyReminder()
     }
 }

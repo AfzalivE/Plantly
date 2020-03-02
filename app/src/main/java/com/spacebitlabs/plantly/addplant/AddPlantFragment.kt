@@ -95,10 +95,9 @@ class AddPlantFragment : Fragment() {
         }
 
         cover_photo.setOnClickListener {
-            context ?: return@setOnClickListener
             activity?.hideKeyboard()
             PhotoPicker
-                .with(context!!)
+                .with(context)
                 .intoImageView(cover_photo)
                 .onSave { filePath: String ->
                     // TODO clean this somehow?
