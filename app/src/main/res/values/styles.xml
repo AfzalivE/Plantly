@@ -28,4 +28,5 @@
     </style>
 
     <style name="AddPlantTextField.ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu" />
+
 </resources>

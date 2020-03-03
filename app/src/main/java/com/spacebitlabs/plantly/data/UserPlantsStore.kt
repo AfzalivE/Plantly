@@ -155,6 +155,18 @@ class UserPlantsStore(
         }
     }
 
+    suspend fun getPhotosOfPlant(plantId: Long): List<Photo> {
+        return database.withTransaction {
+            database.photoDao().getPhotosOfPlant(plantId)
+        }
+    }
+
+    suspend fun getPhoto(photoId: Long): Photo {
+        return database.withTransaction {
+            database.photoDao().getById(photoId)
+        }
+    }
+
     suspend fun addPhoto(photo: Photo): Long {
         return database.withTransaction {
             database.photoDao().insert(photo)

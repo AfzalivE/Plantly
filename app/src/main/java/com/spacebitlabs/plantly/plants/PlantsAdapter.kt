@@ -47,15 +47,13 @@ class PlantsAdapter : RecyclerView.Adapter<PlantHolder>() {
         diffResult.dispatchUpdatesTo(this)
     }
 
-    class PlantHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), View.OnClickListener, LayoutContainer {
+    class PlantHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
         lateinit var plant: Plant
 
         init {
-            containerView.setOnClickListener(this)
-        }
-
-        override fun onClick(view: View?) {
-            view?.let { PlantDetailFragment.show(it, plant) }
+            containerView.setOnClickListener {
+                PlantDetailFragment.show(it, plant)
+            }
         }
 
         fun bind(plant: Plant, isSelected: Boolean) {

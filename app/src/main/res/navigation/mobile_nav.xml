@@ -7,7 +7,8 @@
 
     <fragment
         android:id="@+id/plants"
-        android:name="com.spacebitlabs.plantly.plants.PlantsFragment">
+        android:name="com.spacebitlabs.plantly.plants.PlantsFragment"
+        tools:layout="@layout/fragment_plants">
         <action
             android:id="@+id/to_add_plants_action"
             app:destination="@id/add_plant"
@@ -32,7 +33,8 @@
     </fragment>
     <fragment
         android:id="@+id/add_plant"
-        android:name="com.spacebitlabs.plantly.addplant.AddPlantFragment" />
+        android:name="com.spacebitlabs.plantly.addplant.AddPlantFragment"
+        tools:layout="@layout/fragment_addplant" />
     <fragment
         android:id="@+id/plant_detail"
         android:name="com.spacebitlabs.plantly.plantdetail.PlantDetailFragment"
@@ -40,8 +42,29 @@
         <argument
             android:name="plant_id"
             android:defaultValue="0L" />
+        <action
+            android:id="@+id/to_photo_action"
+            app:destination="@id/photoFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim">
+            <argument
+                android:name="photo_id"
+                android:defaultValue="0L" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/settings"
         android:name="com.spacebitlabs.plantly.settings.SettingsFragment" />
+    <dialog
+        android:id="@+id/photoFragment"
+        android:name="com.spacebitlabs.plantly.photo.PhotosFragment"
+        android:label="PhotoFragment"
+        tools:layout="@layout/fragment_photos" >
+        <argument
+            android:name="photo_id"
+            app:argType="long"
+            android:defaultValue="0L" />
+    </dialog>
 </navigation>

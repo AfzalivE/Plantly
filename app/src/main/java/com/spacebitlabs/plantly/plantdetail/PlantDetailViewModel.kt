@@ -2,34 +2,20 @@ package com.spacebitlabs.plantly.plantdetail
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.spacebitlabs.plantly.Injection
 import com.spacebitlabs.plantly.actions.AddPlantPhotoUseCase
 import com.spacebitlabs.plantly.actions.WaterPlantUseCase
 import com.spacebitlabs.plantly.data.EntryType
 import com.spacebitlabs.plantly.millisFreqToDays
-import com.spacebitlabs.plantly.plants.PlantsViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 /**
  * ViewModel for Add Plant screen
  */
 class PlantDetailViewModel : ViewModel() {
-
-    /**
-     * This is the job for all coroutines started by this ViewModel.
-     *
-     * Cancelling this job will cancel all coroutines started by this ViewModel.
-     */
-    private val viewModelJob = Job()
-
-    /**
-     * This is the scope for all coroutines launched by [PlantsViewModel].
-     *
-     * Since we pass [viewModelJob], you can cancel all coroutines launched by [viewModelScope] by calling
-     * viewModelJob.cancel().  This is called in [onCleared].
-     */
-    private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     private var plantId = 0L
 

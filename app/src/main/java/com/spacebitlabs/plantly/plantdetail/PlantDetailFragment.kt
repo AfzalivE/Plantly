@@ -51,7 +51,7 @@ class PlantDetailFragment : Fragment() {
         }
     }
 
-    private val photosAdapter = PhotosAdapter(addPhotoClickListener)
+    private val photosAdapter = PhotosAdapter(showAddButton = true, addPhotoClickListener = addPhotoClickListener)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
