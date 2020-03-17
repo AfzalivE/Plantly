@@ -30,8 +30,12 @@ class WaterPlantReminder(context: Context, params: WorkerParameters) : Worker(
         return Result.success()
     }
 
+    fun isWrongTime(now: OffsetDateTime): Boolean {
+        return now.isAfter(now.withHour(12)) || now.isBefore(now.withHour(9))
+    }
+
     private fun resetIfWrongTime() {
-        if (OffsetDateTime.now().isAfter(OffsetDateTime.now().withHour(12)) || OffsetDateTime.now().isBefore(OffsetDateTime.now().withHour(9))) {
+        if (isWrongTime(OffsetDateTime.now())) {
             Injection.get().provideWorkReminder().resetDailyReminder()
         }
     }

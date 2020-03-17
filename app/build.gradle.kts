@@ -22,8 +22,8 @@ android {
         applicationId = "com.spacebitlabs.plantly"
         minSdkVersion(21)
         targetSdkVersion(28)
-        versionCode = 14
-        versionName = "1.0-beta3"
+        versionCode = 15
+        versionName = "1.0-beta4"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -113,7 +113,7 @@ dependencies {
     implementation("androidx.room:room-runtime:${versions.room}")
     implementation("androidx.room:room-ktx:${versions.room}")
     kapt("androidx.room:room-compiler:${versions.room}")
-    implementation("com.jakewharton.threetenabp:threetenabp:1.2.1")
+    implementation("com.jakewharton.threetenabp:threetenabp:1.2.2")
     implementation("com.github.kizitonwose.time:time:1.0.2")
     implementation("com.github.kizitonwose.time:time-android:1.0.2")
     implementation(project(path = ":amountformats-android"))
@@ -139,6 +139,7 @@ dependencies {
 
 
 // test libs
+    testImplementation("org.threeten:threetenbp:1.4.0")
     testImplementation("androidx.test.ext:junit:1.1.1")
     testImplementation("junit:junit:4.12")
     testImplementation("androidx.test:core:1.2.0")
