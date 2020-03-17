@@ -10,7 +10,7 @@ buildscript {
         maven { url = uri("https://plugins.gradle.org/m2/") }
     }
     dependencies {
-        classpath ("com.android.tools.build:gradle:4.0.0-beta01")
+        classpath ("com.android.tools.build:gradle:4.0.0-beta02")
         classpath ("org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}")
         classpath ("org.jetbrains.kotlin:kotlin-allopen:${versions.kotlin}")
         classpath ("androidx.navigation:navigation-safe-args-gradle-plugin:${versions.navigation}")

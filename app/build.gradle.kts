@@ -148,7 +148,7 @@ dependencies {
     testImplementation("androidx.test.ext:truth:1.2.0")
     testImplementation("androidx.test.espresso:espresso-intents:3.2.0")
     testImplementation("androidx.test.espresso:espresso-core:3.2.0")
-    testImplementation("io.mockk:mockk:1.9.3.kotlin12")
+    testImplementation("io.mockk:mockk:1.9.3")
     testImplementation("org.robolectric:robolectric:4.3")
 
     androidTestImplementation("androidx.test:core:1.2.0")
