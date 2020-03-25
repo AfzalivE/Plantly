@@ -1,3 +1,4 @@
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -9,6 +10,7 @@ plugins {
     id("androidx.navigation.safeargs")
     id("io.fabric")
     id("com.betomorrow.appcenter")
+    id("com.github.ben-manes.versions") version "0.28.0"
 }
 
 allOpen {
@@ -33,6 +35,7 @@ android {
         javaCompileOptions {
             annotationProcessorOptions {
                 argument("room.schemaLocation", "$projectDir/schemas")
+                argument("room.incremental", "true")
             }
         }
     }
@@ -90,8 +93,8 @@ dependencies {
     implementation(fileTree("libs") { include("*.jar") })
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.4")
     implementation("com.jakewharton:process-phoenix:2.0.0")
 
 // support libs
@@ -102,9 +105,10 @@ dependencies {
     implementation("androidx.cardview:cardview:1.0.0")
 
 // architecture libs
-    implementation("androidx.lifecycle:lifecycle-extensions:${versions.androidxArch}")
-    implementation("androidx.fragment:fragment-ktx:${versions.fragment}")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.androidxArch}")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:${versions.androidxArch}")
     kapt("androidx.lifecycle:lifecycle-common-java8:${versions.androidxArch}")
+    implementation("androidx.fragment:fragment-ktx:${versions.fragment}")
     implementation("androidx.navigation:navigation-fragment-ktx:${versions.navigation}")
     implementation("androidx.navigation:navigation-ui-ktx:${versions.navigation}")
     implementation("androidx.work:work-runtime-ktx:${versions.work}")
@@ -114,14 +118,14 @@ dependencies {
     implementation("androidx.room:room-ktx:${versions.room}")
     kapt("androidx.room:room-compiler:${versions.room}")
     implementation("com.jakewharton.threetenabp:threetenabp:1.2.2")
-    implementation("com.github.kizitonwose.time:time:1.0.2")
-    implementation("com.github.kizitonwose.time:time-android:1.0.2")
+    implementation("com.github.kizitonwose.time:time:1.0.3")
+    implementation("com.github.kizitonwose.time:time-android:1.0.3")
     implementation(project(path = ":amountformats-android"))
 
 // UI libs
     implementation("com.makeramen:roundedimageview:2.3.0")
     implementation("com.cesarferreira.colorize:colorize:0.2.2")
-    implementation("de.hdodenhof:circleimageview:3.0.0")
+    implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("com.squareup.picasso:picasso:2.71828")
     implementation("androidx.recyclerview:recyclerview-selection:1.0.0")
     implementation(project(":photopicker"))
@@ -139,7 +143,7 @@ dependencies {
 
 
 // test libs
-    testImplementation("org.threeten:threetenbp:1.4.0")
+    testImplementation("org.threeten:threetenbp:1.4.1")
     testImplementation("androidx.test.ext:junit:1.1.1")
     testImplementation("junit:junit:4.12")
     testImplementation("androidx.test:core:1.2.0")
@@ -149,7 +153,7 @@ dependencies {
     testImplementation("androidx.test.espresso:espresso-intents:3.2.0")
     testImplementation("androidx.test.espresso:espresso-core:3.2.0")
     testImplementation("io.mockk:mockk:1.9.3")
-    testImplementation("org.robolectric:robolectric:4.3")
+    testImplementation("org.robolectric:robolectric:4.3.1")
 
     androidTestImplementation("androidx.test:core:1.2.0")
     androidTestImplementation("androidx.test:runner:1.2.0")

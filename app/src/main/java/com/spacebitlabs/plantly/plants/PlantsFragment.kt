@@ -9,7 +9,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.selection.*
@@ -68,7 +68,7 @@ class PlantsFragment : Fragment() {
 
         renderEmpty()
 
-        model = ViewModelProviders.of(this).get(PlantsViewModel::class.java)
+        model = ViewModelProvider(this)[PlantsViewModel::class.java]
         model?.plantListState?.observe(viewLifecycleOwner, Observer { state ->
             render(state)
         })

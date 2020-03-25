@@ -9,8 +9,9 @@ import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afzaln.photopicker.PhotoPicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -56,7 +57,27 @@ class PlantDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(PlantDetailViewModel::class.java)
+        /**
+         * Apparently this is the recommended way of
+         * observing a result from another fragment
+         * in the backstack. Like an onActivityResult for
+         * Jetpack Navigation.
+         *
+         * For dialog navigation, the fragment's lifecycle
+         * stays in onResume.
+         *
+         * https://developer.android.com/guide/navigation/navigation-programmatic#kotlin
+         */
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData(PHOTOS_CHANGED_STATE, false)
+            ?.observe(viewLifecycleOwner, Observer { changed ->
+                Timber.d("Photos changed")
+                plantWithPhotos?.let {
+                    Timber.d("Upated plant details")
+                    if (changed) viewModel.getPlantDetail(it.plant.id)
+                }
+            })
+
+        viewModel = ViewModelProvider(this)[PlantDetailViewModel::class.java]
 
         val plantId = arguments?.let {
             PlantDetailFragmentArgs.fromBundle(it).plantId
@@ -79,16 +100,16 @@ class PlantDetailFragment : Fragment() {
     private fun showPopupMenu(view: View) {
         context ?: return
 
-        val popup = PopupMenu(context!!, view)
+        val popup = PopupMenu(requireContext(), view)
         popup.inflate(R.menu.plant_detail_actions)
         popup.setOnMenuItemClickListener {
-            when(it.itemId) {
+            when (it.itemId) {
                 R.id.menu_change_cover_photo -> {
                     showCoverFilePicker()
                 }
-                R.id.menu_delete -> {
+                R.id.menu_delete             -> {
                     val plantName = plantWithPhotos?.plant?.name ?: "plant"
-                    MaterialAlertDialogBuilder(context!!)
+                    MaterialAlertDialogBuilder(requireContext())
                         .setTitle(getString(R.string.delete_plant_title, plantName))
                         .setMessage(getString(R.string.delete_plant_message, plantName))
                         .setPositiveButton(android.R.string.yes) { _, _ ->
@@ -118,9 +139,10 @@ class PlantDetailFragment : Fragment() {
                 state.soilCount,
                 state.nextWatering
             )
-            is PlantDeleted -> {
-                view ?: return
-                Navigation.findNavController(view!!).navigateUp()
+            is PlantDeleted      -> {
+                view?.let {
+                    Navigation.findNavController(it).navigateUp()
+                }
             }
         }
     }
@@ -179,6 +201,7 @@ class PlantDetailFragment : Fragment() {
 
     companion object {
         private const val PLANT_ID: String = "plant_id"
+        internal const val PHOTOS_CHANGED_STATE = "photosChanged"
 
         fun show(view: View, plant: Plant) {
             Navigation.findNavController(view).navigate(R.id.to_plant_detail_action, plant.id.toBundle(PLANT_ID))

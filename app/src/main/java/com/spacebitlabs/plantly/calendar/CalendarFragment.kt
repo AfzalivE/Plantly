@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.spacebitlabs.plantly.R
 import com.spacebitlabs.plantly.plants.PlantsViewModel
 
@@ -26,7 +26,7 @@ class CalendarFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        model = ViewModelProviders.of(activity!!).get(PlantsViewModel::class.java)
+        model = ViewModelProvider(activity!!)[PlantsViewModel::class.java]
     }
 
     companion object {

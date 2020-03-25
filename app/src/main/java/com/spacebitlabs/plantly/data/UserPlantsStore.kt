@@ -9,6 +9,9 @@ import com.spacebitlabs.plantly.data.entities.PlantWithPhotos
 import com.spacebitlabs.plantly.millisFreqToDays
 import com.spacebitlabs.plantly.reminder.WorkReminder
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.temporal.ChronoField
@@ -103,31 +106,31 @@ class UserPlantsStore(
 
     suspend fun getPlantsToWaterOn(date: OffsetDateTime): List<Plant> {
         return getAllPlants().map {
-            // TODO optimize getting the last watering entry, don't get all of them
-            val lastWaterEntry = getLastEntryOfType(it, EntryType.WATER)
-            if (lastWaterEntry != null) {
-                Pair(it, lastWaterEntry)
-            } else {
-                // if this plant has never been watered, compare with birth entry.
-                // if birth entry doesn't exist, we have a problem
-                val birthEntry = getLastEntryOfType(it, EntryType.BIRTH)
-                Pair(it, birthEntry!!)
-            }
-        }.filter {
-            val (plant, entry) = it
+                // TODO optimize getting the last watering entry, don't get all of them
+                val lastWaterEntry = getLastEntryOfType(it, EntryType.WATER)
+                if (lastWaterEntry != null) {
+                    Pair(it, lastWaterEntry)
+                } else {
+                    // if this plant has never been watered, compare with birth entry.
+                    // if birth entry doesn't exist, we have a problem
+                    val birthEntry = getLastEntryOfType(it, EntryType.BIRTH)
+                    Pair(it, birthEntry!!)
+                }
+            }.filter {
+                val (plant, entry) = it
 
-            val waterFreqDays = plant.waterFreq.millisFreqToDays().toLong()
-            val lastWaterDate = entry.time
-            val endOfDay = date.apply {
-                with(ChronoField.HOUR_OF_DAY, 23)
-                with(ChronoField.MINUTE_OF_HOUR, 59)
-                with(ChronoField.SECOND_OF_MINUTE, 59)
-            }
+                val waterFreqDays = plant.waterFreq.millisFreqToDays().toLong()
+                val lastWaterDate = entry.time
+                val endOfDay = date.apply {
+                    with(ChronoField.HOUR_OF_DAY, 23)
+                    with(ChronoField.MINUTE_OF_HOUR, 59)
+                    with(ChronoField.SECOND_OF_MINUTE, 59)
+                }
 
-            return@filter lastWaterDate.plusDays(waterFreqDays).isBefore(endOfDay)
-        }.map {
-            return@map it.first
-        }
+                return@filter lastWaterDate.plusDays(waterFreqDays).isBefore(endOfDay)
+            }.map {
+                return@map it.first
+            }
             .toList()
     }
 
@@ -173,8 +176,9 @@ class UserPlantsStore(
         }
     }
 
-    suspend fun deletePhoto(photo: Photo) {
+    suspend fun deletePhoto(photoId: Long) {
         return database.withTransaction {
+            val photo = database.photoDao().getById(photoId)
             database.photoDao().delete(photo)
         }
     }
@@ -201,6 +205,15 @@ class UserPlantsStore(
                     }
                 }
             }
+        }
+    }
+
+    suspend fun setAsCoverPhoto(photoId: Long) {
+        return database.withTransaction {
+            val photo = getPhoto(photoId)
+            val plant = getPlant(photo.plantId)
+            plant.coverPhoto = photo.simplePhoto
+            updatePlant(plant)
         }
     }
 

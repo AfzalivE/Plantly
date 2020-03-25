@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.afzaln.photopicker.PhotoPicker
 import com.spacebitlabs.plantly.R
@@ -28,7 +28,7 @@ class AddPlantFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val model = ViewModelProviders.of(this).get(AddPlantViewModel::class.java)
+        val model = ViewModelProvider(this)[AddPlantViewModel::class.java]
         model.addPlantViewState.observe(viewLifecycleOwner, Observer { state ->
             state?.let { render(it) }
         })

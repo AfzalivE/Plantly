@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.core.content.PermissionChecker
 import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -25,7 +25,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.app_preferences)
-        model = ViewModelProviders.of(this).get(SettingsViewModel::class.java)
+        model = ViewModelProvider(this)[SettingsViewModel::class.java]
 
         model?.settingsViewState?.observe(this, Observer {
             it?.let { state ->

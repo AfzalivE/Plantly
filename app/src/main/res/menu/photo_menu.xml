@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/make_cover"
+        app:showAsAction="always"
+        android:title="Make cover" />
+
+    <item
+        android:id="@+id/delete"
+        app:showAsAction="always"
+        android:title="Delete" />
+</menu>

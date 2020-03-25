@@ -6,15 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.spacebitlabs.plantly.R
 import com.spacebitlabs.plantly.data.entities.Photo
 import com.spacebitlabs.plantly.plantdetail.PhotosAdapter
+import com.spacebitlabs.plantly.plantdetail.PlantDetailFragment
 import com.spacebitlabs.plantly.toBundle
 import kotlinx.android.synthetic.main.fragment_photos.*
 
-class PhotosFragment: DialogFragment() {
+class PhotosFragment : DialogFragment() {
 
     private lateinit var viewModel: PhotosViewModel
     private var photoId: Long = 0
@@ -31,7 +33,7 @@ class PhotosFragment: DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(PhotosViewModel::class.java)
+        viewModel = ViewModelProvider(this)[PhotosViewModel::class.java]
 
         photoId = arguments?.let {
             PhotosFragmentArgs.fromBundle(it).photoId
@@ -42,8 +44,38 @@ class PhotosFragment: DialogFragment() {
         })
 
         photo_pager.adapter = photosAdapter
+        bottom_bar.inflateMenu(R.menu.photo_menu)
+        bottom_bar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.make_cover -> makeCover()
+                R.id.delete     -> deletePhoto()
+                else            -> Unit
+            }
+
+            return@setOnMenuItemClickListener true
+        }
 
         viewModel.getPhotos(photoId)
+    }
+
+    private fun makeCover() {
+        viewModel.useAsCoverPhoto(photoId)
+        notifyPhotoChangedState()
+    }
+
+    private fun deletePhoto() {
+        viewModel.deletePhoto(photoId)
+        notifyPhotoChangedState()
+    }
+
+    /**
+     * Apparently this is the recommended way of
+     * setting a result on the previous fragment
+     * in the backstack. Like a setResult for
+     * Jetpack Navigation.
+     */
+    private fun notifyPhotoChangedState() {
+        findNavController().previousBackStackEntry?.savedStateHandle?.set(PlantDetailFragment.PHOTOS_CHANGED_STATE, true)
     }
 
     private fun render(state: PhotoViewState?) {
@@ -62,7 +94,7 @@ class PhotosFragment: DialogFragment() {
         private const val PHOTO_ID: String = "photo_id"
 
         fun show(view: View, photo: Photo) {
-            Navigation.findNavController(view).navigate(R.id.to_photo_action, photo.photoId.toBundle(PHOTO_ID))
+        Navigation.findNavController(view).navigate(R.id.to_photo_action, photo.photoId.toBundle(PHOTO_ID))
         }
     }
 }

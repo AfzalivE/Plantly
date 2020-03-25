@@ -22,6 +22,18 @@ class PhotosViewModel : ViewModel() {
             photoViewState.value = PhotoViewState.PhotosLoaded(photos)
         }
     }
+
+    fun useAsCoverPhoto(photoId: Long) {
+        viewModelScope.launch {
+            userPlantsStore.setAsCoverPhoto(photoId)
+        }
+    }
+
+    fun deletePhoto(photoId: Long) {
+        viewModelScope.launch {
+            userPlantsStore.deletePhoto(photoId)
+        }
+    }
 }
 
 sealed class PhotoViewState {
