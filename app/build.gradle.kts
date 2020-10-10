@@ -1,4 +1,3 @@
-import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -8,7 +7,7 @@ plugins {
     kotlin("kapt")
     id("kotlin-allopen")
     id("androidx.navigation.safeargs")
-    id("io.fabric")
+//    id("io.fabric")
     id("com.betomorrow.appcenter")
     id("com.github.ben-manes.versions") version "0.28.0"
 }
@@ -19,11 +18,11 @@ allOpen {
 }
 
 android {
-    compileSdkVersion(28)
+    compileSdkVersion(30)
     defaultConfig {
         applicationId = "com.spacebitlabs.plantly"
         minSdkVersion(21)
-        targetSdkVersion(28)
+        targetSdkVersion(30)
         versionCode = 15
         versionName = "1.0-beta4"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -100,7 +99,7 @@ dependencies {
 // support libs
     implementation("androidx.appcompat:appcompat:${versions.androidx}")
     implementation("com.google.android.material:material:${versions.material}")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.0-beta4")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.0-beta3")
     implementation("androidx.vectordrawable:vectordrawable:1.1.0")
     implementation("androidx.cardview:cardview:1.0.0")
 

@@ -4,7 +4,7 @@ object versions {
     const val androidxArch = "2.2.0"
     const val constraintLayout = "1.1.3"
     const val fragment = "1.2.2"
-    const val kotlin = "1.3.70"
+    const val kotlin = "1.3.71"
     const val material = "1.1.0"
     const val navigation = "2.3.0-alpha04"
     const val room = "2.2.4"

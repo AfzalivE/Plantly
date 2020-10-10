@@ -94,7 +94,7 @@ class PhotosFragment : DialogFragment() {
         private const val PHOTO_ID: String = "photo_id"
 
         fun show(view: View, photo: Photo) {
-        Navigation.findNavController(view).navigate(R.id.to_photo_action, photo.photoId.toBundle(PHOTO_ID))
+            Navigation.findNavController(view).navigate(R.id.to_photo_action, photo.photoId.toBundle(PHOTO_ID))
         }
     }
 }

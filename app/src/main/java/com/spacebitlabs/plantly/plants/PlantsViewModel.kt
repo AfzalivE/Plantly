@@ -30,7 +30,7 @@ class PlantsViewModel : ViewModel() {
             val todaysPlants = userPlantsStore.getPlantsToWaterToday()
 
             if (plants.isEmpty()) {
-                plantListState.value = PlantListViewState.Empty
+            plantListState.value = PlantListViewState.Empty
             } else {
                 plantListState.value = PlantListViewState.PlantsFound(plants, todaysPlants)
             }
