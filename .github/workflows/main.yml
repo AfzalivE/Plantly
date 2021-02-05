@@ -1,0 +1,72 @@
+name: Android tests
+
+on:
+  push:
+    branches:
+      - master
+      
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: Generate cache key
+        run: ./scripts/checksum.sh checksum.txt
+
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches/modules-*
+            ~/.gradle/caches/jars-*
+            ~/.gradle/caches/build-cache-*
+          key: gradle-${{ hashFiles('checksum.txt') }}
+
+      - name: Build project
+        working-directory: ${{ env.SAMPLE_PATH }}
+        run: ./gradlew app:assembleDebug
+
+  test:
+    needs: build
+    runs-on: macOS-latest # enables hardware acceleration in the virtual machine
+    timeout-minutes: 30
+    strategy:
+      matrix:
+        api-level: [29]
+        flavor: [ Google ]
+        shard-index: [0, 1, 2, 3]
+        shard-num: [ 4 ]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+          
+      - name: Generate cache key
+        run: ./scripts/checksum.sh checksum.txt
+
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches/modules-*
+            ~/.gradle/caches/jars-*
+            ~/.gradle/caches/build-cache-*
+          key: gradle-${{ hashFiles('checksum.txt') }}
+
+      - name: Run instrumentation tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          arch: x86
+          target: playstore
+          disable-animations: true
+          script: > 
+            ./gradlew app:connectedDebugAndroidTest 
+            -Pandroid.testInstrumentationRunnerArguments.numShards=${{ matrix.shard-num }} 
+            -Pandroid.testInstrumentationRunnerArguments.shardIndex=${{ matrix.shard-index }}
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-reports
+          path: app/build/reports
