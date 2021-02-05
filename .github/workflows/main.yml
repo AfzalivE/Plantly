@@ -50,16 +50,17 @@ jobs:
           restore-keys: gradle-
 
       - name: Run instrumentation tests
-        uses: reactivecircus/android-emulator-runner@v2.14.3
-        with:
-          api-level: ${{ matrix.api-level }}
-          arch: x86
-          target: playstore
-          disable-animations: true
-          script: > 
-            ./gradlew app:connectedDebugAndroidTest 
-            -Pandroid.testInstrumentationRunnerArguments.numShards=${{ matrix.shard-num }} 
-            -Pandroid.testInstrumentationRunnerArguments.shardIndex=${{ matrix.shard-index }}
+        uses: AfzalivE/action-simple-android-emulator@v1
+#         uses: reactivecircus/android-emulator-runner@v2.14.3
+#         with:
+#           api-level: ${{ matrix.api-level }}
+#           arch: x86
+#           target: playstore
+#           disable-animations: true
+#           script: > 
+#             ./gradlew app:connectedDebugAndroidTest 
+#             -Pandroid.testInstrumentationRunnerArguments.numShards=${{ matrix.shard-num }} 
+#             -Pandroid.testInstrumentationRunnerArguments.shardIndex=${{ matrix.shard-index }}
       - name: Upload test reports
         if: always()
         uses: actions/upload-artifact@v2
