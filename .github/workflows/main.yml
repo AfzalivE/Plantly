@@ -12,17 +12,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         
-      - name: Generate cache key
-        run: ./scripts/checksum.sh checksum.txt
-
       - uses: actions/cache@v2
         with:
           path: |
             ~/.gradle/caches/modules-*
             ~/.gradle/caches/jars-*
             ~/.gradle/caches/build-cache-*
-          key: gradle-${{ hashFiles('checksum.txt') }}
-
+          key: gradle-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: gradle-
+      
       - name: Build project
         working-directory: ${{ env.SAMPLE_PATH }}
         run: ./gradlew app:assembleDebug
@@ -42,16 +40,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
           
-      - name: Generate cache key
-        run: ./scripts/checksum.sh checksum.txt
-
       - uses: actions/cache@v2
         with:
           path: |
             ~/.gradle/caches/modules-*
             ~/.gradle/caches/jars-*
             ~/.gradle/caches/build-cache-*
-          key: gradle-${{ hashFiles('checksum.txt') }}
+          key: gradle-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: gradle-
 
       - name: Run instrumentation tests
         uses: reactivecircus/android-emulator-runner@v2
