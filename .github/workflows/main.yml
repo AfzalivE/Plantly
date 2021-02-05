@@ -6,29 +6,35 @@ on:
       - master
       
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+  # build:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
         
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches/modules-*
-            ~/.gradle/caches/jars-*
-            ~/.gradle/caches/build-cache-*
-          key: gradle-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
-          restore-keys: gradle-
+  #     - uses: actions/cache@v2
+  #       with:
+  #         path: |
+  #           ~/.gradle/caches/modules-*
+  #           ~/.gradle/caches/jars-*
+  #           ~/.gradle/caches/build-cache-*
+  #         key: gradle-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
+  #         restore-keys: gradle-
       
-      - name: Build project
-        working-directory: ${{ env.SAMPLE_PATH }}
-        run: ./gradlew app:assembleDebug
+  #     - name: Build project
+  #       working-directory: ${{ env.SAMPLE_PATH }}
+  #       run: ./gradlew app:assembleDebug
 
   instrumented-tests:
     name: Instrumented tests
     runs-on: macos-latest
     timeout-minutes: 25
+    strategy:
+      matrix:
+        api-level: [28]
+        shard-index: [ 0 ]
+        shard-num: [ 1 ]
+
     env:
       JAVA_TOOL_OPTIONS: -Xmx4g
       ENABLE_APP_VERSIONING: false
