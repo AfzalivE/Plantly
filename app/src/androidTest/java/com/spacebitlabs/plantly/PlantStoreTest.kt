@@ -3,7 +3,7 @@ package com.spacebitlabs.plantly
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.runner.AndroidJUnit4
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.spacebitlabs.plantly.data.EntryType
 import com.spacebitlabs.plantly.data.PlantDatabase
 import com.spacebitlabs.plantly.data.UserPlantsStore

@@ -23,7 +23,7 @@ class PlantlyApp : Application() {
         AndroidThreeTenExtra.init(this)
 
         if (!ProcessPhoenix.isPhoenixProcess(this)) {
-            Fabric.with(this, Beta(), Crashlytics())
+//            Fabric.with(this, Beta(), Crashlytics())
 
             if (BuildConfig.DEBUG) {
 //                Picasso.get().isLoggingEnabled = true

@@ -77,6 +77,7 @@ android {
 
     testOptions {
         unitTests.isIncludeAndroidResources = true
+        execution = "ANDROIDX_TEST_ORCHESTRATOR"
     }
 
     useLibrary("android.test.runner")
@@ -126,9 +127,9 @@ dependencies {
     implementation("com.cesarferreira.colorize:colorize:0.2.2")
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("com.squareup.picasso:picasso:2.71828")
-    implementation("androidx.recyclerview:recyclerview-selection:1.0.0")
+    implementation("androidx.recyclerview:recyclerview-selection:1.1.0")
     implementation(project(":photopicker"))
-    implementation("androidx.preference:preference-ktx:1.1.0")
+    implementation("androidx.preference:preference-ktx:1.1.1")
 
 // debug libs
     implementation("com.jakewharton.timber:timber:${versions.timber}")
@@ -143,24 +144,26 @@ dependencies {
 
 // test libs
     testImplementation("org.threeten:threetenbp:1.4.1")
-    testImplementation("androidx.test.ext:junit:1.1.1")
-    testImplementation("junit:junit:4.12")
-    testImplementation("androidx.test:core:1.2.0")
+    testImplementation("androidx.test.ext:junit:1.1.2")
+    testImplementation("junit:junit:4.13.1")
+    testImplementation("androidx.test:core:1.3.0")
     testImplementation("androidx.arch.core:core-testing:2.1.0")
     testImplementation("androidx.room:room-testing:${versions.room}")
-    testImplementation("androidx.test.ext:truth:1.2.0")
-    testImplementation("androidx.test.espresso:espresso-intents:3.2.0")
-    testImplementation("androidx.test.espresso:espresso-core:3.2.0")
-    testImplementation("io.mockk:mockk:1.9.3")
-    testImplementation("org.robolectric:robolectric:4.3.1")
+    testImplementation("androidx.test.ext:truth:1.3.0")
+    testImplementation("androidx.test.espresso:espresso-intents:3.3.0")
+    testImplementation("androidx.test.espresso:espresso-core:3.3.0")
+    testImplementation("io.mockk:mockk:1.10.0")
+    testImplementation("org.robolectric:robolectric:4.4")
 
-    androidTestImplementation("androidx.test:core:1.2.0")
-    androidTestImplementation("androidx.test:runner:1.2.0")
-    androidTestImplementation("androidx.test:rules:1.2.0")
-    androidTestImplementation("androidx.test.ext:junit:1.1.1")
-    androidTestImplementation("androidx.test.espresso:espresso-intents:3.2.0")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.2.0")
-    androidTestImplementation("androidx.test.ext:truth:1.2.0")
+    androidTestImplementation("androidx.test:core:1.3.0")
+    androidTestImplementation("androidx.test:runner:1.3.0")
+    androidTestImplementation("androidx.test:rules:1.3.0")
+    androidTestImplementation("androidx.test.ext:junit:1.1.2")
+    androidTestImplementation("androidx.test.espresso:espresso-intents:3.3.0")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
+    androidTestImplementation("androidx.test.ext:truth:1.3.0")
+    androidTestImplementation("androidx.fragment:fragment-testing:1.3.0-rc02")
+    androidTestUtil("androidx.test:orchestrator:1.3.0")
 }
 
 appcenter {
