@@ -71,49 +71,15 @@ jobs:
           path: app/build/reports
 
       - name: Publish Test Report
+        if: always()
         uses: mikepenz/action-junit-report@v1
         with:
           report_paths: 'app/build/outputs/androidTest-results/connected/TEST-*.xml'
           github_token: ${{ secrets.GITHUB_TOKEN }}
-#   test:
-#     needs: build
-#     runs-on: macOS-latest # enables hardware acceleration in the virtual machine
-#     timeout-minutes: 30
-#     strategy:
-#       matrix:
-#         api-level: [29]
-#         flavor: [ Google ]
-#         shard-index: [ 0 ]
-#         shard-num: [ 1 ]
+      - name: My emulator
+        if: always()
+        uses: AfzalivE/action-simple-android-emulator@v1.1
+      - name: My publish report
+        if: always()
+        uses: AfzalivE/action-simple-android-emulator@v1.2
 
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v2
-          
-#       - uses: actions/cache@v2
-#         with:
-#           path: |
-#             ~/.gradle/caches/modules-*
-#             ~/.gradle/caches/jars-*
-#             ~/.gradle/caches/build-cache-*
-#           key: gradle-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
-#           restore-keys: gradle-
-
-#       - name: Run instrumentation tests
-#         uses: AfzalivE/action-simple-android-emulator@v1
-# #         uses: reactivecircus/android-emulator-runner@v2.14.3
-# #         with:
-# #           api-level: ${{ matrix.api-level }}
-# #           arch: x86
-# #           target: playstore
-# #           disable-animations: true
-# #           script: > 
-# #             ./gradlew app:connectedDebugAndroidTest 
-# #             -Pandroid.testInstrumentationRunnerArguments.numShards=${{ matrix.shard-num }} 
-# #             -Pandroid.testInstrumentationRunnerArguments.shardIndex=${{ matrix.shard-index }}
-#       - name: Upload test reports
-#         if: always()
-#         uses: actions/upload-artifact@v2
-#         with:
-#           name: test-reports
-#           path: app/build/reports
