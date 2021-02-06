@@ -69,7 +69,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: test-reports
-          path: app/build/reports
+          path: app/build/
 
       - name: Publish Test Report
         if: always()
