@@ -63,17 +63,36 @@ jobs:
           api-level: 28
           arch: x86_64
           profile: Nexus 5X
-          script: ./gradlew connectedCheck
+          script: ./gradlew connectedCheck -Pandroid.testInstrumentationRunnerArguments.numShards=${{ matrix.shard-num }} -Pandroid.testInstrumentationRunnerArguments.shardIndex=${{ matrix.shard-index }}
+
+      - name: List folder
+        if: always()
+        run: ls -R
       - name: Upload test reports
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: test-reports
-          path: app/build/
+          name: test-reports-${{ matrix.shard-index }}
+          path: app/build/outputs/androidTest-results/connected
+  
+  publish-report:
+      name: Publish Test Report
+      needs: [instrumented-tests]
+      if: always()
+      runs-on: ubuntu-latest
+      env:
+        JAVA_TOOL_OPTIONS: -Xmx4g
 
-      - name: Publish Test Report
-        if: always()
-        uses: mikepenz/action-junit-report@v1
-        with:
-          report_paths: 'app/build/results/shard-0/connected/TEST-*.xml'
-          github_token: ${{ secrets.GITHUB_TOKEN }} ## Needed to create nice annotations in the job results
+      steps:
+        - name: Download build artifacts
+          uses: actions/download-artifact@v2
+
+        - name: Display downloaded artifact folder
+          run: ls -R
+
+        - name: Publish Test Report
+          if: always()
+          uses: mikepenz/action-junit-report@v2.1.1
+          with:
+            report_paths: '**/TEST-*.xml'
+            github_token: ${{ secrets.GITHUB_TOKEN }} ## Needed to create nice annotations in the job results
