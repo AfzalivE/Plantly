@@ -30,10 +30,11 @@ jobs:
     runs-on: macos-latest
     timeout-minutes: 25
     strategy:
+      fail-fast: false
       matrix:
         api-level: [28]
-        shard-index: [ 0 ]
-        shard-num: [ 1 ]
+        shard-index: [ 0, 1 ]
+        shard-num: [ 2 ]
 
     env:
       JAVA_TOOL_OPTIONS: -Xmx4g
@@ -74,5 +75,5 @@ jobs:
         if: always()
         uses: mikepenz/action-junit-report@v1
         with:
-          report_paths: 'app/build/outputs/androidTest-results/connected/TEST-*.xml'
+          report_paths: 'app/build/results/shard-0/connected/TEST-*.xml'
           github_token: ${{ secrets.GITHUB_TOKEN }} ## Needed to create nice annotations in the job results
