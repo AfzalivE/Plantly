@@ -63,7 +63,7 @@ jobs:
 #          script: ./gradlew connectedCheck -Pandroid.testInstrumentationRunnerArguments.numShards=${{ matrix.shard-num }} -Pandroid.testInstrumentationRunnerArguments.shardIndex=${{ matrix.shard-index }}
 
       - name: Run emulator
-        uses: AfzalivE/action-simple-android-emulator@v1.9
+        uses: AfzalivE/action-simple-android-emulator@v1.10
         with:
           script: ./gradlew connectedCheck -Pandroid.testInstrumentationRunnerArguments.numShards=${{ matrix.shard-num }} -Pandroid.testInstrumentationRunnerArguments.shardIndex=${{ matrix.shard-index }}
       - name: Upload test reports
