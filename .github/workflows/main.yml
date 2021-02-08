@@ -54,14 +54,18 @@ jobs:
           key: gradle-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
           restore-keys: |
             gradle-
-      - name: Run Android instrumented tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 28
-          arch: x86_64
-          profile: Nexus 5X
-          script: ./gradlew connectedCheck -Pandroid.testInstrumentationRunnerArguments.numShards=${{ matrix.shard-num }} -Pandroid.testInstrumentationRunnerArguments.shardIndex=${{ matrix.shard-index }}
+#      - name: Run Android instrumented tests
+#        uses: reactivecircus/android-emulator-runner@v2
+#        with:
+#          api-level: 28
+#          arch: x86_64
+#          profile: Nexus 5X
+#          script: ./gradlew connectedCheck -Pandroid.testInstrumentationRunnerArguments.numShards=${{ matrix.shard-num }} -Pandroid.testInstrumentationRunnerArguments.shardIndex=${{ matrix.shard-index }}
 
+      - name: Run emulator
+        uses: AfzalivE/action-simple-android-emulator@v1.3
+        with:
+          script: ./gradlew connectedCheck -Pandroid.testInstrumentationRunnerArguments.numShards=${{ matrix.shard-num }} -Pandroid.testInstrumentationRunnerArguments.shardIndex=${{ matrix.shard-index }}
       - name: Upload test reports
         if: always()
         uses: actions/upload-artifact@v2
